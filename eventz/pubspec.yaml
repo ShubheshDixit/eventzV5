@@ -1,0 +1,53 @@
+name: eventz
+description: A new Flutter project.
+
+publish_to: 'none' # Remove this line if you wish to publish to pub.dev
+
+version: 1.0.0+1
+
+environment:
+  sdk: ">=2.7.0 <3.0.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+  awesome_flutter_widgets:
+    git:
+      url: https://github.com/ShubheshDixit/awesome_flutter_widgets.git
+  animations: ^1.1.2
+  cupertino_icons: ^1.0.1
+  font_awesome_flutter: ^8.11.0
+  google_fonts: ^1.1.2
+  intro_views_flutter: ^2.8.2
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  integration_test:
+    sdk: flutter
+
+flutter:
+  uses-material-design: true
+
+  assets:
+    - images/posters/
+    - images/illustrations/
+    - fonts/
+
+  fonts:
+    - family: Bam
+      fonts:
+        - asset: fonts/Bing Bam Boum.ttf
+
+    - family: Meg
+      fonts:
+        - asset: fonts/MEGAMIND-PersonalUse.otf
+        
+    - family: Emate
+      fonts:
+        - asset: fonts/EMATANE-PersonalUse.otf
+
+    - family: Grobold
+      fonts:
+        - asset: fonts/GROBOLD.ttf
+    
