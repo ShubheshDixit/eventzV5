@@ -1,105 +1,301 @@
+import 'package:eventz/animations/fade_animations.dart';
+import 'package:eventz/animations/scale_animation.dart';
+import 'package:eventz/global_values.dart';
 import 'package:eventz/pages/auth_page.dart';
+import 'package:eventz/pages/global_widgets.dart';
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:intro_views_flutter/Models/page_view_model.dart';
-import 'package:intro_views_flutter/intro_views_flutter.dart';
 
 class IntroPage extends StatefulWidget {
   @override
   _IntroPageState createState() => _IntroPageState();
 }
 
-class _IntroPageState extends State<IntroPage> {
-  //
-  /// Intro page for events
-  final page = new PageViewModel(
-    pageColor: Colors.redAccent.withOpacity(0.1),
-    iconImageAssetPath: 'images/illustrations/Location.png',
-    iconColor: null,
-    bubbleBackgroundColor: Colors.black,
-    body: Text(
-      'Find events around the globe and easily book tickets',
-    ),
-    title: Text('Events', textAlign: TextAlign.center),
-    mainImage: Image.asset(
-      'images/illustrations/Location.png',
-      height: 300.0,
-      width: 300.0,
-      fit: BoxFit.contain,
-      alignment: Alignment.center,
-    ),
-    titleTextStyle: TextStyle(
-        color: Colors.grey[900], fontWeight: FontWeight.w900, fontSize: 35),
-    bodyTextStyle: TextStyle(color: Colors.grey[700]),
-  );
-
-  /// Intro page for DJ Mix and DJs Hiring as well as spotify playlist.
-  final page_2 = new PageViewModel(
-    pageColor: Colors.greenAccent.withOpacity(0.1),
-    iconImageAssetPath: 'images/illustrations/Please be patient.png',
-    iconColor: null,
-    bubbleBackgroundColor: Colors.black,
-    body: Text(
-      'Listen to DJ mixes and Spotify playlist on the way',
-    ),
-    title: Text('DJ Mixes & Music', textAlign: TextAlign.center),
-    mainImage: Image.asset(
-      'images/illustrations/Please be patient.png',
-      height: 250.0,
-      width: 250.0,
-      alignment: Alignment.center,
-    ),
-    titleTextStyle: TextStyle(
-        color: Colors.grey[900], fontWeight: FontWeight.w900, fontSize: 35),
-    bodyTextStyle: TextStyle(color: Colors.grey[700]),
-  );
-
-  /// Intro page for Shopping merchandise.
-  final page_3 = new PageViewModel(
-    pageColor: Colors.yellowAccent.withOpacity(0.1),
-    iconImageAssetPath: 'images/illustrations/Shopping.png',
-    iconColor: null,
-    bubbleBackgroundColor: Colors.black,
-    body: Text(
-      'Buy limited gear for the season and VIP membership for exclusive offers',
-    ),
-    title: Text(
-      'Merch & VIP Membership',
-      textAlign: TextAlign.center,
-    ),
-    mainImage: Image.asset(
-      'images/illustrations/Shopping.png',
-      height: 250.0,
-      width: 250.0,
-      alignment: Alignment.center,
-    ),
-    titleTextStyle: TextStyle(
-        color: Colors.grey[900], fontSize: 35, fontWeight: FontWeight.w900),
-    bodyTextStyle: TextStyle(color: Colors.grey[700]),
-  );
+class _IntroPageState extends State<IntroPage>
+    with SingleTickerProviderStateMixin {
+  TabController _controller;
+  int currentIndex = 0;
 
   @override
   void initState() {
     super.initState();
+    _controller = TabController(length: 3, vsync: this);
+    _controller.addListener(() {
+      setState(() {
+        currentIndex = _controller.index;
+      });
+    });
+  }
+
+  Future<void> changePage(index) async {
+    _controller.animateTo(index);
+    setState(() {
+      currentIndex = index;
+    });
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        backgroundColor: Colors.white,
-        body: IntroViewsFlutter(
-          [page, page_2, page_3],
-          onTapDoneButton: () async {
-            await Navigator.pushReplacement(
-              context,
-              MaterialPageRoute(
-                builder: (context) => AuthPage(),
+      body: TabBarView(
+        physics: NeverScrollableScrollPhysics(),
+        controller: _controller,
+        children: [
+          PageFlow(
+            assetPath: GlobalValues.exploreImage,
+            heading: 'Events ',
+            description: 'Find events around the globe and easily book tickets',
+            index: 0,
+            currentIndex: currentIndex,
+            onPageChanged: (index) => changePage(index),
+            onSkipPressed: () => changePage(2),
+          ),
+          PageFlow(
+            assetPath: GlobalValues.musicImage,
+            heading: 'DJ Mixes & Music',
+            description: 'Listen to DJ mixes and Spotify playlist on the way',
+            index: 1,
+            currentIndex: currentIndex,
+            onPageChanged: (index) => changePage(index),
+            onSkipPressed: () => changePage(2),
+          ),
+          PageFlow(
+            assetPath: GlobalValues.vipImage,
+            heading: 'Merch & VIP Membership',
+            description:
+                'Buy limited gear for the season and VIP membership for exclusive offers',
+            index: 2,
+            currentIndex: currentIndex,
+            onPageChanged: (index) => changePage(index),
+            onSkipPressed: () => changePage(2),
+            onDonePressed: () async {
+              await Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(builder: (context) => AuthPage()),
+              );
+            },
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class PageFlow extends StatelessWidget {
+  final String assetPath, heading, description;
+  final Function(int index) onPageChanged;
+  final VoidCallback onDonePressed, onSkipPressed;
+  final int currentIndex, index;
+
+  const PageFlow(
+      {Key key,
+      this.assetPath,
+      this.heading,
+      this.description,
+      this.onPageChanged,
+      this.currentIndex,
+      this.index,
+      this.onDonePressed,
+      this.onSkipPressed})
+      : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: Center(
+        child: Container(
+          height: MediaQuery.of(context).size.height,
+          width: 500,
+          padding: EdgeInsets.symmetric(vertical: 20, horizontal: 20),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Align(
+                alignment: Alignment.centerRight,
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: TextButton(
+                    style: ButtonStyle(
+                      overlayColor: MaterialStateColor.resolveWith(
+                          (states) => Theme.of(context).primaryColor),
+                      foregroundColor: MaterialStateColor.resolveWith(
+                          (states) => Theme.of(context).primaryColor),
+                    ),
+                    onPressed: onSkipPressed,
+                    child: SubtitleText(
+                      currentIndex != 2 ? 'Skip' : '',
+                      fontWeight: FontWeight.bold,
+                      fontSize: 18,
+                    ),
+                  ),
+                ),
               ),
-            );
-          },
-          showSkipButton: false,
-          columnMainAxisAlignment: MainAxisAlignment.center,
-          pageButtonTextStyles:
-              new TextStyle(fontSize: 18.0, color: Colors.black),
-        ));
+              Container(
+                height: 520,
+                child: Stack(
+                  children: [
+                    Container(
+                      height: 500,
+                      padding:
+                          EdgeInsets.symmetric(horizontal: 20.0, vertical: 10)
+                              .add(EdgeInsets.only(top: 10.0)),
+                      margin: EdgeInsets.symmetric(horizontal: 10.0),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(15.0),
+                        border: Border.all(
+                            color: Theme.of(context)
+                                .accentColor, //Theme.of(context).textTheme.bodyText1.color,
+                            width: 2.0),
+                      ),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          FadeAnimation(
+                            0.4,
+                            Padding(
+                              padding: const EdgeInsets.all(4.0),
+                              child: TitleText(
+                                heading,
+                                fontSize: 24,
+                              ),
+                            ),
+                          ),
+                          FadeAnimation(
+                            0.6,
+                            Padding(
+                              padding: const EdgeInsets.all(4.0),
+                              child: SubtitleText(
+                                description,
+                                fontSize: 18,
+                                color: Colors.grey,
+                              ),
+                            ),
+                          ),
+                          Expanded(
+                            child: FadeAnimation(
+                              0.2,
+                              Center(
+                                child: ScaleAnimation(
+                                  repeat: true,
+                                  child: Image.asset(
+                                    assetPath,
+                                    height: 300,
+                                    width: 300,
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ),
+                          SizedBox(
+                            height: 20.0,
+                          )
+                        ],
+                      ),
+                    ),
+                    Container(
+                      child: Align(
+                        alignment: Alignment.bottomCenter,
+                        child: FloatingActionButton.extended(
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(25.0)),
+                          onPressed: () {
+                            if (index == 2) {
+                              onDonePressed();
+                            } else
+                              onPageChanged(index + 1);
+                          },
+                          label: currentIndex == 2
+                              ? TitleText(
+                                  'Done',
+                                  fontSize: 18,
+                                )
+                              : TitleText(
+                                  'Next',
+                                  fontSize: 18,
+                                ),
+                        ),
+                      ),
+                    )
+                  ],
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        currentIndex == 0
+                            ? _buildIndicator(context, 0)
+                            : _buildPlaceHolder(context, 0),
+                        currentIndex == 1
+                            ? _buildIndicator(context, 1)
+                            : _buildPlaceHolder(context, 1),
+                        currentIndex == 2
+                            ? _buildIndicator(context, 2)
+                            : _buildPlaceHolder(context, 2)
+                      ],
+                    ),
+                  ],
+                ),
+              ),
+              SizedBox(
+                height: 30,
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildPlaceHolder(context, index) {
+    return IconButton(
+      splashRadius: 20,
+      onPressed: () => onPageChanged(index),
+      icon: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Container(
+          height: 15,
+          width: 15,
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(500),
+            color: Colors.grey,
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildIndicator(context, index) {
+    return ScaleAnimation(
+      timeDuration: Duration(milliseconds: 1000),
+      delay: Duration(microseconds: 1),
+      child: InkWell(
+        onTap: () => onPageChanged(index),
+        child: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Container(
+            height: 15,
+            width: 35,
+            decoration: BoxDecoration(
+              boxShadow: [
+                BoxShadow(
+                    color: Colors.black.withOpacity(0.2),
+                    offset: Offset(0, 1),
+                    spreadRadius: 2,
+                    blurRadius: 5)
+              ],
+              color: Theme.of(context).primaryColor.withOpacity(0.9),
+              borderRadius: BorderRadius.circular(500),
+            ),
+          ),
+        ),
+      ),
+    );
   }
 }
