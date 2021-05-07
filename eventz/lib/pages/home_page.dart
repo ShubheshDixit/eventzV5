@@ -1,20 +1,19 @@
 import 'dart:ui';
-import 'package:animated_icon_button/animated_icon_button.dart';
 import 'package:awesome_flutter_widgets/widgets/awesome_buttons.dart';
 import 'package:eventz/animations/fade_animations.dart';
-import 'package:eventz/animations/scale_animation.dart';
+import 'package:eventz/backend/database.dart';
 import 'package:eventz/global_values.dart';
-import 'package:eventz/pages/add_events.dart';
+import 'package:eventz/pages/auth_page.dart';
+import 'package:eventz/pages/contact_page.dart';
 import 'package:eventz/pages/events_home_page.dart';
 import 'package:eventz/pages/global_widgets.dart';
+import 'package:eventz/pages/music_page.dart';
+import 'package:eventz/pages/my_web_view.dart';
 import 'package:eventz/pages/tickets_page.dart';
-import 'package:flutter/gestures.dart';
+import 'package:eventz/pages/vip_page.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:intl/date_symbol_data_local.dart';
 import 'package:intl/intl.dart';
-
-import 'package:table_calendar/table_calendar.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -22,304 +21,765 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
-  GlobalKey _key = LabeledGlobalKey("button_icon");
-  OverlayEntry _overlayEntry;
-  Size buttonSize;
-  Offset buttonPosition;
-  bool isMenuOpen = false;
   int currentIndex = 0;
   TabController _controller;
-  CalendarController _calendarController;
-  AnimationController _animationController;
+
   var selectedDate;
+  bool isMenuOn = false;
+  bool isVip = false;
 
   @override
   void initState() {
     super.initState();
-    _key = LabeledGlobalKey("button_icon");
-    _controller = TabController(length: 4, vsync: this)
+
+    _controller = TabController(length: 6, vsync: this)
       ..addListener(() {
         setState(() {
           currentIndex = _controller.index;
         });
       });
-    initializeDateFormatting();
-    Intl.systemLocale = 'en_En';
-    _calendarController = CalendarController();
-    _animationController = AnimationController(
-      vsync: this,
-      duration: Duration(milliseconds: 300),
-      reverseDuration: Duration(milliseconds: 300),
-    );
-  }
-
-  @override
-  void dispose() {
-    _calendarController.dispose();
-    super.dispose();
   }
 
   void changePage(index) {
     _controller.animateTo(index);
     setState(() {
       currentIndex = index;
+      isMenuOn = !isMenuOn;
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return !isMobile(context)
+        ? WebMain()
+        : Scaffold(
+            body: Stack(
+              children: [
+                AnimatedPositioned(
+                  duration: Duration(milliseconds: 200),
+                  right: isMenuOn ? 300 : 0,
+                  child: Transform.scale(
+                    scale: isMenuOn ? 0.85 : 1,
+                    child: AnimatedContainer(
+                      duration: Duration(milliseconds: 200),
+                      height: MediaQuery.of(context).size.height,
+                      width: MediaQuery.of(context).size.width,
+                      decoration: isMenuOn
+                          ? BoxDecoration(
+                              borderRadius: BorderRadius.circular(30.0),
+                              border: Border.all(
+                                  color: Theme.of(context).cardColor,
+                                  width: 8.0),
+                            )
+                          : BoxDecoration(),
+                      child: ClipRRect(
+                        borderRadius: isMenuOn
+                            ? BorderRadius.circular(25.0)
+                            : BorderRadius.circular(0),
+                        child: TabBarView(
+                          physics: NeverScrollableScrollPhysics(),
+                          controller: _controller,
+                          children: [
+                            EventsHomePage(
+                              onMenuPressed: () {
+                                setState(() {
+                                  isMenuOn = !isMenuOn;
+                                });
+                              },
+                            ),
+                            Scaffold(
+                                appBar: AppBar(
+                              actions: [
+                                IconButton(
+                                    icon: Icon(FontAwesomeIcons.bars),
+                                    onPressed: () {
+                                      setState(() {
+                                        isMenuOn = !isMenuOn;
+                                      });
+                                    }),
+                              ],
+                            )),
+                            TicketsPage(
+                              onMenuPressed: () {
+                                setState(() {
+                                  isMenuOn = !isMenuOn;
+                                });
+                              },
+                            ),
+                            Scaffold(
+                              appBar: AppBar(
+                                title: TitleText('Gallery'),
+                                actions: [
+                                  IconButton(
+                                      icon: Icon(FontAwesomeIcons.bars),
+                                      onPressed: () {
+                                        setState(() {
+                                          isMenuOn = !isMenuOn;
+                                        });
+                                      })
+                                ],
+                              ),
+                              body: MyWebView(
+                                  title: 'Gallery',
+                                  url: 'https://v5group.smugmug.com/'),
+                            ),
+                            Scaffold(
+                              appBar: AppBar(
+                                title: TitleText('PhotoBooth'),
+                                actions: [
+                                  IconButton(
+                                      icon: Icon(FontAwesomeIcons.bars),
+                                      onPressed: () {
+                                        setState(() {
+                                          isMenuOn = !isMenuOn;
+                                        });
+                                      }),
+                                ],
+                              ),
+                              body: MyWebView(
+                                  title: 'BoothPics',
+                                  url:
+                                      'https://app.photoboothsupplyco.com/portfolio-embed/7a1ee0dc-6774-5645-b7bc-f5432a06d691/'),
+                            ),
+                            ContactPage(
+                              onMenuPressed: () {
+                                setState(() {
+                                  isMenuOn = !isMenuOn;
+                                });
+                              },
+                            )
+                          ],
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+                AnimatedPositioned(
+                  duration: Duration(milliseconds: 200),
+                  right: 0,
+                  child: Container(
+                    width: isMenuOn ? 300 : 0,
+                    height: MediaQuery.of(context).size.height,
+                    alignment: Alignment.center,
+                    child: !isMenuOn
+                        ? SizedBox()
+                        : FadeAnimation(
+                            0.2,
+                            Column(
+                              mainAxisSize: MainAxisSize.min,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Image.asset(
+                                  GlobalValues.logoImageBlue,
+                                  height: 80,
+                                ),
+                                ListTile(
+                                  title: TitleText(
+                                    'Musica',
+                                    color: GlobalValues.primaryColor,
+                                  ),
+                                  subtitle: SubtitleText('is Our Business'),
+                                ),
+                                Container(
+                                  margin: EdgeInsets.only(right: 10.0),
+                                  decoration: BoxDecoration(
+                                    gradient: LinearGradient(
+                                        begin: Alignment.topLeft,
+                                        end: Alignment.bottomRight,
+                                        colors: [
+                                          Theme.of(context).primaryColor,
+                                          Theme.of(context).accentColor
+                                        ]),
+                                    borderRadius: BorderRadius.circular(8.0),
+                                  ),
+                                  child: ListTile(
+                                    onTap: () {
+                                      Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                          builder: (context) => VIPPage(),
+                                        ),
+                                      );
+                                    },
+                                    title: TitleText(
+                                      isVip
+                                          ? 'VIP Member'
+                                          : 'Get VIP Membership',
+                                      fontSize: 18,
+                                      color: Colors.white,
+                                    ),
+                                    subtitle: Text(
+                                      isVip
+                                          ? 'Your VIP membership expires soon.'
+                                          : 'Become a vip member and enjoy special benefits.',
+                                      style: TextStyle(
+                                        fontSize: 14,
+                                        fontWeight: FontWeight.bold,
+                                        color: Colors.white,
+                                      ),
+                                    ),
+                                    trailing: Image.asset(
+                                      GlobalValues.crownImage,
+                                    ),
+                                  ),
+                                ),
+                                Divider(),
+                                Flexible(
+                                  child: SingleChildScrollView(
+                                    child: Column(
+                                      children: [
+                                        ListTile(
+                                          onTap: () => changePage(0),
+                                          leading: Icon(
+                                            FontAwesomeIcons.home,
+                                            color: currentIndex == 0
+                                                ? null
+                                                : Colors.grey,
+                                          ),
+                                          minLeadingWidth: 0,
+                                          title: TitleText(
+                                            'Home',
+                                            color: currentIndex == 0
+                                                ? null
+                                                : Colors.grey,
+                                          ),
+                                        ),
+                                        ListTile(
+                                          onTap: () => changePage(1),
+                                          leading: Icon(
+                                            FontAwesomeIcons.store,
+                                            color: currentIndex == 1
+                                                ? null
+                                                : Colors.grey,
+                                          ),
+                                          minLeadingWidth: 0,
+                                          title: TitleText(
+                                            'Store',
+                                            color: currentIndex == 1
+                                                ? null
+                                                : Colors.grey,
+                                          ),
+                                        ),
+                                        ListTile(
+                                          onTap: () => changePage(2),
+                                          leading: Icon(
+                                            FontAwesomeIcons.ticketAlt,
+                                            color: currentIndex == 2
+                                                ? null
+                                                : Colors.grey,
+                                          ),
+                                          minLeadingWidth: 0,
+                                          title: TitleText(
+                                            'My Tickets',
+                                            color: currentIndex == 2
+                                                ? null
+                                                : Colors.grey,
+                                          ),
+                                        ),
+                                        ListTile(
+                                          onTap: () => changePage(3),
+                                          leading: Icon(
+                                            FontAwesomeIcons.image,
+                                            color: currentIndex == 3
+                                                ? null
+                                                : Colors.grey,
+                                          ),
+                                          minLeadingWidth: 0,
+                                          title: TitleText(
+                                            'Gallery',
+                                            color: currentIndex == 3
+                                                ? null
+                                                : Colors.grey,
+                                          ),
+                                        ),
+                                        ListTile(
+                                          onTap: () => changePage(4),
+                                          leading: Icon(
+                                            FontAwesomeIcons.cameraRetro,
+                                            color: currentIndex == 4
+                                                ? null
+                                                : Colors.grey,
+                                          ),
+                                          minLeadingWidth: 0,
+                                          title: TitleText(
+                                            'PhotoBooth',
+                                            color: currentIndex == 4
+                                                ? null
+                                                : Colors.grey,
+                                          ),
+                                        ),
+                                        ListTile(
+                                          onTap: () => changePage(5),
+                                          leading: Icon(
+                                            FontAwesomeIcons.infoCircle,
+                                            color: currentIndex == 5
+                                                ? null
+                                                : Colors.grey,
+                                          ),
+                                          minLeadingWidth: 0,
+                                          title: TitleText(
+                                            'More',
+                                            color: currentIndex == 5
+                                                ? null
+                                                : Colors.grey,
+                                          ),
+                                        ),
+                                        ListTile(
+                                          onTap: () async {
+                                            await AuthService().logout();
+                                            await Navigator.pushReplacement(
+                                              context,
+                                              MaterialPageRoute(
+                                                builder: (context) =>
+                                                    AuthPage(),
+                                              ),
+                                            );
+                                          },
+                                          leading: Icon(
+                                            FontAwesomeIcons.signOutAlt,
+                                            color: GlobalValues.primaryColor,
+                                          ),
+                                          minLeadingWidth: 0,
+                                          title: TitleText(
+                                            'Logout',
+                                            color: GlobalValues.primaryColor,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                                Divider(),
+                                Container(
+                                  margin:
+                                      EdgeInsets.symmetric(horizontal: 20.0),
+                                  child: Row(
+                                    crossAxisAlignment: CrossAxisAlignment.end,
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.end,
+                                        children: [
+                                          Padding(
+                                            padding: const EdgeInsets.all(8.0),
+                                            child: SubtitleText(
+                                              'Version : 1.0',
+                                              fontSize: 12.0,
+                                            ),
+                                          ),
+                                          Padding(
+                                            padding: const EdgeInsets.all(8.0),
+                                            child: SubtitleText(
+                                              'App is up to date',
+                                              fontSize: 12.0,
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                      FloatingActionButton(
+                                        heroTag: 'close_stack_menu',
+                                        onPressed: () {
+                                          setState(() {
+                                            isMenuOn = !isMenuOn;
+                                          });
+                                        },
+                                        backgroundColor:
+                                            GlobalValues.primaryColor,
+                                        child: Icon(Icons.close),
+                                      )
+                                    ],
+                                  ),
+                                )
+                              ],
+                            ),
+                          ),
+                  ),
+                ),
+              ],
+            ),
+          );
+  }
+}
+
+class WebMain extends StatefulWidget {
+  @override
+  _WebMainState createState() => _WebMainState();
+}
+
+class _WebMainState extends State<WebMain> with SingleTickerProviderStateMixin {
+  bool isMenuOn = false;
+  int currentIndex = 0;
+  TabController _controller;
+
+  bool isVip = false;
+
+  @override
+  void initState() {
+    super.initState();
+
+    _controller = TabController(length: 6, vsync: this)
+      ..addListener(() {
+        setState(() {
+          currentIndex = _controller.index;
+        });
+      });
+  }
+
+  void changePage(index) {
+    _controller.animateTo(index);
+    setState(() {
+      currentIndex = index;
+      isMenuOn = !isMenuOn;
     });
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        automaticallyImplyLeading: false,
-        backgroundColor: Theme.of(context).primaryColor.withOpacity(0.6),
-        title: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          mainAxisSize: MainAxisSize.max,
-          children: [
-            Row(
-              children: [
-                Image.asset(
-                  GlobalValues.logoImage,
-                  height: 50,
-                  width: 50,
-                ),
-                SizedBox(
-                  width: 10.0,
-                ),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Row(
-                      children: [
-                        SubtitleText(
-                          'Musica ',
-                          color: Theme.of(context).primaryColor,
-                          fontWeight: FontWeight.w900,
-                        ),
-                        SubtitleText('is'),
-                      ],
-                    ),
-                    SubtitleText('Our Business')
-                  ],
+      body: Row(
+        children: [
+          Container(
+            width: 250,
+            margin: EdgeInsets.all(10.0),
+            padding: EdgeInsets.all(10.0),
+            height: MediaQuery.of(context).size.height,
+            alignment: Alignment.center,
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(8.0),
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.black.withOpacity(0.1),
+                  spreadRadius: 1.0,
+                  blurRadius: 5.0,
                 )
               ],
+              border: Border.all(
+                color: Theme.of(context).cardColor,
+                width: 3.0,
+              ),
             ),
-            Icon(
-              FontAwesomeIcons.bars,
-              color: Theme.of(context).textTheme.bodyText1.color,
+            child: FadeAnimation(
+              0.2,
+              Column(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Image.asset(
+                    GlobalValues.logoImage,
+                    height: 80,
+                  ),
+                  ListTile(
+                    title: TitleText(
+                      'Musica',
+                      color: GlobalValues.primaryColor,
+                    ),
+                    subtitle: SubtitleText('is Our Business'),
+                  ),
+                  InkWell(
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => VIPPage(),
+                        ),
+                      );
+                    },
+                    child: Container(
+                      margin: EdgeInsets.only(
+                          right: isMobile(context) ? 10.0 : 0.0),
+                      padding: EdgeInsets.all(isMobile(context) ? 0.0 : 10.0),
+                      decoration: BoxDecoration(
+                        gradient: LinearGradient(
+                            begin: Alignment.topLeft,
+                            end: Alignment.bottomRight,
+                            colors: [
+                              Theme.of(context).primaryColor,
+                              Theme.of(context).accentColor
+                            ]),
+                        borderRadius: BorderRadius.circular(8.0),
+                      ),
+                      child: !isMobile(context)
+                          ? Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                TitleText(
+                                  isVip ? 'VIP Member' : 'Get VIP Membership',
+                                  fontSize: 18,
+                                  color: Colors.white,
+                                ),
+                                Text(
+                                  isVip
+                                      ? 'Your VIP membership expires soon.'
+                                      : 'Become a vip member and enjoy special benefits.',
+                                  style: TextStyle(
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.white,
+                                  ),
+                                ),
+                                Image.asset(
+                                  GlobalValues.vipImage,
+                                ),
+                              ],
+                            )
+                          : ListTile(
+                              onTap: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => VIPPage(),
+                                  ),
+                                );
+                              },
+                              title: TitleText(
+                                isVip ? 'VIP Member' : 'Get VIP Membership',
+                                fontSize: 18,
+                                color: Colors.white,
+                              ),
+                              subtitle: Text(
+                                isVip
+                                    ? 'Your VIP membership expires soon.'
+                                    : 'Become a vip member and enjoy special benefits.',
+                                style: TextStyle(
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.white,
+                                ),
+                              ),
+                              trailing: Image.asset(
+                                GlobalValues.crownImage,
+                              ),
+                            ),
+                    ),
+                  ),
+                  Divider(),
+                  Flexible(
+                    child: SingleChildScrollView(
+                      child: Column(
+                        children: [
+                          ListTile(
+                            onTap: () => changePage(0),
+                            leading: Icon(
+                              FontAwesomeIcons.home,
+                              color: currentIndex == 0 ? null : Colors.grey,
+                            ),
+                            minLeadingWidth: 0,
+                            title: TitleText(
+                              'Home',
+                              color: currentIndex == 0 ? null : Colors.grey,
+                            ),
+                          ),
+                          ListTile(
+                            onTap: () => changePage(1),
+                            leading: Icon(
+                              FontAwesomeIcons.store,
+                              color: currentIndex == 1 ? null : Colors.grey,
+                            ),
+                            minLeadingWidth: 0,
+                            title: TitleText(
+                              'Store',
+                              color: currentIndex == 1 ? null : Colors.grey,
+                            ),
+                          ),
+                          ListTile(
+                            onTap: () => changePage(2),
+                            leading: Icon(
+                              FontAwesomeIcons.ticketAlt,
+                              color: currentIndex == 2 ? null : Colors.grey,
+                            ),
+                            minLeadingWidth: 0,
+                            title: TitleText(
+                              'My Tickets',
+                              color: currentIndex == 2 ? null : Colors.grey,
+                            ),
+                          ),
+                          ListTile(
+                            onTap: () => changePage(3),
+                            leading: Icon(
+                              FontAwesomeIcons.calendarAlt,
+                              color: currentIndex == 3 ? null : Colors.grey,
+                            ),
+                            minLeadingWidth: 0,
+                            title: TitleText(
+                              'My Events',
+                              color: currentIndex == 3 ? null : Colors.grey,
+                            ),
+                          ),
+                          ListTile(
+                            onTap: () => changePage(4),
+                            leading: Icon(
+                              FontAwesomeIcons.music,
+                              color: currentIndex == 4 ? null : Colors.grey,
+                            ),
+                            minLeadingWidth: 0,
+                            title: TitleText(
+                              'My Mixes',
+                              color: currentIndex == 4 ? null : Colors.grey,
+                            ),
+                          ),
+                          ListTile(
+                            onTap: () => changePage(5),
+                            leading: Icon(
+                              FontAwesomeIcons.cog,
+                              color: currentIndex == 5 ? null : Colors.grey,
+                            ),
+                            minLeadingWidth: 0,
+                            title: TitleText(
+                              'Settings',
+                              color: currentIndex == 5 ? null : Colors.grey,
+                            ),
+                          ),
+                          ListTile(
+                            onTap: () async {
+                              await AuthService().logout();
+                              await Navigator.pushReplacement(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => AuthPage(),
+                                ),
+                              );
+                            },
+                            leading: Icon(
+                              FontAwesomeIcons.signOutAlt,
+                              color: GlobalValues.primaryColor,
+                            ),
+                            minLeadingWidth: 0,
+                            title: TitleText(
+                              'Logout',
+                              color: GlobalValues.primaryColor,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                  Divider(),
+                  Container(
+                    margin: EdgeInsets.symmetric(horizontal: 20.0),
+                    child: Row(
+                      crossAxisAlignment: CrossAxisAlignment.end,
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          mainAxisAlignment: MainAxisAlignment.end,
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: SubtitleText(
+                                'Version : 1.0',
+                                fontSize: 12.0,
+                              ),
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: SubtitleText(
+                                'App is up to date',
+                                fontSize: 12.0,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
+                  )
+                ],
+              ),
             ),
-          ],
-        ),
-      ),
-      body: TabBarView(
-        controller: _controller,
-        children: [
-          EventsHomePage(),
-          Container(),
-          TicketsPage(),
-          Container(),
+          ),
+          Expanded(
+            flex: 4,
+            child: Container(
+              child: TabBarView(
+                physics: NeverScrollableScrollPhysics(),
+                controller: _controller,
+                children: [
+                  EventsHomePage(
+                    onMenuPressed: () {
+                      setState(() {
+                        isMenuOn = !isMenuOn;
+                      });
+                    },
+                  ),
+                  Scaffold(
+                      appBar: AppBar(
+                    actions: [
+                      IconButton(
+                          icon: Icon(FontAwesomeIcons.bars),
+                          onPressed: () {
+                            setState(() {
+                              isMenuOn = !isMenuOn;
+                            });
+                          }),
+                    ],
+                  )),
+                  TicketsPage(
+                    onMenuPressed: () {
+                      setState(() {
+                        isMenuOn = !isMenuOn;
+                      });
+                    },
+                  ),
+                  Scaffold(
+                      appBar: AppBar(
+                    actions: [
+                      IconButton(
+                          icon: Icon(FontAwesomeIcons.bars),
+                          onPressed: () {
+                            setState(() {
+                              isMenuOn = !isMenuOn;
+                            });
+                          }),
+                    ],
+                  )),
+                  Scaffold(
+                      appBar: AppBar(
+                    actions: [
+                      IconButton(
+                          icon: Icon(FontAwesomeIcons.bars),
+                          onPressed: () {
+                            setState(() {
+                              isMenuOn = !isMenuOn;
+                            });
+                          }),
+                    ],
+                  )),
+                  Scaffold(
+                      appBar: AppBar(
+                    actions: [
+                      IconButton(
+                          icon: Icon(FontAwesomeIcons.bars),
+                          onPressed: () {
+                            setState(() {
+                              isMenuOn = !isMenuOn;
+                            });
+                          }),
+                    ],
+                  ))
+                ],
+              ),
+            ),
+          ),
+          Expanded(
+            flex: 1,
+            child: MusicPage(),
+          )
         ],
       ),
-      bottomNavigationBar: BottomAppBar(
-        color: Theme.of(context).cardColor,
-        notchMargin: 2.0,
-        shape: CircularNotchedRectangle(),
-        child: Container(
-          height: 60,
-          padding: EdgeInsets.only(bottom: 6.0),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: [
-              IconButton(
-                padding: EdgeInsets.zero,
-                onPressed: () {
-                  changePage(0);
-                },
-                icon: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Icon(
-                      currentIndex == 0
-                          ? FontAwesomeIcons.solidCompass
-                          : FontAwesomeIcons.compass,
-                      color: currentIndex == 0
-                          ? Theme.of(context).accentColor
-                          : Theme.of(context).textTheme.bodyText1.color,
-                      size: 26,
-                    ),
-                  ],
-                ),
-              ),
-              IconButton(
-                onPressed: () {
-                  changePage(1);
-                },
-                padding: EdgeInsets.zero,
-                icon: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Icon(
-                      currentIndex == 1
-                          ? FontAwesomeIcons.solidMap
-                          : FontAwesomeIcons.map,
-                      color: currentIndex == 1
-                          ? Theme.of(context).accentColor
-                          : Theme.of(context).textTheme.bodyText1.color,
-                      size: 22,
-                    ),
-                  ],
-                ),
-              ),
-              IconButton(
-                padding: EdgeInsets.zero,
-                onPressed: () {
-                  changePage(2);
-                },
-                icon: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Icon(
-                      currentIndex == 2
-                          ? FontAwesomeIcons.solidBookmark
-                          : FontAwesomeIcons.bookmark,
-                      color: currentIndex == 2
-                          ? Theme.of(context).accentColor
-                          : Theme.of(context).textTheme.bodyText1.color,
-                      size: 22,
-                    ),
-                  ],
-                ),
-              ),
-              IconButton(
-                padding: EdgeInsets.zero,
-                onPressed: () {
-                  changePage(3);
-                },
-                icon: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Icon(
-                      currentIndex == 3
-                          ? FontAwesomeIcons.userAlt
-                          : FontAwesomeIcons.user,
-                      color: currentIndex == 3
-                          ? Theme.of(context).accentColor
-                          : Theme.of(context).textTheme.bodyText1.color,
-                      size: 22,
-                    ),
-                  ],
-                ),
-              ),
-              SizedBox(
-                width: 0.0,
-              )
-            ],
-          ),
-        ),
-      ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.endDocked,
-      floatingActionButton: FloatingActionButton(
-        key: _key,
-        child: AnimatedIconButton(
-          size: 35,
-          animationController: _animationController,
-          onPressed: () {
-            if (isMenuOpen) {
-              closeMenu();
-            } else {
-              openMenu();
-            }
-          },
-          endIcon: Icon(
-            Icons.close,
-            color: Colors.white,
-          ),
-          startIcon: Icon(
-            Icons.add,
-            color: Colors.white,
-          ),
-        ),
-        onPressed: () {},
-      ),
-    );
-  }
-
-  findButton() {
-    RenderBox renderBox = _key.currentContext.findRenderObject();
-    buttonSize = renderBox.size;
-    buttonPosition = renderBox.localToGlobal(Offset.zero);
-  }
-
-  void closeMenu() {
-    _overlayEntry.remove();
-    _animationController.reverse();
-    isMenuOpen = !isMenuOpen;
-  }
-
-  void openMenu() {
-    findButton();
-    _animationController.forward();
-    _overlayEntry = _overlayEntryBuilder();
-    Overlay.of(context).insert(_overlayEntry);
-    isMenuOpen = !isMenuOpen;
-  }
-
-  OverlayEntry _overlayEntryBuilder() {
-    return OverlayEntry(
-      builder: (context) {
-        return Align(
-          alignment: Alignment.bottomRight,
-          widthFactor: 300,
-          child: FadeAnimation(
-            0.2,
-            ScaleAnimation(
-              child: Container(
-                width: 300.0,
-                margin: EdgeInsets.only(bottom: 95.0, right: 20.0),
-                padding: EdgeInsets.all(10.0),
-                decoration: BoxDecoration(
-                  color: Theme.of(context)
-                      .canvasColor, //Theme.of(context).accentColor,
-                  borderRadius: BorderRadius.circular(8.0),
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.black.withOpacity(0.5),
-                      spreadRadius: 2,
-                      blurRadius: 5,
-                      offset: Offset(3, 3),
-                    )
-                  ],
-                ),
-                child: CalenderPopUp(
-                  calendarController: _calendarController,
-                  onDateSelected: () async {
-                    closeMenu();
-                    await Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => AddEventsPage(
-                          eventDate: _calendarController.selectedDay,
-                        ),
-                      ),
-                    );
-                  },
-                ),
-              ),
-            ),
-          ),
-        );
-      },
     );
   }
 }
 
 class CalenderPopUp extends StatefulWidget {
-  final CalendarController calendarController;
-  final VoidCallback onDateSelected;
+  final VoidCallback onDateSelected, onClosePressed;
   const CalenderPopUp(
-      {Key key,
-      @required this.calendarController,
-      @required this.onDateSelected})
+      {Key key, @required this.onDateSelected, @required this.onClosePressed})
       : super(key: key);
   @override
   _CalenderPopUpState createState() => _CalenderPopUpState();
@@ -336,58 +796,65 @@ class _CalenderPopUpState extends State<CalenderPopUp> {
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          TitleText(
-            'When is your event?',
-            fontSize: 25,
-            color: Theme.of(context).textTheme.bodyText1.color,
+          Row(
+            children: [
+              TitleText(
+                'When is your event?',
+                fontSize: 23,
+                color: Theme.of(context).textTheme.bodyText1.color,
+              ),
+              IconButton(
+                  icon: Icon(FontAwesomeIcons.timesCircle),
+                  onPressed: () => widget.onClosePressed())
+            ],
           ),
-          TableCalendar(
-            onDaySelected: (day, events, holidays) {
-              setState(() {
-                selectedDate = day;
-              });
-            },
-            daysOfWeekStyle: DaysOfWeekStyle(
-              weekendStyle: TextStyle(color: Colors.grey),
-              weekdayStyle: TextStyle(color: Colors.grey),
-            ),
-            headerStyle: HeaderStyle(
-              centerHeaderTitle: false,
-              formatButtonVisible: false,
-              headerPadding: EdgeInsets.only(left: 4.0),
-              headerMargin: EdgeInsets.symmetric(vertical: 18.0),
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(8.0),
-                border: Border.all(
-                    color: Theme.of(context).textTheme.bodyText1.color),
-              ),
-              titleTextStyle: TextStyle(
-                  color: Theme.of(context).textTheme.bodyText1.color,
-                  fontSize: 22),
-              leftChevronIcon: Icon(
-                FontAwesomeIcons.caretLeft,
-                color: Theme.of(context).textTheme.bodyText1.color,
-              ),
-              rightChevronIcon: Icon(
-                FontAwesomeIcons.caretRight,
-                color: Theme.of(context).textTheme.bodyText1.color,
-              ),
-            ),
-            calendarStyle: CalendarStyle(
-              contentPadding: EdgeInsets.zero,
-              markersColor: Theme.of(context).accentColor,
-              selectedColor: Theme.of(context).primaryColor,
-              todayColor: Theme.of(context).primaryColor.withOpacity(0.5),
-              outsideDaysVisible: false,
-              weekendStyle: TextStyle(
-                color: Theme.of(context).textTheme.bodyText1.color,
-              ),
-              weekdayStyle: TextStyle(
-                color: Theme.of(context).textTheme.bodyText1.color,
-              ),
-            ),
-            calendarController: widget.calendarController,
-          ),
+          // TableCalendar(
+          //   onDaySelected: (day, events, holidays) {
+          //     setState(() {
+          //       selectedDate = day;
+          //     });
+          //   },
+          //   daysOfWeekStyle: DaysOfWeekStyle(
+          //     weekendStyle: TextStyle(color: Colors.grey),
+          //     weekdayStyle: TextStyle(color: Colors.grey),
+          //   ),
+          //   headerStyle: HeaderStyle(
+          //     centerHeaderTitle: false,
+          //     formatButtonVisible: false,
+          //     headerPadding: EdgeInsets.only(left: 4.0),
+          //     headerMargin: EdgeInsets.symmetric(vertical: 18.0),
+          //     decoration: BoxDecoration(
+          //       borderRadius: BorderRadius.circular(8.0),
+          //       border: Border.all(
+          //           color: Theme.of(context).textTheme.bodyText1.color),
+          //     ),
+          //     titleTextStyle: TextStyle(
+          //         color: Theme.of(context).textTheme.bodyText1.color,
+          //         fontSize: 22),
+          //     leftChevronIcon: Icon(
+          //       FontAwesomeIcons.caretLeft,
+          //       color: Theme.of(context).textTheme.bodyText1.color,
+          //     ),
+          //     rightChevronIcon: Icon(
+          //       FontAwesomeIcons.caretRight,
+          //       color: Theme.of(context).textTheme.bodyText1.color,
+          //     ),
+          //   ),
+          //   calendarStyle: CalendarStyle(
+          //     contentPadding: EdgeInsets.zero,
+          //     markersColor: Theme.of(context).accentColor,
+          //     selectedColor: Theme.of(context).primaryColor,
+          //     todayColor: Theme.of(context).primaryColor.withOpacity(0.5),
+          //     outsideDaysVisible: false,
+          //     weekendStyle: TextStyle(
+          //       color: Theme.of(context).textTheme.bodyText1.color,
+          //     ),
+          //     weekdayStyle: TextStyle(
+          //       color: Theme.of(context).textTheme.bodyText1.color,
+          //     ),
+          //   ),
+          //   calendarController: widget.calendarController,
+          // ),
           selectedDate == null
               ? SizedBox.shrink()
               : AwesomeButton(

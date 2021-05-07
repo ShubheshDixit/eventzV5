@@ -1,3 +1,4 @@
+import 'package:awesome_flutter_widgets/widgets/awesome_buttons.dart';
 import 'package:eventz/animations/fade_animations.dart';
 import 'package:eventz/animations/scale_animation.dart';
 import 'package:eventz/global_values.dart';
@@ -24,6 +25,7 @@ class FullEventsPage extends StatefulWidget {
 }
 
 class _FullEventsPageState extends State<FullEventsPage> {
+  ScrollController _scrollController = ScrollController();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -112,15 +114,18 @@ class _FullEventsPageState extends State<FullEventsPage> {
           ),
           SliverToBoxAdapter(
             child: Divider(
-              color: Theme.of(context).accentColor,
+              color: Theme.of(context).cardColor,
+              thickness: 3.0,
             ),
           ),
           SliverToBoxAdapter(
-            child: Container(
-              margin: EdgeInsets.only(bottom: 10.0, top: 10.0, left: 10.0),
-              child: Scrollbar(
-                radius: Radius.circular(8.0),
+            child: Scrollbar(
+              controller: _scrollController,
+              radius: Radius.circular(8.0),
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
                 child: SingleChildScrollView(
+                  controller: _scrollController,
                   scrollDirection: Axis.horizontal,
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
@@ -129,7 +134,7 @@ class _FullEventsPageState extends State<FullEventsPage> {
                     children: [
                       FadeAnimation(
                         0.3,
-                        EventTile.verticle(
+                        EventTile(
                           imageURL: 'images/posters/nano.jpeg',
                           title: 'DJ Nano',
                           subtitle: 'Village Roadhouse',
@@ -143,7 +148,7 @@ class _FullEventsPageState extends State<FullEventsPage> {
                       ),
                       FadeAnimation(
                         0.4,
-                        EventTile.verticle(
+                        EventTile(
                           imageURL: 'images/posters/baila.jpeg',
                           title: 'DJ JStar',
                           subtitle: 'Baila Fridays ',
@@ -157,7 +162,7 @@ class _FullEventsPageState extends State<FullEventsPage> {
                       ),
                       FadeAnimation(
                         0.4,
-                        EventTile.verticle(
+                        EventTile(
                           imageURL: 'images/posters/luxur.jpeg',
                           title: 'DJ Ozone',
                           subtitle: 'Luxur Saturdays',
@@ -171,7 +176,7 @@ class _FullEventsPageState extends State<FullEventsPage> {
                       ),
                       FadeAnimation(
                         0.5,
-                        EventTile.verticle(
+                        EventTile(
                           imageURL: 'images/posters/brunch.jpeg',
                           title: 'Brunch : This saturday',
                           subtitle: 'V5 DJs',
@@ -185,7 +190,7 @@ class _FullEventsPageState extends State<FullEventsPage> {
                       ),
                       FadeAnimation(
                         0.6,
-                        EventTile.verticle(
+                        EventTile(
                           imageURL: 'images/posters/joy.jpeg',
                           title: 'Parley',
                           subtitle: 'JOY District',
@@ -199,7 +204,7 @@ class _FullEventsPageState extends State<FullEventsPage> {
                       ),
                       FadeAnimation(
                         0.7,
-                        EventTile.verticle(
+                        EventTile(
                           imageURL: 'images/posters/verde.jpeg',
                           title: 'Verde',
                           subtitle: 'JOY District',
@@ -252,7 +257,7 @@ class EventDetails extends StatefulWidget {
 
 class _EventDetailsState extends State<EventDetails> {
   MapController controller;
-  bool isOpened = true;
+  bool isSaved = true;
 
   void _gotoDefault() {
     controller.center = LatLng(35.68, 51.41);
@@ -305,278 +310,103 @@ class _EventDetailsState extends State<EventDetails> {
     return Scaffold(
       body: Stack(
         children: [
-          GestureDetector(
-            onTap: () {
-              setState(() {
-                isOpened = !isOpened;
-              });
-            },
-            child: Hero(
-              tag: widget.imageURL,
-              child: Material(
-                color: Colors.transparent,
-                child: Container(
-                  width: MediaQuery.of(context).size.width,
-                  height: MediaQuery.of(context).size.height,
-                  decoration: BoxDecoration(
-                    image: DecorationImage(
-                      image: AssetImage(widget.imageURL),
-                      fit: isOpened ? BoxFit.cover : BoxFit.contain,
-                    ),
-                  ),
+          CustomScrollView(slivers: [
+            SliverAppBar(
+              expandedHeight: 400,
+              flexibleSpace: Hero(
+                tag: widget.imageURL,
+                child: Material(
+                  color: Colors.transparent,
                   child: Container(
-                    color: isOpened
-                        ? Colors.black.withOpacity(0.4)
-                        : Colors.transparent,
+                    width: MediaQuery.of(context).size.width,
+                    height: MediaQuery.of(context).size.height * 0.6,
+                    decoration: BoxDecoration(
+                      image: DecorationImage(
+                        image: AssetImage(widget.imageURL),
+                        fit: BoxFit.cover,
+                      ),
+                    ),
+                    child: Container(
+                      color: Colors.transparent,
+                    ),
                   ),
                 ),
               ),
             ),
-          ),
-          !isOpened
-              ? SizedBox.shrink()
-              : ScaleAnimation(
-                  child: Align(
-                    alignment: Alignment.topCenter,
-                    child: Container(
-                      margin: EdgeInsets.all(10.0).add(
-                        EdgeInsets.only(top: 25.0),
-                      ),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          IconButton(
-                            padding: EdgeInsets.zero,
-                            icon: Container(
-                                padding: EdgeInsets.all(
-                                  8.0,
-                                ).add(
-                                  EdgeInsets.only(right: 2.0, bottom: 2.0),
-                                ),
-                                decoration: BoxDecoration(
-                                    color: Theme.of(context)
-                                        .scaffoldBackgroundColor,
-                                    borderRadius: BorderRadius.circular(8.0)),
-                                child: Icon(FontAwesomeIcons.chevronLeft)),
-                            onPressed: () => Navigator.pop(context),
-                          ),
-                          IconButton(
-                            padding: EdgeInsets.zero,
-                            icon: Container(
-                                padding: EdgeInsets.all(8.0),
-                                decoration: BoxDecoration(
-                                    color: Theme.of(context)
-                                        .scaffoldBackgroundColor,
-                                    borderRadius: BorderRadius.circular(8.0)),
-                                child: Icon(FontAwesomeIcons.share)),
-                            onPressed: () => Navigator.pop(context),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                ),
-          !isOpened
-              ? SizedBox.shrink()
-              : Align(
-                  alignment: Alignment.bottomCenter,
+          ]),
+          Align(
+            alignment: Alignment.bottomRight,
+            child: SingleChildScrollView(
+              child: ScaleAnimation(
+                child: Container(
+                  margin: EdgeInsets.only(top: 360),
+                  color: Theme.of(context).cardColor,
+                  padding: EdgeInsets.all(10.0),
+                  width: MediaQuery.of(context).size.width * 0.9,
                   child: Column(
                     mainAxisSize: MainAxisSize.min,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      ScaleAnimation(
-                        child: Container(
-                          padding: EdgeInsets.all(10.0),
-                          margin: EdgeInsets.all(10.0),
-                          decoration: BoxDecoration(
-                              color: Theme.of(context).scaffoldBackgroundColor,
-                              borderRadius: BorderRadius.circular(8.0),
-                              border: Border.all(
-                                  color: Theme.of(context).primaryColor,
-                                  width: 2.0),
-                              boxShadow: [
-                                BoxShadow(
-                                  color: Colors.black.withOpacity(0.2),
-                                  blurRadius: 5,
-                                  spreadRadius: 1,
-                                  offset: Offset(2, 2),
-                                )
-                              ]),
-                          child: Row(
-                            mainAxisSize: MainAxisSize.max,
-                            children: [
-                              Expanded(
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    TitleText(widget.title),
-                                    SubtitleText(
-                                      '${widget.subtitle}',
-                                      fontSize: 16,
-                                    ),
-                                    SubtitleText(
-                                      DateFormat('EEEE MMM, d')
-                                          .format(widget.date),
-                                      fontSize: 16,
-                                      fontWeight: FontWeight.bold,
-                                    )
-                                  ],
-                                ),
-                              ),
-                              Container(
-                                color: Colors.grey,
-                                height: 50.0,
-                                width: 1.0,
-                              ),
-                              Padding(
-                                padding: const EdgeInsets.all(8.0).add(
-                                  EdgeInsets.only(left: 10.0),
-                                ),
-                                child: TitleText(
-                                  '\$ ${widget.ticketPrice}',
-                                  color: Theme.of(context).primaryColor,
-                                  fontSize: 28.0,
-                                  fontWeight: FontWeight.w900,
-                                ),
-                              )
-                            ],
-                          ),
+                      ListTile(
+                        title: TitleText(
+                          widget.title,
+                          fontSize: 30,
+                        ),
+                        subtitle: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            SubtitleText(
+                              DateFormat('dd MMM, 22:00 - 04:00')
+                                  .format(widget.date),
+                              fontSize: 16,
+                              fontWeight: FontWeight.bold,
+                            ),
+                            SubtitleText(widget.subtitle),
+                          ],
+                        ),
+                        trailing: IconButton(
+                          color: Theme.of(context).textTheme.bodyText1.color,
+                          icon: Icon(isSaved
+                              ? FontAwesomeIcons.solidBookmark
+                              : FontAwesomeIcons.bookmark),
+                          onPressed: () {
+                            setState(() {
+                              isSaved = !isSaved;
+                            });
+                          },
                         ),
                       ),
-                      ScaleAnimation(
-                        child: Container(
-                          padding: EdgeInsets.all(10.0),
-                          margin: EdgeInsets.all(10.0),
-                          decoration: BoxDecoration(
-                            color: Theme.of(context).scaffoldBackgroundColor,
-                            borderRadius: BorderRadius.circular(8.0),
-                            border: Border.all(
-                                color: Theme.of(context).primaryColor,
-                                width: 2.0),
-                          ),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              TitleText('Event Description'),
-                              SubtitleText('${widget.description}'),
-                              Padding(
-                                padding:
-                                    const EdgeInsets.symmetric(vertical: 8.0),
-                                child: Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    Column(
-                                      mainAxisSize: MainAxisSize.min,
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        Padding(
-                                          padding: const EdgeInsets.symmetric(
-                                              vertical: 8.0),
-                                          child: Row(
-                                            children: [
-                                              Icon(
-                                                FontAwesomeIcons.mapMarkerAlt,
-                                                color: Theme.of(context)
-                                                    .primaryColor,
-                                                size: 18,
-                                              ),
-                                              SubtitleText(' Directions',
-                                                  color: Theme.of(context)
-                                                      .primaryColor),
-                                            ],
-                                          ),
-                                        ),
-                                        SubtitleText(
-                                          '${widget.distance} miles away',
-                                          fontSize: 16,
-                                          // fontWeight: FontWeight.bold,
-                                        )
-                                      ],
-                                    ),
-                                    Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        Padding(
-                                          padding: const EdgeInsets.symmetric(
-                                              vertical: 8.0),
-                                          child: Row(
-                                            children: [
-                                              Icon(
-                                                FontAwesomeIcons.clock,
-                                                color: Theme.of(context)
-                                                    .primaryColor,
-                                                size: 18,
-                                              ),
-                                              SubtitleText(' Doors',
-                                                  color: Theme.of(context)
-                                                      .primaryColor),
-                                            ],
-                                          ),
-                                        ),
-                                        SubtitleText(
-                                          '10pm-4am',
-                                          fontSize: 18,
-                                        ),
-                                      ],
-                                    ),
-                                    Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        Padding(
-                                          padding: const EdgeInsets.symmetric(
-                                              vertical: 8.0),
-                                          child: Row(
-                                            children: [
-                                              Icon(
-                                                FontAwesomeIcons.parking,
-                                                color: Theme.of(context)
-                                                    .primaryColor,
-                                                size: 18,
-                                              ),
-                                              SubtitleText(' Parking',
-                                                  color: Theme.of(context)
-                                                      .primaryColor),
-                                            ],
-                                          ),
-                                        ),
-                                        SubtitleText(
-                                          'Free',
-                                          fontSize: 16,
-                                        ),
-                                      ],
-                                    )
-                                  ],
-                                ),
-                              ),
-                            ],
-                          ),
+                      Divider(
+                        indent: 15,
+                        thickness: 1.0,
+                      ),
+                      ListTile(
+                        title: TitleText('About'),
+                        subtitle: SubtitleText('${widget.description}'),
+                      ),
+                      Divider(
+                        indent: 15,
+                        thickness: 1.0,
+                      ),
+                      ListTile(
+                        title: SubtitleText('Price per ticket:'),
+                        trailing: TitleText(
+                          '\$ ${widget.ticketPrice}',
+                          color: Theme.of(context).primaryColor,
+                          fontSize: 28.0,
+                          fontWeight: FontWeight.w900,
                         ),
                       ),
-                      ScaleAnimation(
-                        child: Container(
-                          height: 120,
-                          // padding: EdgeInsets.all(10.0),
-                          margin: EdgeInsets.all(10.0),
-                          decoration: BoxDecoration(
-                              color: Theme.of(context).canvasColor,
-                              borderRadius: BorderRadius.circular(8.0),
-                              border: Border.all(
-                                  color: Theme.of(context).primaryColor,
-                                  width: 2.0),
-                              boxShadow: [
-                                BoxShadow(
-                                  color: Colors.black.withOpacity(0.2),
-                                  blurRadius: 5,
-                                  spreadRadius: 1,
-                                  offset: Offset(2, 2),
-                                )
-                              ]),
-                          child: ClipRRect(
-                            borderRadius: BorderRadius.circular(8.0),
+                      Divider(
+                        indent: 15,
+                        thickness: 1.0,
+                      ),
+                      ListTile(
+                        title: TitleText('Map'),
+                        subtitle: Padding(
+                          padding: const EdgeInsets.only(top: 8.0),
+                          child: SizedBox(
+                            height: 200,
                             child: GestureDetector(
                               onDoubleTap: _onDoubleTap,
                               onScaleStart: _onScaleStart,
@@ -601,10 +431,90 @@ class _EventDetailsState extends State<EventDetails> {
                           ),
                         ),
                       ),
+                      Divider(
+                        indent: 15,
+                        thickness: 1.0,
+                      ),
                     ],
                   ),
                 ),
+              ),
+            ),
+          ),
         ],
+      ),
+      bottomNavigationBar: ScaleAnimation(
+        child: Container(
+          height: 80,
+          child: Row(
+            children: [
+              Expanded(
+                child: Container(
+                    height: 80,
+                    decoration: BoxDecoration(
+                      color: Theme.of(context).cardColor,
+                    ),
+                    padding: EdgeInsets.symmetric(horizontal: 20),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.only(left: 8.0),
+                          child: SubtitleText(
+                            'Qty',
+                            fontSize: 12,
+                          ),
+                        ),
+                        Row(
+                          children: [
+                            IconButton(
+                              onPressed: () {},
+                              iconSize: 15,
+                              icon: Icon(FontAwesomeIcons.minus),
+                            ),
+                            Container(
+                              height: 40,
+                              width: 0.8,
+                              color: Colors.grey,
+                            ),
+                            Padding(
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 10),
+                              child: TitleText(
+                                '2',
+                                fontSize: 28,
+                              ),
+                            ),
+                            Container(
+                              height: 40,
+                              width: 0.8,
+                              color: Colors.grey,
+                            ),
+                            IconButton(
+                              iconSize: 15,
+                              onPressed: () {},
+                              icon: Icon(FontAwesomeIcons.plus),
+                            )
+                          ],
+                        )
+                      ],
+                    )),
+              ),
+              Expanded(
+                child: Container(
+                  height: 80,
+                  color: Theme.of(context).primaryColor,
+                  child: AwesomeButton(
+                    child: TitleText(
+                      'BOOK',
+                      color: Colors.white,
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
       ),
     );
   }

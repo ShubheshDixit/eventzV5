@@ -32,7 +32,7 @@ class TitleText extends StatelessWidget {
       overflow: overflow ?? TextOverflow.clip,
       style: style ??
           TextStyle(
-            fontSize: fontSize ?? 22,
+            fontSize: fontSize ?? 20,
             fontWeight: fontWeight ?? FontWeight.bold,
             fontFamily: fontFamily,
             color: color,
@@ -75,7 +75,7 @@ class SubtitleText extends StatelessWidget {
       overflow: overflow ?? TextOverflow.clip,
       style: style ??
           TextStyle(
-              fontSize: fontSize ?? 18,
+              fontSize: fontSize ?? 16,
               fontWeight: fontWeight ?? FontWeight.normal,
               fontFamily: fontFamily,
               color: color,
@@ -101,3 +101,87 @@ class SubtitleText extends StatelessWidget {
 //         ),
 //   );
 // }
+
+class InfoTile extends StatefulWidget {
+  final BoxDecoration decoration;
+  final Widget title, subtitle, image;
+  final int flexText, flexImage;
+  final Widget overflowWidget;
+  final double containerHeight;
+
+  const InfoTile(
+      {Key key,
+      this.decoration,
+      this.title,
+      this.subtitle,
+      this.image,
+      this.flexText = 2,
+      this.flexImage = 3,
+      this.overflowWidget,
+      this.containerHeight = 150.0})
+      : super(key: key);
+  @override
+  _InfoTileState createState() => _InfoTileState();
+}
+
+class _InfoTileState extends State<InfoTile> {
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      height: widget.containerHeight + 50.0,
+      child: Stack(
+        children: [
+          Container(
+            height: widget.containerHeight,
+            padding: EdgeInsets.symmetric(horizontal: 10.0),
+            decoration: BoxDecoration(color: Theme.of(context).primaryColor),
+            child: Row(
+              children: [
+                Expanded(
+                  flex: widget.flexText,
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        widget.title,
+                        widget.subtitle,
+                      ],
+                    ),
+                  ),
+                ),
+                Expanded(
+                  flex: widget.flexImage,
+                  child: widget.image,
+                )
+              ],
+            ),
+          ),
+          Align(
+            alignment: Alignment.bottomCenter,
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 10.0),
+              child: widget.overflowWidget ?? SizedBox(),
+            ),
+          )
+        ],
+      ),
+    );
+  }
+}
+
+void showSnackBar(context, Widget title,
+    {String actionLabel, VoidCallback onActionPressed}) {
+  ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+      behavior: SnackBarBehavior.floating,
+      width: 300,
+      content: title,
+      action: SnackBarAction(
+        label: actionLabel ?? 'Done',
+        onPressed: onActionPressed ?? () {},
+      )));
+}
+
+bool isMobile(context) {
+  return MediaQuery.of(context).size.width < 1200 ? true : false;
+}

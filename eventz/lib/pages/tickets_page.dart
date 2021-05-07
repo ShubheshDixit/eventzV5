@@ -1,13 +1,19 @@
+import 'package:awesome_flutter_widgets/widgets/awesome_buttons.dart';
 import 'package:barcode_widget/barcode_widget.dart';
 import 'package:dotted_border/dotted_border.dart';
+import 'package:eventz/animations/scale_animation.dart';
 import 'package:eventz/global_values.dart';
-import 'package:eventz/pages/add_events.dart';
 import 'package:eventz/pages/global_widgets.dart';
+import 'package:eventz/pages/home_page.dart';
+import 'package:eventz/pages/vip_page.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'dart:math' as math;
 
 class TicketsPage extends StatefulWidget {
+  final VoidCallback onMenuPressed;
+
+  const TicketsPage({Key key, @required this.onMenuPressed}) : super(key: key);
   @override
   _TicketsPageState createState() => _TicketsPageState();
 }
@@ -25,11 +31,14 @@ class _TicketsPageState extends State<TicketsPage>
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        automaticallyImplyLeading: false,
-        backgroundColor: Theme.of(context).scaffoldBackgroundColor,
-        elevation: 4.0,
-        title: TitleText('My Tickets',
-            color: Theme.of(context).textTheme.bodyText1.color),
+        title: TitleText(
+          'My Tickets',
+        ),
+        actions: [
+          IconButton(
+              icon: Icon(FontAwesomeIcons.bars),
+              onPressed: widget.onMenuPressed)
+        ],
         bottom: TabBar(
           controller: _controller,
           indicatorSize: TabBarIndicatorSize.label,
@@ -63,24 +72,45 @@ class _TicketsPageState extends State<TicketsPage>
               ],
             ),
           ),
-          Container(
-            padding: EdgeInsets.all(20),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              // mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                CustomPopUp(
-                  title: 'No past tickets',
-                  height: 360,
-                  subtitle: 'Explore tickets page to find out amazing events.',
-                  image: Padding(
-                    padding: const EdgeInsets.all(18.0),
-                    child: Image.asset(GlobalValues.errorImage),
-                  ),
-                )
-              ],
+          ExpandableThemeContainer(
+            isAlwaysShown: true,
+            titlePadding: EdgeInsets.zero,
+            title: ListTile(
+              title: TitleText('No past tickets'),
+              subtitle: SubtitleText(
+                  'Explore tickets page to find out amazing events.'),
             ),
-          ),
+            body: Padding(
+              padding: const EdgeInsets.all(18.0),
+              child: Column(
+                children: [
+                  ScaleAnimation(
+                    child: Image.asset(
+                      GlobalValues.errorImage,
+                      height: 300,
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: AwesomeButton(
+                      onPressed: () {
+                        Navigator.pushReplacement(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => HomePage()));
+                      },
+                      buttonType: AwesomeButtonType.elevated,
+                      child: TitleText(
+                        'Explore events',
+                        color: Colors.white,
+                        fontSize: 16,
+                      ),
+                    ),
+                  )
+                ],
+              ),
+            ),
+          )
         ],
       ),
     );
@@ -269,15 +299,9 @@ class TicketView extends StatelessWidget {
         child: Center(
           child: Container(
             decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(8.0),
-                color: Theme.of(context).cardColor,
-                boxShadow: [
-                  BoxShadow(
-                    blurRadius: 8,
-                    color: Colors.black.withOpacity(0.1),
-                    offset: Offset(0, 3),
-                  )
-                ]),
+              borderRadius: BorderRadius.circular(8.0),
+              color: Theme.of(context).cardColor,
+            ),
             child: Column(
               mainAxisSize: MainAxisSize.min,
               crossAxisAlignment: CrossAxisAlignment.start,

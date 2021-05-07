@@ -2,7 +2,7 @@
 import 'dart:io';
 import 'dart:typed_data';
 
-import 'package:file_picker/file_picker.dart';
+// import 'package:file_picker/file_picker.dart';
 import 'package:flutter/foundation.dart';
 
 typedef CallbackForFilePicker = Function(List<MyFile> files);
@@ -36,11 +36,11 @@ class PlatformFilePicker {
       }
     } else {
       try {
-        var objFile = await FilePicker.platform.pickFiles(type: FileType.image);
-        File imgFile = File(objFile.files.first.path);
-        Uint8List data = await imgFile.absolute.readAsBytes();
-        MyFile file = MyFile(objFile.files.first.name, data);
-        await pickerCallback([file]);
+        // var objFile = await FilePicker.platform.pickFiles(type: FileType.image);
+        // File imgFile = File(objFile.files.first.path);
+        // Uint8List data = await imgFile.absolute.readAsBytes();
+        // MyFile file = MyFile(objFile.files.first.name, data);
+        // await pickerCallback([file]);
       } catch (err) {
         await pickerCallback(null);
       }

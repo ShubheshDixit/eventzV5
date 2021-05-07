@@ -1,11 +1,13 @@
+import 'dart:async';
 import 'package:eventz/animations/fade_animations.dart';
 import 'package:eventz/animations/scale_animation.dart';
+import 'package:eventz/backend/database.dart';
 import 'package:eventz/global_values.dart';
 import 'package:eventz/pages/auth_page.dart';
 import 'package:eventz/pages/global_widgets.dart';
+import 'package:eventz/pages/home_page.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:intro_views_flutter/Models/page_view_model.dart';
 
 class IntroPage extends StatefulWidget {
   @override
@@ -16,6 +18,7 @@ class _IntroPageState extends State<IntroPage>
     with SingleTickerProviderStateMixin {
   TabController _controller;
   int currentIndex = 0;
+  bool isChecked = false;
 
   @override
   void initState() {
@@ -24,6 +27,20 @@ class _IntroPageState extends State<IntroPage>
     _controller.addListener(() {
       setState(() {
         currentIndex = _controller.index;
+      });
+    });
+    AuthService().auth.authStateChanges().listen((User user) {
+      if (user != null) {
+        Timer(
+            Duration(milliseconds: 500),
+            () => Navigator.pushReplacement(
+                context, MaterialPageRoute(builder: (_) => HomePage())));
+      }
+      Timer(Duration(milliseconds: 800), () {
+        if (mounted)
+          setState(() {
+            isChecked = true;
+          });
       });
     });
   }
@@ -35,8 +52,7 @@ class _IntroPageState extends State<IntroPage>
     });
   }
 
-  @override
-  Widget build(BuildContext context) {
+  Widget buildIntro() {
     return Scaffold(
       body: TabBarView(
         physics: NeverScrollableScrollPhysics(),
@@ -69,8 +85,8 @@ class _IntroPageState extends State<IntroPage>
             currentIndex: currentIndex,
             onPageChanged: (index) => changePage(index),
             onSkipPressed: () => changePage(2),
-            onDonePressed: () async {
-              await Navigator.pushReplacement(
+            onDonePressed: () {
+              Navigator.pushReplacement(
                 context,
                 MaterialPageRoute(builder: (context) => AuthPage()),
               );
@@ -79,6 +95,37 @@ class _IntroPageState extends State<IntroPage>
         ],
       ),
     );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return isChecked ? buildIntro() : SplashPage();
+  }
+}
+
+class SplashPage extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+        body: Center(
+      child: Container(
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Image.asset(
+              GlobalValues.logoImage,
+              height: 100,
+            ),
+            TitleText(
+              'Musica',
+              color: GlobalValues.primaryColor,
+            ),
+            SubtitleText('is Our Business')
+          ],
+        ),
+      ),
+    ));
   }
 }
 
