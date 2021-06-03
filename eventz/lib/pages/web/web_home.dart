@@ -1,5 +1,3 @@
-import 'dart:async';
-
 import 'package:awesome_flutter_widgets/widgets/awesome_buttons.dart';
 import 'package:eventz/animations/fade_animations.dart';
 import 'package:eventz/animations/scale_animation.dart';

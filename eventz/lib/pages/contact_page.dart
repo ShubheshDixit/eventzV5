@@ -312,6 +312,12 @@ class _ContactPageState extends State<ContactPage> {
                       AwesomeButton(
                         onPressed: () {},
                         buttonStyle: ButtonStyle(
+                          backgroundColor:
+                              MaterialStateColor.resolveWith((states) {
+                            if (states.contains(MaterialState.disabled))
+                              return Colors.grey;
+                            return Theme.of(context).textTheme.bodyText1.color;
+                          }),
                           shape: MaterialStateProperty.resolveWith((_) =>
                               RoundedRectangleBorder(
                                   borderRadius: BorderRadius.only(
@@ -323,7 +329,8 @@ class _ContactPageState extends State<ContactPage> {
                         height: 60,
                         child: SubtitleText(
                           'Subscribe to newsletter',
-                          color: Colors.white,
+                          color: Theme.of(context).scaffoldBackgroundColor,
+                          fontWeight: FontWeight.bold,
                         ),
                       )
                     ],

@@ -13,7 +13,6 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:video_player/video_player.dart';
 
 class AuthPage extends StatefulWidget {
   @override
@@ -358,6 +357,34 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
       backgroundColor: widget.isFull ? null : Colors.transparent,
       body: Stack(
         children: [
+          SizedBox(
+            height: MediaQuery.of(context).size.height * 0.6,
+            child: Center(
+              child: Hero(
+                tag: 'LoginImage',
+                child: Material(
+                  color: Colors.transparent,
+                  child: Container(
+                    child: Image.asset(
+                      GlobalValues.clubImage,
+                      alignment: Alignment.center,
+                      fit: BoxFit.cover,
+                      height: MediaQuery.of(context).size.height,
+                    ),
+                  ),
+                ),
+              ),
+            ),
+          ),
+          SizedBox(
+            height: MediaQuery.of(context).size.height * 0.6,
+            child: Center(
+              child: Material(
+                color: Colors.black.withOpacity(0.4),
+                child: Container(),
+              ),
+            ),
+          ),
           Flex(
             direction:
                 MediaQuery.of(context).orientation == Orientation.portrait
@@ -367,192 +394,258 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              // widget.isFull
-              //     ? Expanded(
-              //         flex: 1,
-              //         child: Hero(
-              //           tag: 'LoginVideo',
-              //           child: Material(
-              //               color: Colors.transparent,
-              //               child: _controller.value.isInitialized
-              //                   ? VideoPlayer(_controller)
-              //                   : Container()),
-              //         ),
-              //       )
-              //     : SizedBox(),
-              Expanded(
-                flex: 2,
-                child: Hero(
-                  tag: 'LoginImage',
-                  child: Material(
-                    color: Colors.transparent,
-                    child: Container(
-                      alignment: Alignment.center,
-                      decoration: widget.isFull
-                          ? BoxDecoration(
-                              // gradient: LinearGradient(
-                              //   begin: Alignment.topLeft,
-                              //   end: Alignment.bottomRight,
-                              //   colors: [
-                              //     Color(0xff300a89),
-                              //     Colors.purple,
-                              //   ],
-                              // ),
-                              image: DecorationImage(
-                                  image: AssetImage(GlobalValues.clubImage),
-                                  fit: BoxFit.cover),
-                            )
-                          : null,
-                      child: Container(
-                        height: MediaQuery.of(context).size.height,
-                        color: widget.isFull
-                            ? Colors.black.withOpacity(0.8)
-                            : Colors.transparent,
-                        alignment: Alignment.center,
-                        padding: const EdgeInsets.all(20.0),
-                        child: AnimatedSize(
-                          vsync: this,
-                          duration: Duration(milliseconds: 300),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              mode == LogMode.signup
-                                  ? Padding(
-                                      padding:
-                                          const EdgeInsets.only(left: 20.0),
-                                      child: SubtitleText(
-                                        'Username',
-                                        fontSize: 20,
-                                        fontWeight: FontWeight.bold,
-                                      ),
-                                    )
-                                  : SizedBox.shrink(),
-                              mode == LogMode.signup
-                                  ? AwesomeTextField(
-                                      backgroundColor:
-                                          Colors.grey.withOpacity(0.2),
-                                      inputStyle: TextStyle(fontSize: 20),
-                                      maxLines: 1,
-                                      borderType: InputBorderType.none,
-                                      hintText: 'Enter your name',
-                                      onChanged: (String s) {
-                                        setState(() {
-                                          username = s;
-                                        });
-                                      },
-                                      hintStyle: TextStyle(color: Colors.grey),
-                                    )
-                                  : SizedBox.shrink(),
-                              Padding(
-                                padding:
-                                    const EdgeInsets.only(left: 20.0, top: 5.0),
-                                child: SubtitleText(
-                                  'Email',
-                                  fontSize: 20,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                              AwesomeTextField(
-                                hintText: 'Enter your email',
-                                maxLines: 1,
-                                backgroundColor: Colors.grey.withOpacity(0.2),
-                                borderType: InputBorderType.none,
-                                onChanged: (String s) {
-                                  setState(() {
-                                    email = s;
-                                  });
-                                },
-                                hintStyle: TextStyle(color: Colors.grey),
-                                inputStyle: TextStyle(fontSize: 20),
-                              ),
-                              Padding(
-                                padding:
-                                    const EdgeInsets.only(left: 20.0, top: 5.0),
-                                child: SubtitleText(
-                                  'Password',
-                                  fontSize: 20,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                              AwesomeTextField(
-                                hintText: 'Enter your password',
-                                backgroundColor: Colors.grey.withOpacity(0.2),
-                                maxLines: 1,
-                                isPassword: true,
-                                onChanged: (String s) {
-                                  setState(() {
-                                    password = s;
-                                  });
-                                },
-                                borderType: InputBorderType.none,
-                                hintStyle: TextStyle(color: Colors.grey),
-                                inputStyle: TextStyle(fontSize: 20),
-                              ),
-                              SizedBox(
-                                height: 10,
-                              ),
-                              Padding(
-                                padding: const EdgeInsets.symmetric(
-                                    horizontal: 10, vertical: 8.0),
-                                child: ThemeLoadButton(
-                                  buttonStyle: ButtonStyle(backgroundColor:
-                                      MaterialStateColor.resolveWith((states) {
-                                    if (states.contains(MaterialState.disabled))
-                                      return Colors.grey[500];
-                                    else
-                                      return Colors.white;
-                                  })),
-                                  isLoading: isLoading,
-                                  onPressed: validate()
-                                      ? () async {
-                                          if (mode == LogMode.login) {
-                                            await _startSignIn(true);
-                                          } else {
-                                            await _startSignIn(false);
-                                          }
-                                        }
-                                      : null,
-                                  child: SubtitleText(
-                                    mode == LogMode.signup
-                                        ? 'Create Account'
-                                        : 'Log In',
-                                    color: Colors.black,
-                                    fontWeight: FontWeight.bold,
+              Container(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    CircleAvatar(
+                      radius: 50,
+                      // backgroundColor: Colors.pink,
+                      child: Image.asset(
+                        GlobalValues.logoImage,
+                        height: 150,
+                      ),
+                    ),
+                    // TitleText(
+                    //   'Musica',
+                    //   color: Theme.of(context).primaryColor,
+                    //   fontSize: 33,
+                    // ),
+                    // SubtitleText('is Our Business')
+                  ],
+                ),
+              ),
+              Flexible(
+                child: Container(
+                  margin:
+                      EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
+                  padding: EdgeInsets.symmetric(horizontal: 10),
+                  decoration: BoxDecoration(
+                      color: Theme.of(context).cardColor,
+                      boxShadow: [
+                        BoxShadow(
+                            color: Colors.black.withOpacity(0.2),
+                            blurRadius: 5.0)
+                      ]),
+                  child: AnimatedSize(
+                    vsync: this,
+                    duration: Duration(milliseconds: 300),
+                    child: SingleChildScrollView(
+                      child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          mode == LogMode.signup
+                              ? SizedBox(
+                                  height: 20,
+                                )
+                              : Padding(
+                                  padding: const EdgeInsets.only(top: 8.0),
+                                  child: TitleText(
+                                    'Hello',
+                                    fontSize: 35,
                                   ),
                                 ),
-                              ),
-                              Padding(
-                                padding:
-                                    const EdgeInsets.symmetric(horizontal: 18),
-                                child: AwesomeButton(
-                                  isExpanded: true,
-                                  height: 50,
-                                  buttonType: AwesomeButtonType.text,
-                                  child: SubtitleText(
-                                    mode == LogMode.signup
-                                        ? 'Already have an account? Log in'
-                                        : 'Don\'t have an account? Sign Up',
-                                    fontSize: 16,
-                                    color: Colors.white,
-                                  ),
-                                  onPressed: () {
+                          Padding(
+                            padding: const EdgeInsets.only(top: 12.0),
+                            child: TitleText(mode == LogMode.signup
+                                ? 'Create account'
+                                : 'Sign in to your account'),
+                          ),
+                          mode == LogMode.signup
+                              ? AwesomeTextField(
+                                  inputStyle: TextStyle(fontSize: 20),
+                                  maxLines: 1,
+                                  prefixIconConstraints:
+                                      BoxConstraints(maxWidth: 45),
+                                  prefixIcon: Icon(FontAwesomeIcons.solidUser),
+                                  borderType: InputBorderType.underlined,
+                                  hintText: 'Enter your name',
+                                  labelText: 'User Name',
+                                  onChanged: (String s) {
                                     setState(() {
-                                      if (mode == LogMode.signup)
-                                        setState(() {
-                                          mode = LogMode.login;
-                                        });
-                                      else
-                                        setState(() {
-                                          mode = LogMode.signup;
-                                        });
+                                      username = s;
                                     });
                                   },
-                                ),
-                              )
-                            ],
+                                  hintStyle: TextStyle(color: Colors.grey),
+                                )
+                              : SizedBox.shrink(),
+                          // mode == LogMode.signup ? Divider() : SizedBox.shrink(),
+                          // Padding(
+                          //   padding: const EdgeInsets.only(left: 20.0, top: 5.0),
+                          //   child: SubtitleText(
+                          //     'Email',
+                          //     fontSize: 20,
+                          //     fontWeight: FontWeight.bold,
+                          //   ),
+                          // ),
+                          AwesomeTextField(
+                            hintText: 'Enter your email',
+                            labelText: 'Email ID',
+                            prefixIconConstraints: BoxConstraints(maxWidth: 50),
+                            prefixIcon: Icon(FontAwesomeIcons.solidEnvelope),
+                            maxLines: 1,
+                            borderType: InputBorderType.underlined,
+                            onChanged: (String s) {
+                              setState(() {
+                                email = s;
+                              });
+                            },
+                            hintStyle: TextStyle(color: Colors.grey),
+                            inputStyle: TextStyle(fontSize: 20),
                           ),
-                        ),
+
+                          // Divider(),
+                          // Padding(
+                          //   padding: const EdgeInsets.only(left: 20.0, top: 5.0),
+                          //   child: SubtitleText(
+                          //     'Password',
+                          //     fontSize: 20,
+                          //     fontWeight: FontWeight.bold,
+                          //   ),
+                          // ),
+                          AwesomeTextField(
+                            labelText: 'Password',
+                            prefixIconConstraints: BoxConstraints(maxWidth: 50),
+                            prefixIcon: Icon(FontAwesomeIcons.lock),
+                            hintText: 'Enter password',
+                            maxLines: 1,
+                            isPassword: true,
+                            onChanged: (String s) {
+                              setState(() {
+                                password = s;
+                              });
+                            },
+                            borderType: InputBorderType.underlined,
+                            hintStyle: TextStyle(color: Colors.grey),
+                            inputStyle: TextStyle(fontSize: 20),
+                          ),
+                          // Divider(),
+                          Padding(
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 20, vertical: 8.0),
+                            child: ThemeLoadButton(
+                              buttonStyle: ButtonStyle(
+                                shape: MaterialStateProperty.resolveWith(
+                                  (_) => RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(500.0),
+                                  ),
+                                ),
+                                backgroundColor:
+                                    MaterialStateColor.resolveWith((states) {
+                                  if (states.contains(MaterialState.disabled))
+                                    return Colors.grey[500];
+                                  else
+                                    return Theme.of(context).primaryColor;
+                                }),
+                              ),
+                              isLoading: isLoading,
+                              onPressed: validate()
+                                  ? () async {
+                                      if (mode == LogMode.login) {
+                                        await _startSignIn(true);
+                                      } else {
+                                        await _startSignIn(false);
+                                      }
+                                    }
+                                  : null,
+                              child: SubtitleText(
+                                mode == LogMode.signup
+                                    ? 'Register Now'
+                                    : 'Login',
+                                color: Colors.white,
+                                fontWeight: FontWeight.bold,
+                                fontSize: 18,
+                              ),
+                            ),
+                          ),
+
+                          // SubtitleText(
+                          //   'Or ${mode == LogMode.signup ? 'Register' : 'Login'} with social Media',
+                          //   fontWeight: FontWeight.bold,
+                          // ),
+                          // Padding(
+                          //   padding: const EdgeInsets.all(8.0),
+                          //   child: Row(
+                          //     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          //     children: [
+                          //       IconButton(
+                          //         iconSize: 35,
+                          //         onPressed: () {},
+                          //         icon: Icon(
+                          //           FontAwesomeIcons.googlePlus,
+                          //           color: Colors.red,
+                          //         ),
+                          //       ),
+                          //       IconButton(
+                          //         iconSize: 35,
+                          //         onPressed: () {},
+                          //         icon: Icon(
+                          //           FontAwesomeIcons.facebook,
+                          //           color: Colors.blue.withGreen(0),
+                          //         ),
+                          //       ),
+                          //       IconButton(
+                          //         iconSize: 33,
+                          //         onPressed: () {},
+                          //         icon: Icon(
+                          //           FontAwesomeIcons.twitter,
+                          //           color: Colors.blueAccent,
+                          //         ),
+                          //       )
+                          //     ],
+                          //   ),
+                          // )
+                          Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 10),
+                            child: AwesomeButton(
+                              isExpanded: true,
+                              height: 50,
+                              buttonType: AwesomeButtonType.text,
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  SubtitleText(
+                                    mode == LogMode.signup
+                                        ? 'Already have an account? '
+                                        : 'Don\'t have an account? ',
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.bold,
+                                    color: Theme.of(context)
+                                        .textTheme
+                                        .bodyText1
+                                        .color,
+                                  ),
+                                  SubtitleText(
+                                    mode == LogMode.signup
+                                        ? 'Log In'
+                                        : 'Register',
+                                    fontSize: 16,
+                                    color: Theme.of(context).primaryColor,
+                                    decoration: TextDecoration.underline,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ],
+                              ),
+                              onPressed: () {
+                                setState(() {
+                                  if (mode == LogMode.signup)
+                                    setState(() {
+                                      mode = LogMode.login;
+                                    });
+                                  else
+                                    setState(() {
+                                      mode = LogMode.signup;
+                                    });
+                                });
+                              },
+                            ),
+                          ),
+                          SizedBox(
+                            height: 20,
+                          ),
+                        ],
                       ),
                     ),
                   ),
@@ -597,9 +690,10 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
     }
     User user = AuthService().auth.currentUser;
     await FirebaseUtil().addUserToFirebase(user);
-    setState(() {
-      isLoading = false;
-    });
+    if (mounted)
+      setState(() {
+        isLoading = false;
+      });
     Navigator.of(context).popUntil((route) => route.isFirst);
     Navigator.of(context)
         .pushReplacement(MaterialPageRoute(builder: (context) => HomePage()));
@@ -701,6 +795,7 @@ class _SlidingTabsState extends State<SlidingTabs>
   void dispose() {
     try {
       timerG.cancel();
+      _controller.dispose();
     } catch (err) {}
     super.dispose();
   }

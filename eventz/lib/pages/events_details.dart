@@ -2,7 +2,6 @@ import 'package:awesome_flutter_widgets/widgets/awesome_buttons.dart';
 import 'package:eventz/animations/fade_animations.dart';
 import 'package:eventz/animations/scale_animation.dart';
 import 'package:eventz/global_values.dart';
-import 'package:eventz/pages/events_home_page.dart';
 import 'package:eventz/pages/global_widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -25,7 +24,6 @@ class FullEventsPage extends StatefulWidget {
 }
 
 class _FullEventsPageState extends State<FullEventsPage> {
-  ScrollController _scrollController = ScrollController();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -118,110 +116,110 @@ class _FullEventsPageState extends State<FullEventsPage> {
               thickness: 3.0,
             ),
           ),
-          SliverToBoxAdapter(
-            child: Scrollbar(
-              controller: _scrollController,
-              radius: Radius.circular(8.0),
-              child: Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: SingleChildScrollView(
-                  controller: _scrollController,
-                  scrollDirection: Axis.horizontal,
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      FadeAnimation(
-                        0.3,
-                        EventTile(
-                          imageURL: 'images/posters/nano.jpeg',
-                          title: 'DJ Nano',
-                          subtitle: 'Village Roadhouse',
-                          creator: 'V5',
-                          distance: '0.8',
-                          date: DateTime(2021, 2, 27),
-                          description:
-                              'Tonight is going to be an awesome night. Get ready to rock your world.',
-                          ticketPrice: '18.4',
-                        ),
-                      ),
-                      FadeAnimation(
-                        0.4,
-                        EventTile(
-                          imageURL: 'images/posters/baila.jpeg',
-                          title: 'DJ JStar',
-                          subtitle: 'Baila Fridays ',
-                          creator: 'V5',
-                          distance: '1.2',
-                          date: DateTime(2021, 9, 18),
-                          description:
-                              'Tonight is going to be an awesome night. Get ready to rock your world.',
-                          ticketPrice: '22.6',
-                        ),
-                      ),
-                      FadeAnimation(
-                        0.4,
-                        EventTile(
-                          imageURL: 'images/posters/luxur.jpeg',
-                          title: 'DJ Ozone',
-                          subtitle: 'Luxur Saturdays',
-                          creator: 'V5',
-                          distance: '2.4',
-                          date: DateTime(2021, 9, 22),
-                          description:
-                              'Tonight is going to be an awesome night. Get ready to rock your world.',
-                          ticketPrice: '18.2',
-                        ),
-                      ),
-                      FadeAnimation(
-                        0.5,
-                        EventTile(
-                          imageURL: 'images/posters/brunch.jpeg',
-                          title: 'Brunch : This saturday',
-                          subtitle: 'V5 DJs',
-                          creator: 'V5',
-                          distance: '0.4',
-                          date: DateTime(2021, 7, 13),
-                          description:
-                              'Tonight is going to be an awesome night. Get ready to rock your world.',
-                          ticketPrice: '16.1',
-                        ),
-                      ),
-                      FadeAnimation(
-                        0.6,
-                        EventTile(
-                          imageURL: 'images/posters/joy.jpeg',
-                          title: 'Parley',
-                          subtitle: 'JOY District',
-                          creator: 'V5',
-                          distance: '1.8',
-                          date: DateTime(2021, 2, 3),
-                          description:
-                              'Tonight is going to be an awesome night. Get ready to rock your world.',
-                          ticketPrice: '12.4',
-                        ),
-                      ),
-                      FadeAnimation(
-                        0.7,
-                        EventTile(
-                          imageURL: 'images/posters/verde.jpeg',
-                          title: 'Verde',
-                          subtitle: 'JOY District',
-                          creator: 'V5',
-                          distance: '1.8',
-                          date: DateTime(2021, 3, 22),
-                          description:
-                              'Tonight is going to be an awesome night. Get ready to rock your world.',
-                          ticketPrice: '32.5',
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-            ),
-          )
+          // SliverToBoxAdapter(
+          //   child: Scrollbar(
+          //     controller: _scrollController,
+          //     radius: Radius.circular(8.0),
+          //     child: Padding(
+          //       padding: const EdgeInsets.all(8.0),
+          //       child: SingleChildScrollView(
+          //         controller: _scrollController,
+          //         scrollDirection: Axis.horizontal,
+          //         child: Row(
+          //           mainAxisAlignment: MainAxisAlignment.center,
+          //           crossAxisAlignment: CrossAxisAlignment.start,
+          //           mainAxisSize: MainAxisSize.min,
+          //           children: [
+          //             FadeAnimation(
+          //               0.3,
+          //               EventTile(
+          //                 imageURL: 'images/posters/nano.jpeg',
+          //                 title: 'DJ Nano',
+          //                 subtitle: 'Village Roadhouse',
+          //                 creator: 'V5',
+          //                 distance: '0.8',
+          //                 date: DateTime(2021, 2, 27),
+          //                 description:
+          //                     'Tonight is going to be an awesome night. Get ready to rock your world.',
+          //                 ticketPrice: '18.4',
+          //               ),
+          //             ),
+          //             FadeAnimation(
+          //               0.4,
+          //               EventTile(
+          //                 imageURL: 'images/posters/baila.jpeg',
+          //                 title: 'DJ JStar',
+          //                 subtitle: 'Baila Fridays ',
+          //                 creator: 'V5',
+          //                 distance: '1.2',
+          //                 date: DateTime(2021, 9, 18),
+          //                 description:
+          //                     'Tonight is going to be an awesome night. Get ready to rock your world.',
+          //                 ticketPrice: '22.6',
+          //               ),
+          //             ),
+          //             FadeAnimation(
+          //               0.4,
+          //               EventTile(
+          //                 imageURL: 'images/posters/luxur.jpeg',
+          //                 title: 'DJ Ozone',
+          //                 subtitle: 'Luxur Saturdays',
+          //                 creator: 'V5',
+          //                 distance: '2.4',
+          //                 date: DateTime(2021, 9, 22),
+          //                 description:
+          //                     'Tonight is going to be an awesome night. Get ready to rock your world.',
+          //                 ticketPrice: '18.2',
+          //               ),
+          //             ),
+          //             FadeAnimation(
+          //               0.5,
+          //               EventTile(
+          //                 imageURL: 'images/posters/brunch.jpeg',
+          //                 title: 'Brunch : This saturday',
+          //                 subtitle: 'V5 DJs',
+          //                 creator: 'V5',
+          //                 distance: '0.4',
+          //                 date: DateTime(2021, 7, 13),
+          //                 description:
+          //                     'Tonight is going to be an awesome night. Get ready to rock your world.',
+          //                 ticketPrice: '16.1',
+          //               ),
+          //             ),
+          //             FadeAnimation(
+          //               0.6,
+          //               EventTile(
+          //                 imageURL: 'images/posters/joy.jpeg',
+          //                 title: 'Parley',
+          //                 subtitle: 'JOY District',
+          //                 creator: 'V5',
+          //                 distance: '1.8',
+          //                 date: DateTime(2021, 2, 3),
+          //                 description:
+          //                     'Tonight is going to be an awesome night. Get ready to rock your world.',
+          //                 ticketPrice: '12.4',
+          //               ),
+          //             ),
+          //             FadeAnimation(
+          //               0.7,
+          //               EventTile(
+          //                 imageURL: 'images/posters/verde.jpeg',
+          //                 title: 'Verde',
+          //                 subtitle: 'JOY District',
+          //                 creator: 'V5',
+          //                 distance: '1.8',
+          //                 date: DateTime(2021, 3, 22),
+          //                 description:
+          //                     'Tonight is going to be an awesome night. Get ready to rock your world.',
+          //                 ticketPrice: '32.5',
+          //               ),
+          //             ),
+          //           ],
+          //         ),
+          //       ),
+          //     ),
+          //   ),
+          // )
         ],
       ),
     );
@@ -257,7 +255,7 @@ class EventDetails extends StatefulWidget {
 
 class _EventDetailsState extends State<EventDetails> {
   MapController controller;
-  bool isSaved = true;
+  bool isSaved = false;
 
   void _gotoDefault() {
     controller.center = LatLng(35.68, 51.41);
@@ -402,7 +400,18 @@ class _EventDetailsState extends State<EventDetails> {
                         thickness: 1.0,
                       ),
                       ListTile(
-                        title: TitleText('Map'),
+                        title: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            TitleText('Map'),
+                            IconButton(
+                                onPressed: () {
+                                  // MapsLauncher.launchCoordinates(
+                                  //     37.4220041, -122.0862462);
+                                },
+                                icon: Icon(FontAwesomeIcons.locationArrow))
+                          ],
+                        ),
                         subtitle: Padding(
                           padding: const EdgeInsets.only(top: 8.0),
                           child: SizedBox(
@@ -435,6 +444,32 @@ class _EventDetailsState extends State<EventDetails> {
                         indent: 15,
                         thickness: 1.0,
                       ),
+                      ListTile(
+                        title: TitleText('More Events'),
+                      ),
+                      // SizedBox(
+                      //   height: 400,
+                      //   child: ListView.builder(
+                      //       scrollDirection: Axis.horizontal,
+                      //       itemCount: eventsList.length,
+                      //       itemBuilder: (context, index) {
+                      //         return FadeAnimation(
+                      //           0.2,
+                      //           EventTile.verticle(
+                      //               isFull: false,
+                      //               imageURL: eventsList[index].posterURL,
+                      //               title: eventsList[index].title,
+                      //               creator: eventsList[index].creatorName,
+                      //               date: eventsList[index].date.toDate(),
+                      //               distance: '0.8',
+                      //               ticketPrice: eventsList[index]
+                      //                   .ticketPrice
+                      //                   .toString(),
+                      //               description: eventsList[index].description,
+                      //               subtitle: eventsList[index].subtitle),
+                      //         );
+                      //       }),
+                      // )
                     ],
                   ),
                 ),

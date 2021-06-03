@@ -8,15 +8,19 @@ import 'package:eventz/animations/scale_animation.dart';
 import 'package:eventz/backend/database.dart';
 import 'package:eventz/backend/mock_data.dart';
 import 'package:eventz/global_values.dart';
+import 'package:eventz/pages/all_events_page.dart';
 import 'package:eventz/pages/events_details.dart';
 import 'package:eventz/pages/global_widgets.dart';
 import 'package:eventz/pages/music_page.dart';
+import 'package:eventz/pages/my_web_view.dart';
 import 'package:eventz/pages/search_page.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_swiper/flutter_swiper.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:intl/intl.dart';
+import 'package:flutter_page_indicator/flutter_page_indicator.dart';
 
 class EventsHomePage extends StatefulWidget {
   final VoidCallback onMenuPressed;
@@ -64,7 +68,7 @@ class _EventsHomePageState extends State<EventsHomePage>
       reverseDuration: Duration(milliseconds: 300),
     );
     _controller = TabController(vsync: this, length: 2);
-    _tabController = TabController(length: 3, vsync: this);
+    _tabController = TabController(vsync: this, length: 3);
 
     Timer(Duration(seconds: 3), () {
       Timer.periodic(Duration(seconds: 5), (timer) {
@@ -91,203 +95,419 @@ class _EventsHomePageState extends State<EventsHomePage>
     final String contentBase64 = base64Encode(const Utf8Encoder().convert(
         '<!DOCTYPE html><html><body><iframe src="https://open.spotify.com/embed/playlist/18J3XQtV69OEWkrpBKj4gL" width="300" height="380" frameborder="0" allowtransparency="true" allow="encrypted-media"></iframe></body></html>'));
     return Scaffold(
-      appBar: v5AppBar(context, onPressed: widget.onMenuPressed),
-      body: Container(
-        width: MediaQuery.of(context).size.width,
-        height: MediaQuery.of(context).size.height,
-        decoration: BoxDecoration(
-          color: Theme.of(context).primaryColor,
-        ),
-        child: Stack(
-          children: [
-            Positioned(
-              bottom: 0,
-              right: 0,
-              child: Container(
-                decoration: BoxDecoration(
-                  // gradient: LinearGradient(
-                  //   colors: [
-                  //     Theme.of(context).primaryColor,
-                  //     Theme.of(context).accentColor,
-                  //   ],
-                  //   begin: Alignment.topLeft,
-                  //   end: Alignment.bottomRight,
-                  // ),
-                  color: Theme.of(context).scaffoldBackgroundColor,
-                ),
-                height: 250,
-                width: 400,
+      body: Stack(
+        children: [
+          Positioned(
+            bottom: 0,
+            left: 0,
+            child: Container(
+              decoration: BoxDecoration(
+                color: Theme.of(context).cardColor,
               ),
+              height: MediaQuery.of(context).size.height,
+              width: 70,
             ),
-            SingleChildScrollView(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  SizedBox(
-                    height: 10,
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 4.0),
-                    child: TitleText(
-                      'Hey ${user.displayName} 👋,',
-                      fontSize: 24,
-                      color: Colors.white,
-                    ),
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.only(right: 8.0),
-                        child: Icon(
-                          FontAwesomeIcons.mapMarkerAlt,
-                          color: Colors.white,
+          ),
+          CustomScrollView(
+            slivers: [
+              SliverAppBar(
+                backgroundColor: Theme.of(context).primaryColor,
+                elevation: 0.0,
+                title: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  mainAxisSize: MainAxisSize.max,
+                  children: [
+                    Row(
+                      children: [
+                        Image.asset(
+                          GlobalValues.logoImage,
+                          height: 50,
+                          width: 50,
                         ),
-                      ),
-                      TitleText(
-                        'Find the amazing events near you.',
-                        fontSize: 16,
-                        textAlign: TextAlign.center,
-                        color: Colors.white,
-                      ),
-                    ],
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(
-                      top: 20.0,
-                    ).add(EdgeInsets.symmetric(horizontal: 20.0)),
-                    child: Container(
-                      height: 70,
-                      width: 500,
-                      child: TabBarView(
-                        controller: _controller,
-                        children: [
-                          ScaleAnimation(
-                            duration: 1,
-                            child: MusicBar(), //SearchBar(),
-                          ),
-                          ScaleAnimation(
-                            duration: 1,
-                            child: Hero(
-                              tag: 'search_text_bar',
-                              child: Material(
-                                  color: Colors.transparent,
-                                  child: SearchBar()),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                  SizedBox(
-                    height: 10.0,
-                  ),
-                  // Container(
-                  //   height: 135,
-                  //   child: WebView(
-                  //     initialUrl:
-                  //         'https://widget.taggbox.com/widget/index.html?wall_id=54746',
-                  //     javascriptMode: JavascriptMode.unrestricted,
-                  //   ),
-                  // ),
-                  Container(
-                    child: Padding(
-                      padding: const EdgeInsets.all(8.0)
-                          .add(EdgeInsets.symmetric(horizontal: 20.0)),
-                      child: FadeAnimation(
-                        0.3,
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        SizedBox(
+                          width: 10.0,
+                        ),
+                        Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            ImageColumnTile(
-                              image: Image.asset(
-                                'images/posters/jazz.jpg',
-                                height: 50,
-                                width: 50,
-                                fit: BoxFit.cover,
-                              ),
-                              title: SubtitleText(
-                                'Happening Tonight',
-                                textAlign: TextAlign.center,
-                                fontWeight: FontWeight.bold,
-                              ),
+                            Row(
+                              children: [
+                                SubtitleText(
+                                  'Musica ',
+                                  color: Theme.of(context).cardColor,
+                                  fontWeight: FontWeight.w900,
+                                ),
+                                SubtitleText(
+                                  'is',
+                                  color: Theme.of(context)
+                                      .textTheme
+                                      .bodyText1
+                                      .color,
+                                ),
+                              ],
                             ),
-                            ImageColumnTile(
-                              image: Image.asset(
-                                'images/posters/rock.jpg',
-                                height: 50,
-                                width: 50,
-                                fit: BoxFit.cover,
-                              ),
-                              title: SubtitleText(
-                                'Weekend Highlights',
-                                textAlign: TextAlign.center,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                            ImageColumnTile(
-                              image: Image.asset(
-                                'images/posters/magic.jpg',
-                                height: 50,
-                                width: 50,
-                                fit: BoxFit.cover,
-                              ),
-                              title: SubtitleText(
-                                'Birthday Events',
-                                textAlign: TextAlign.center,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
+                            SubtitleText(
+                              'Our Business',
+                              color:
+                                  Theme.of(context).textTheme.bodyText1.color,
+                            )
                           ],
+                        )
+                      ],
+                    ),
+                    IconButton(
+                      onPressed: widget.onMenuPressed,
+                      icon: Icon(
+                        FontAwesomeIcons.bars,
+                        color: Theme.of(context).textTheme.bodyText1.color,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              SliverToBoxAdapter(
+                child: Container(
+                  width: MediaQuery.of(context).size.width,
+                  height: MediaQuery.of(context).size.height - 93,
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.all(10.0),
+                        child: RotatedBox(
+                          quarterTurns: 3,
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            children: [
+                              Flexible(
+                                child: TabBar(
+                                  isScrollable: true,
+                                  labelStyle: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 16,
+                                    color: Theme.of(context)
+                                        .textTheme
+                                        .bodyText1
+                                        .color,
+                                  ),
+                                  controller: _tabController,
+                                  enableFeedback: true,
+                                  indicator: CircleTabIndicator(
+                                      color: Theme.of(context).accentColor,
+                                      radius: 4),
+                                  tabs: [
+                                    Tab(
+                                      text: 'Weekly Events',
+                                    ),
+                                    Tab(
+                                      text: 'Popular',
+                                    ),
+                                    Tab(
+                                      text: 'Happening Tonight',
+                                    ),
+                                  ],
+                                ),
+                              ),
+                              Flexible(
+                                child: AwesomeButton(
+                                  onPressed: () async {
+                                    await Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) => Scaffold(
+                                                  appBar: AppBar(
+                                                    title: TitleText('Stories'),
+                                                  ),
+                                                  body: MyWebView(
+                                                    url:
+                                                        'https://widget.taggbox.com/widget/index.html?wall_id=54746',
+                                                    title: 'Stroies',
+                                                  ),
+                                                )));
+                                  },
+                                  icon: Icon(
+                                    FontAwesomeIcons.solidImage,
+                                    size: 15,
+                                  ),
+                                  label: TitleText(
+                                    'View Our Stories',
+                                    color: Theme.of(context).primaryColor,
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
                         ),
                       ),
-                    ),
-                  ),
-                  TabBar(
-                    isScrollable: true,
-                    labelStyle: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize: 16,
-                    ),
-                    controller: _tabController,
-                    enableFeedback: true,
-                    indicator: CircleTabIndicator(
-                        color: Theme.of(context).accentColor, radius: 4),
-                    tabs: [
-                      Tab(
-                        text: 'Weekly Events',
-                      ),
-                      Tab(
-                        text: 'Popular',
-                      ),
-                      Tab(
-                        text: 'Happening Tonight',
+                      Expanded(
+                        child: SingleChildScrollView(
+                            child: Padding(
+                          padding: const EdgeInsets.only(left: 10.0),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Container(
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    SizedBox(
+                                      height: 10,
+                                    ),
+                                    Padding(
+                                      padding: const EdgeInsets.symmetric(
+                                          vertical: 4.0, horizontal: 8.0),
+                                      child: TitleText(
+                                        'Hey ${user.displayName} 👋,',
+                                        fontSize: 24,
+                                        color: Theme.of(context)
+                                            .textTheme
+                                            .bodyText1
+                                            .color,
+                                      ),
+                                    ),
+                                    Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      children: [
+                                        Padding(
+                                          padding: const EdgeInsets.only(
+                                              right: 8.0, left: 5),
+                                          child: Icon(
+                                            FontAwesomeIcons.mapMarkerAlt,
+                                            color: Theme.of(context)
+                                                .textTheme
+                                                .bodyText1
+                                                .color,
+                                            size: 16,
+                                          ),
+                                        ),
+                                        Expanded(
+                                          child: TitleText(
+                                            'Find the amazing events near you.',
+                                            fontSize: 14,
+                                            textAlign: TextAlign.left,
+                                            color: Theme.of(context)
+                                                .textTheme
+                                                .bodyText1
+                                                .color,
+                                          ),
+                                        )
+                                      ],
+                                    ),
+                                    Padding(
+                                      padding: const EdgeInsets.only(
+                                        top: 20.0,
+                                      ).add(EdgeInsets.symmetric(
+                                          horizontal: 10.0)),
+                                      child: Container(
+                                        height: 70,
+                                        width: 500,
+                                        child: TabBarView(
+                                          controller: _controller,
+                                          children: [
+                                            ScaleAnimation(
+                                              duration: 1,
+                                              child: MusicBar(), //SearchBar(),
+                                            ),
+                                            ScaleAnimation(
+                                              duration: 1,
+                                              child: Hero(
+                                                tag: 'search_text_bar',
+                                                child: Material(
+                                                    color: Colors.transparent,
+                                                    child: SearchBar()),
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                              // Container(
+                              //   height: 135,
+                              //   child: WebView(
+                              //     initialUrl:
+                              //         'https://widget.taggbox.com/widget/index.html?wall_id=54746',
+                              //     javascriptMode: JavascriptMode.unrestricted,
+                              //   ),
+                              // ),
+                              Container(
+                                // color: Theme.of(context).scaffoldBackgroundColor,
+                                width: MediaQuery.of(context).size.width,
+                                padding: EdgeInsets.symmetric(
+                                    vertical: 20.0, horizontal: 10.0),
+                                child: FadeAnimation(
+                                  0.3,
+                                  SingleChildScrollView(
+                                    scrollDirection: Axis.horizontal,
+                                    child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Padding(
+                                          padding: const EdgeInsets.only(
+                                              right: 18.0),
+                                          child: ImageColumnTile(
+                                            image: Image.asset(
+                                              'images/posters/jazz.jpg',
+                                              height: 50,
+                                              width: 50,
+                                              fit: BoxFit.cover,
+                                            ),
+                                            title: SubtitleText(
+                                              'Happening Tonight',
+                                              textAlign: TextAlign.center,
+                                              fontWeight: FontWeight.bold,
+                                            ),
+                                          ),
+                                        ),
+                                        Padding(
+                                          padding: const EdgeInsets.only(
+                                              right: 18.0),
+                                          child: ImageColumnTile(
+                                            image: Image.asset(
+                                              'images/posters/rock.jpg',
+                                              height: 50,
+                                              width: 50,
+                                              fit: BoxFit.cover,
+                                            ),
+                                            title: SubtitleText(
+                                              'Weekend Highlights',
+                                              textAlign: TextAlign.center,
+                                              fontWeight: FontWeight.bold,
+                                            ),
+                                          ),
+                                        ),
+                                        ImageColumnTile(
+                                          image: Image.asset(
+                                            'images/posters/magic.jpg',
+                                            height: 50,
+                                            width: 50,
+                                            fit: BoxFit.cover,
+                                          ),
+                                          title: SubtitleText(
+                                            'Birthday Events',
+                                            textAlign: TextAlign.center,
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                              ),
+                              Center(
+                                child: Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      TitleText(
+                                        'Trending Events',
+                                      ),
+                                      Container(
+                                        margin: EdgeInsets.only(left: 5.0),
+                                        width: 50,
+                                        height: 2,
+                                        color: Theme.of(context).primaryColor,
+                                      )
+                                    ],
+                                  ),
+                                ),
+                              ),
+
+                              Padding(
+                                padding: const EdgeInsets.only(bottom: 10.0),
+                                child: FadeAnimation(
+                                  0.2,
+                                  Container(
+                                    height: 420,
+                                    child: TabBarView(
+                                        physics: NeverScrollableScrollPhysics(),
+                                        controller: _tabController,
+                                        children: [
+                                          EventsTabView(
+                                            title: 'Weekly Events',
+                                            subtitle:
+                                                'Find out the best events occuuring every week.',
+                                            imagePath:
+                                                'images/illustrations/back_1.jpeg',
+                                          ),
+                                          PopularEvents(
+                                            title: 'Popular Events',
+                                            subtitle:
+                                                'Find out the most popular events around your area.',
+                                            imagePath:
+                                                'images/illustrations/back_2.jpeg',
+                                          ),
+                                          EventsTabView(
+                                            title: 'Weekly Events',
+                                            subtitle:
+                                                'Find out the best events occuuring every week.',
+                                            imagePath:
+                                                'images/illustrations/back_1.jpeg',
+                                          ),
+                                        ]),
+                                  ),
+                                ),
+                              ),
+                              Center(
+                                child: AwesomeButton(
+                                  onPressed: () async {
+                                    await Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) =>
+                                                AllEventsPage()));
+                                  },
+                                  child: SubtitleText('View All Events',
+                                      fontWeight: FontWeight.bold),
+                                  buttonType: AwesomeButtonType.outline,
+                                ),
+                              ),
+                              SizedBox(height: 30),
+                              // EventsTabView(
+                              //   title: 'Weekly Events',
+                              //   subtitle: 'Find out the best events occuuring every week.',
+                              //   imagePath: 'images/illustrations/back_1.jpeg',
+                              // ),
+                              // SizedBox(
+                              //   height: 20,
+                              // ),
+                              // PopularEvents(
+                              //   title: 'Popular Events',
+                              //   subtitle:
+                              //       'Find out the most popular events around your area.',
+                              //   imagePath: 'images/illustrations/back_2.jpeg',
+                              // ),
+                              // SizedBox(
+                              //   height: 20,
+                              // ),
+                              // EventsTabView(
+                              //   title: 'Happening Tonight',
+                              //   subtitle:
+                              //       'Find out the events happening tonight around your area.',
+                              //   imagePath: 'images/illustrations/back_3.jpeg',
+                              // ),
+                              // SizedBox(
+                              //   height: 20,
+                              // ),
+                            ],
+                          ),
+                        )),
                       ),
                     ],
                   ),
-                  FadeAnimation(
-                    0.4,
-                    Container(
-                      height: 400,
-                      margin: EdgeInsets.only(top: 10.0),
-                      // color: Theme.of(context).scaffoldBackgroundColor,
-                      child: Padding(
-                        padding: EdgeInsets.only(bottom: 10),
-                        child:
-                            TabBarView(controller: _tabController, children: [
-                          EventsTabView(),
-                          PopularEvents(),
-                          EventsTabView(),
-                        ]),
-                      ),
-                    ),
-                  ),
-                ],
+                ),
               ),
-            ),
-          ],
-        ),
+            ],
+          ),
+        ],
       ),
     );
   }
@@ -394,7 +614,7 @@ class _MusicBarState extends State<MusicBar> {
         margin: EdgeInsets.symmetric(horizontal: 5.0, vertical: 5),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(8.0),
-          color: Theme.of(context).scaffoldBackgroundColor,
+          color: Theme.of(context).primaryColor,
           boxShadow: [
             BoxShadow(
               color: Colors.black.withOpacity(0.2),
@@ -412,16 +632,16 @@ class _MusicBarState extends State<MusicBar> {
           title: SubtitleText(
             'Listen to music on the go',
             fontWeight: FontWeight.bold,
-            fontSize: 16,
+            fontSize: 14,
           ),
           subtitle: SubtitleText(
             'Enjoy amazing DJ mixes.',
-            fontSize: 14,
+            fontSize: 12,
           ),
           trailing: Icon(
             FontAwesomeIcons.solidPlayCircle,
             size: 35,
-            color: Theme.of(context).primaryColor,
+            color: Theme.of(context).scaffoldBackgroundColor,
           ),
         ),
       ),
@@ -451,7 +671,7 @@ class _SearchBarState extends State<SearchBar> {
       alignment: Alignment.center,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(8.0),
-        color: Theme.of(context).scaffoldBackgroundColor,
+        color: Theme.of(context).primaryColor,
         boxShadow: [
           BoxShadow(
             color: Colors.black.withOpacity(0.2),
@@ -477,12 +697,13 @@ class _SearchBarState extends State<SearchBar> {
                 padding: const EdgeInsets.only(right: 8.0),
                 child: Icon(
                   FontAwesomeIcons.search,
-                  color: GlobalValues.primaryColor,
+                  color: Theme.of(context).scaffoldBackgroundColor,
                 ),
               ),
               prefixIconConstraints:
                   BoxConstraints(maxWidth: 100, minWidth: 30),
               hintText: 'Search events, DJs',
+              hintStyle: TextStyle(color: Colors.grey[300]),
               border: InputBorder.none),
         ),
       ),
@@ -533,8 +754,15 @@ class ImageColumnTile extends StatelessWidget {
 
 class EventsTabView extends StatefulWidget {
   final bool isExpanded;
+  final String title, subtitle, imagePath;
 
-  const EventsTabView({Key key, this.isExpanded = false}) : super(key: key);
+  const EventsTabView(
+      {Key key,
+      this.isExpanded = false,
+      this.title,
+      this.subtitle,
+      this.imagePath})
+      : super(key: key);
   @override
   _EventsTabViewState createState() => _EventsTabViewState();
 }
@@ -542,127 +770,72 @@ class EventsTabView extends StatefulWidget {
 class _EventsTabViewState extends State<EventsTabView> {
   @override
   Widget build(BuildContext context) {
-    return Scrollbar(
-      child: SingleChildScrollView(
-        scrollDirection: Axis.horizontal,
-        child: Row(
-          children: List.generate(eventsList.length + 1, (index) {
-            return index == eventsList.length
-                ? SizedBox(
-                    width: 20,
-                  )
-                : Padding(
-                    padding: EdgeInsets.only(left: index == 0 ? 20 : 0),
-                    child: ScaleAnimation(
-                      // (index + 1) / 10,
-                      child: EventTile(
-                          isFull: widget.isExpanded,
-                          imageURL: eventsList[index].posterURL,
-                          title: eventsList[index].title,
-                          creator: eventsList[index].creatorName,
-                          date: eventsList[index].date.toDate(),
-                          distance: '0.8',
-                          ticketPrice: eventsList[index].ticketPrice.toString(),
-                          description: eventsList[index].description,
-                          subtitle: eventsList[index].subtitle),
-                    ),
-                  );
-          }),
-        ),
-      ),
-    );
+    return ScaleAnimation(
+        child: Swiper(
+      itemWidth: 260,
+      itemHeight: 420,
+      indicatorLayout: PageIndicatorLayout.SCALE,
+      layout: SwiperLayout.STACK,
+      itemCount: eventsList.length,
+      itemBuilder: (context, index) {
+        return EventTile(
+          isVerticle: true,
+          isFull: false,
+          imageURL: eventsList.reversed.toList()[index].posterURL,
+          title: eventsList.reversed.toList()[index].title,
+          subtitle: eventsList.reversed.toList()[index].subtitle,
+          creator: eventsList.reversed.toList()[index].creatorName,
+          distance: '1.8',
+          date: eventsList.reversed.toList()[index].date.toDate(),
+          description: eventsList.reversed.toList()[index].description,
+          ticketPrice:
+              eventsList.reversed.toList()[index].ticketPrice.toString(),
+        );
+      },
+    ));
   }
 }
 
-class PopularEvents extends StatelessWidget {
+class PopularEvents extends StatefulWidget {
   final bool isExpanded;
+  final String title, subtitle, imagePath;
+  const PopularEvents(
+      {Key key,
+      this.isExpanded = false,
+      this.title,
+      this.subtitle,
+      this.imagePath})
+      : super(key: key);
 
-  const PopularEvents({Key key, this.isExpanded}) : super(key: key);
+  @override
+  _PopularEventsState createState() => _PopularEventsState();
+}
+
+class _PopularEventsState extends State<PopularEvents> {
   @override
   Widget build(BuildContext context) {
-    return Scrollbar(
-      child: SingleChildScrollView(
-        scrollDirection: Axis.horizontal,
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            ScaleAnimation(
-              child: EventTile(
-                isFull: isExpanded,
-                imageURL: 'images/posters/nano.jpeg',
-                title: 'DJ Nano',
-                subtitle: 'Village Roadhouse',
-                creator: 'V5',
-                distance: '0.8',
-                date: DateTime(2021, 2, 27),
-                description:
-                    'Tonight is going to be an awesome night. Get ready to rock your world.',
-                ticketPrice: '18.4',
-              ),
-            ),
-            ScaleAnimation(
-              child: EventTile(
-                isFull: isExpanded,
-                imageURL: 'images/posters/baila.jpeg',
-                title: 'DJ JStar',
-                subtitle: 'Baila Fridays ',
-                creator: 'V5',
-                distance: '1.2',
-                date: DateTime(2021, 9, 18),
-                description:
-                    'Tonight is going to be an awesome night. Get ready to rock your world.',
-                ticketPrice: '22.6',
-              ),
-            ),
-            ScaleAnimation(
-              child: EventTile(
-                isFull: isExpanded,
-                imageURL: 'images/posters/luxur.jpeg',
-                title: 'DJ Ozone',
-                subtitle: 'Luxur Saturdays',
-                creator: 'V5',
-                distance: '2.4',
-                date: DateTime(2021, 9, 22),
-                description:
-                    'Tonight is going to be an awesome night. Get ready to rock your world.',
-                ticketPrice: '18.2',
-              ),
-            ),
-            ScaleAnimation(
-              child: EventTile(
-                isFull: isExpanded,
-                imageURL: 'images/posters/brunch.jpeg',
-                title: 'Brunch : This saturday',
-                subtitle: 'V5 DJs',
-                creator: 'V5',
-                distance: '0.4',
-                date: DateTime(2021, 7, 13),
-                description:
-                    'Tonight is going to be an awesome night. Get ready to rock your world.',
-                ticketPrice: '16.1',
-              ),
-            ),
-            ScaleAnimation(
-              child: EventTile(
-                isFull: isExpanded,
-                imageURL: 'images/posters/joy.jpeg',
-                title: 'Parley',
-                subtitle: 'JOY District',
-                creator: 'V5',
-                distance: '1.8',
-                date: DateTime(2021, 2, 3),
-                description:
-                    'Tonight is going to be an awesome night. Get ready to rock your world.',
-                ticketPrice: '12.4',
-              ),
-            ),
-            SizedBox(width: 20),
-          ].reversed.toList(),
-        ),
-      ),
-    );
+    return ScaleAnimation(
+        child: Swiper(
+      itemWidth: 280,
+      itemHeight: 700,
+      indicatorLayout: PageIndicatorLayout.SCALE,
+      layout: SwiperLayout.STACK,
+      itemCount: eventsList.length,
+      itemBuilder: (context, index) {
+        return EventTile(
+          isVerticle: true,
+          isFull: true,
+          imageURL: eventsList[index].posterURL,
+          title: eventsList[index].title,
+          subtitle: eventsList[index].subtitle,
+          creator: eventsList[index].creatorName,
+          distance: '1.8',
+          date: eventsList[index].date.toDate(),
+          description: eventsList[index].description,
+          ticketPrice: eventsList[index].ticketPrice.toString(),
+        );
+      },
+    ));
   }
 }
 
@@ -908,7 +1081,7 @@ class _EventTileState extends State<EventTile> with TickerProviderStateMixin {
     return widget.isFull
         ? SizedBox(
             width: widget.isVerticle ? 200 : 480,
-            height: widget.isVerticle ? 560 : 360,
+            height: widget.isVerticle ? 550 : 360,
             child: Hero(
               tag: widget.imageURL,
               child: Material(
@@ -950,7 +1123,7 @@ class _EventTileState extends State<EventTile> with TickerProviderStateMixin {
                           )
                         ],
                       ),
-                      margin: EdgeInsets.symmetric(horizontal: 8.0),
+                      margin: EdgeInsets.all(8.0),
                       child: Column(
                         mainAxisSize: MainAxisSize.min,
                         children: [
@@ -962,8 +1135,8 @@ class _EventTileState extends State<EventTile> with TickerProviderStateMixin {
                               Stack(
                                 children: [
                                   Container(
-                                    width: 200,
-                                    height: 300,
+                                    width: widget.isVerticle ? 300 : 200,
+                                    height: widget.isVerticle ? 280 : 300,
                                     decoration: BoxDecoration(
                                       image: DecorationImage(
                                         image: AssetImage(widget.imageURL),
@@ -971,36 +1144,75 @@ class _EventTileState extends State<EventTile> with TickerProviderStateMixin {
                                       ),
                                     ),
                                   ),
-                                  Container(
-                                    padding: EdgeInsets.all(8.0),
-                                    height: 70,
-                                    width: 60,
-                                    color: Colors.black.withOpacity(0.6),
-                                    child: Column(
-                                      children: [
-                                        TitleText(
-                                          DateFormat('dd').format(widget.date),
-                                          maxLines: 1,
-                                          fontSize: 22,
-                                          color: Colors.white,
+                                  Row(
+                                    children: [
+                                      Container(
+                                        padding: EdgeInsets.all(8.0),
+                                        height: 70,
+                                        width: 60,
+                                        color: Colors.black.withOpacity(0.6),
+                                        child: Column(
+                                          children: [
+                                            TitleText(
+                                              DateFormat('dd')
+                                                  .format(widget.date),
+                                              maxLines: 1,
+                                              fontSize: 22,
+                                              color: Colors.white,
+                                            ),
+                                            SubtitleText(
+                                              DateFormat('MMM')
+                                                  .format(widget.date),
+                                              maxLines: 1,
+                                              fontSize: 12,
+                                              color: Colors.white,
+                                            ),
+                                          ],
                                         ),
-                                        SubtitleText(
-                                          DateFormat('MMM').format(widget.date),
-                                          maxLines: 1,
-                                          fontSize: 12,
-                                          color: Colors.white,
+                                      ),
+                                      Expanded(
+                                        child: Container(
+                                          height: 70,
+                                          // width: widget.isMine ? 100 : 200,
+                                          color: Theme.of(context).cardColor,
+                                          child: Center(
+                                            child: Row(
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.end,
+                                              mainAxisSize: MainAxisSize.min,
+                                              children: [
+                                                TitleText(
+                                                  '\$${widget.ticketPrice}',
+                                                  fontWeight: FontWeight.bold,
+                                                  fontSize: 20,
+                                                ),
+                                                Padding(
+                                                  padding:
+                                                      const EdgeInsets.only(
+                                                          bottom: 2.0),
+                                                  child: SubtitleText(
+                                                    '/PERSON',
+                                                    fontWeight:
+                                                        FontWeight.normal,
+                                                    fontSize: 12,
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                          ),
                                         ),
-                                      ],
-                                    ),
-                                  )
+                                      ),
+                                    ],
+                                  ),
                                 ],
                               ),
                               Container(
-                                width: 240,
-                                height: 300,
+                                width: widget.isVerticle ? 280 : 240,
+                                height: 240,
                                 padding: EdgeInsets.only(left: 15)
                                     .add(EdgeInsets.symmetric(vertical: 10.0)),
                                 child: Column(
+                                  mainAxisSize: MainAxisSize.min,
                                   mainAxisAlignment:
                                       MainAxisAlignment.spaceEvenly,
                                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -1020,9 +1232,12 @@ class _EventTileState extends State<EventTile> with TickerProviderStateMixin {
                                       '${widget.distance} km away',
                                       fontWeight: FontWeight.w900,
                                     ),
-                                    SubtitleText(
-                                      '${widget.description}',
-                                      maxLines: 5,
+                                    Expanded(
+                                      child: SubtitleText(
+                                        '${widget.description}',
+                                        maxLines: 5,
+                                        overflow: TextOverflow.ellipsis,
+                                      ),
                                     ),
                                   ],
                                 ),
@@ -1031,33 +1246,36 @@ class _EventTileState extends State<EventTile> with TickerProviderStateMixin {
                           ),
                           Row(
                             children: [
-                              Container(
-                                height: 60,
-                                width: widget.isMine ? 120 : 200,
-                                color: Theme.of(context).cardColor,
-                                child: Center(
-                                  child: Row(
-                                    crossAxisAlignment: CrossAxisAlignment.end,
-                                    mainAxisSize: MainAxisSize.min,
-                                    children: [
-                                      TitleText(
-                                        '\$${widget.ticketPrice}',
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: 20,
-                                      ),
-                                      Padding(
-                                        padding:
-                                            const EdgeInsets.only(bottom: 2.0),
-                                        child: SubtitleText(
-                                          '/PERSON',
-                                          fontWeight: FontWeight.normal,
-                                          fontSize: 12,
+                              widget.isVerticle
+                                  ? SizedBox.shrink()
+                                  : Container(
+                                      height: 60,
+                                      width: widget.isMine ? 120 : 200,
+                                      color: Theme.of(context).cardColor,
+                                      child: Center(
+                                        child: Row(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.end,
+                                          mainAxisSize: MainAxisSize.min,
+                                          children: [
+                                            TitleText(
+                                              '\$${widget.ticketPrice}',
+                                              fontWeight: FontWeight.bold,
+                                              fontSize: 20,
+                                            ),
+                                            Padding(
+                                              padding: const EdgeInsets.only(
+                                                  bottom: 2.0),
+                                              child: SubtitleText(
+                                                '/PERSON',
+                                                fontWeight: FontWeight.normal,
+                                                fontSize: 12,
+                                              ),
+                                            ),
+                                          ],
                                         ),
                                       ),
-                                    ],
-                                  ),
-                                ),
-                              ),
+                                    ),
                               Expanded(
                                 child: Container(
                                   height: 60,
@@ -1248,10 +1466,10 @@ class _EventTileVerticle extends EventTile {
             isVerticle: true);
 }
 
-AppBar v5AppBar(context, {onPressed}) {
+AppBar v5AppBar(context, {onPressed, color}) {
   return AppBar(
     automaticallyImplyLeading: false,
-    backgroundColor: Theme.of(context).primaryColor,
+    backgroundColor: color ?? Theme.of(context).primaryColor,
     elevation: 0.0,
     title: Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -1274,7 +1492,9 @@ AppBar v5AppBar(context, {onPressed}) {
                   children: [
                     SubtitleText(
                       'Musica ',
-                      color: Theme.of(context).cardColor,
+                      color: color == null
+                          ? Theme.of(context).cardColor
+                          : Theme.of(context).primaryColor,
                       fontWeight: FontWeight.w900,
                     ),
                     SubtitleText('is'),

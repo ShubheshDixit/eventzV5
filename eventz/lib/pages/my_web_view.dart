@@ -1,10 +1,8 @@
-import 'dart:async';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:url_launcher/url_launcher.dart';
-import 'package:webview_flutter/webview_flutter.dart';
 
 // class MyWebView extends StatefulWidget {
 //   final String title;
@@ -124,7 +122,7 @@ class _MyWebViewState extends State<MyWebView> {
               children: [
                 SafeArea(
                   child: Padding(
-                    padding: const EdgeInsets.only(bottom: 0.0),
+                    padding: const EdgeInsets.only(bottom: 45.0),
                     child: Column(
                       children: <Widget>[
                         Expanded(
@@ -225,7 +223,8 @@ class _MyWebViewState extends State<MyWebView> {
                   child: Container(
                     margin: EdgeInsets.only(
                         bottom: MediaQuery.of(context).viewInsets.bottom),
-                    color: Colors.black.withOpacity(0.5),
+                    padding: EdgeInsets.only(bottom: 20, top: 10),
+                    // color: Colors.black.withOpacity(0.5),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [

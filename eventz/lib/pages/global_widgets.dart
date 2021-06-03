@@ -11,6 +11,7 @@ class TitleText extends StatelessWidget {
   final List<Shadow> shadows;
   final int maxLines;
   final TextOverflow overflow;
+  final TextDecoration decoration;
   const TitleText(this.text,
       {Key key,
       this.style,
@@ -21,7 +22,8 @@ class TitleText extends StatelessWidget {
       this.textAlign,
       this.shadows,
       this.maxLines,
-      this.overflow})
+      this.overflow,
+      this.decoration})
       : super(key: key);
   @override
   Widget build(BuildContext context) {
@@ -32,6 +34,7 @@ class TitleText extends StatelessWidget {
       overflow: overflow ?? TextOverflow.clip,
       style: style ??
           TextStyle(
+            decoration: decoration,
             fontSize: fontSize ?? 20,
             fontWeight: fontWeight ?? FontWeight.bold,
             fontFamily: fontFamily,
@@ -53,6 +56,7 @@ class SubtitleText extends StatelessWidget {
   final List<Shadow> shadows;
   final int maxLines;
   final TextOverflow overflow;
+  final TextDecoration decoration;
 
   const SubtitleText(this.text,
       {Key key,
@@ -64,7 +68,8 @@ class SubtitleText extends StatelessWidget {
       this.textAlign,
       this.shadows,
       this.maxLines,
-      this.overflow})
+      this.overflow,
+      this.decoration})
       : super(key: key);
   @override
   Widget build(BuildContext context) {
@@ -75,6 +80,7 @@ class SubtitleText extends StatelessWidget {
       overflow: overflow ?? TextOverflow.clip,
       style: style ??
           TextStyle(
+              decoration: decoration,
               fontSize: fontSize ?? 16,
               fontWeight: fontWeight ?? FontWeight.normal,
               fontFamily: fontFamily,

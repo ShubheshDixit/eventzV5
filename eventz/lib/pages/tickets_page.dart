@@ -1,13 +1,11 @@
-import 'package:awesome_flutter_widgets/widgets/awesome_buttons.dart';
 import 'package:barcode_widget/barcode_widget.dart';
 import 'package:dotted_border/dotted_border.dart';
-import 'package:eventz/animations/scale_animation.dart';
-import 'package:eventz/global_values.dart';
+import 'package:eventz/backend/mock_data.dart';
 import 'package:eventz/pages/global_widgets.dart';
-import 'package:eventz/pages/home_page.dart';
-import 'package:eventz/pages/vip_page.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_swiper/flutter_swiper.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:intl/intl.dart';
 import 'dart:math' as math;
 
 class TicketsPage extends StatefulWidget {
@@ -20,16 +18,15 @@ class TicketsPage extends StatefulWidget {
 
 class _TicketsPageState extends State<TicketsPage>
     with TickerProviderStateMixin {
-  TabController _controller;
   @override
   void initState() {
     super.initState();
-    _controller = TabController(length: 2, vsync: this);
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       appBar: AppBar(
         title: TitleText(
           'My Tickets',
@@ -39,78 +36,47 @@ class _TicketsPageState extends State<TicketsPage>
               icon: Icon(FontAwesomeIcons.bars),
               onPressed: widget.onMenuPressed)
         ],
-        bottom: TabBar(
-          controller: _controller,
-          indicatorSize: TabBarIndicatorSize.label,
-          tabs: [
-            Tab(
-              child: SubtitleText(
-                'Upcoming',
-                color: Theme.of(context).textTheme.bodyText1.color,
-              ),
-            ),
-            Tab(
-              child: SubtitleText('Past',
-                  color: Theme.of(context).textTheme.bodyText1.color),
-            ),
-          ],
-        ),
+        // bottom: TabBar(
+        //   controller: _controller,
+        //   indicatorSize: TabBarIndicatorSize.label,
+        //   tabs: [
+        //     Tab(
+        //       child: SubtitleText(
+        //         'Upcoming',
+        //         color: Theme.of(context).textTheme.bodyText1.color,
+        //       ),
+        //     ),
+        //     Tab(
+        //       child: SubtitleText('Past',
+        //           color: Theme.of(context).textTheme.bodyText1.color),
+        //     ),
+        //   ],
+        // ),
       ),
-      body: TabBarView(
-        controller: _controller,
+      body: Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisAlignment: MainAxisAlignment.start,
         children: [
-          Container(
-            padding: EdgeInsets.symmetric(vertical: 10.0),
-            child: Column(
-              children: [
-                TicketTile(
-                  imageURL: 'images/posters/luxur.jpeg',
-                  title: 'Luxur Saturdays \nDJ Ozone',
-                  creator: 'V5',
-                  date: 'Sept 18',
-                )
-              ],
-            ),
+          Expanded(
+            child: Swiper(
+                // scrollDirection: Axis.vertical,
+                layout: SwiperLayout.DEFAULT,
+                itemWidth: 300,
+                itemHeight: 700,
+                itemCount: eventsList.length,
+                itemBuilder: (context, index) {
+                  return TicketView(
+                      imageURL: eventsList[index].posterURL,
+                      title: eventsList[index].title,
+                      boughtDate:
+                          DateFormat('MMMM dd, yyyy').format(DateTime.now()),
+                      eventDate: DateFormat('MMMM dd, yyyy')
+                          .format(eventsList[index].date.toDate()),
+                      place: eventsList[index].subtitle,
+                      barcode: '7346377');
+                }),
           ),
-          ExpandableThemeContainer(
-            isAlwaysShown: true,
-            titlePadding: EdgeInsets.zero,
-            title: ListTile(
-              title: TitleText('No past tickets'),
-              subtitle: SubtitleText(
-                  'Explore tickets page to find out amazing events.'),
-            ),
-            body: Padding(
-              padding: const EdgeInsets.all(18.0),
-              child: Column(
-                children: [
-                  ScaleAnimation(
-                    child: Image.asset(
-                      GlobalValues.errorImage,
-                      height: 300,
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: AwesomeButton(
-                      onPressed: () {
-                        Navigator.pushReplacement(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => HomePage()));
-                      },
-                      buttonType: AwesomeButtonType.elevated,
-                      child: TitleText(
-                        'Explore events',
-                        color: Colors.white,
-                        fontSize: 16,
-                      ),
-                    ),
-                  )
-                ],
-              ),
-            ),
-          )
         ],
       ),
     );
@@ -286,158 +252,159 @@ class TicketView extends StatelessWidget {
       : super(key: key);
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        leading: IconButton(
-          icon: Icon(FontAwesomeIcons.chevronLeft),
-          onPressed: () => Navigator.pop(context),
+    return Center(
+        child: Material(
+      elevation: 10.0,
+      color: Colors.transparent,
+      child: Container(
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(8.0),
+          color: Theme.of(context).cardColor,
+          // boxShadow: [
+          //   BoxShadow(
+          //       color: Colors.black.withOpacity(0.1),
+          //       blurRadius: 5.0,
+          //       offset: Offset(
+          //         0,
+          //         0,
+          //       ))
+          // ],
         ),
-        title: TitleText('My Tickets'),
-      ),
-      body: Container(
-        padding: EdgeInsets.all(20.0),
-        child: Center(
-          child: Container(
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(8.0),
-              color: Theme.of(context).cardColor,
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Hero(
+              tag: imageURL,
+              child: Material(
+                color: Colors.transparent,
+                child: ClipRRect(
+                  borderRadius: BorderRadius.only(
+                    topLeft: Radius.circular(8.0),
+                    topRight: Radius.circular(8.0),
+                  ),
+                  child: Image.asset(
+                    imageURL,
+                    fit: BoxFit.cover,
+                    width: 300,
+                    height: 200,
+                  ),
+                ),
+              ),
             ),
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Hero(
-                  tag: imageURL,
-                  child: Material(
-                    color: Colors.transparent,
-                    child: ClipRRect(
-                      borderRadius: BorderRadius.only(
-                        topLeft: Radius.circular(8.0),
-                        topRight: Radius.circular(8.0),
-                      ),
-                      child: Image.asset(
-                        imageURL,
-                        fit: BoxFit.cover,
-                        width: 300,
-                        height: 200,
+            Padding(
+              padding: const EdgeInsets.all(10.0),
+              child: TitleText(title),
+            ),
+            Padding(
+              padding: const EdgeInsets.all(10.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  SubtitleText(
+                    'Bought On',
+                    color: Colors.grey,
+                  ),
+                  SubtitleText(boughtDate)
+                ],
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.all(10.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  SubtitleText(
+                    'Event Date',
+                    color: Colors.grey,
+                  ),
+                  SubtitleText(eventDate)
+                ],
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.all(10.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  SubtitleText(
+                    'Event Venue',
+                    color: Colors.grey,
+                  ),
+                  SubtitleText(place)
+                ],
+              ),
+            ),
+            SizedBox(
+              height: 30.0,
+            ),
+            SizedBox(
+              width: 300,
+              child: Stack(
+                children: [
+                  Align(
+                    alignment: Alignment.centerLeft,
+                    child: Transform.rotate(
+                      angle: math.pi / 2,
+                      alignment: Alignment.topCenter,
+                      child: MyArc(
+                        diameter: 50,
+                        color: Theme.of(context).scaffoldBackgroundColor,
                       ),
                     ),
                   ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.all(10.0),
-                  child: TitleText(title),
-                ),
-                Padding(
-                  padding: const EdgeInsets.all(10.0),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      SubtitleText(
-                        'Bought On',
-                        color: Colors.grey,
+                  Align(
+                    alignment: Alignment.center,
+                    child: DottedBorder(
+                      color: Colors.grey,
+                      dashPattern: [10, 28],
+                      borderType: BorderType.RRect,
+                      padding: EdgeInsets.zero,
+                      strokeCap: StrokeCap.round,
+                      strokeWidth: 1,
+                      child: SizedBox(
+                        height: 0.5,
+                        width: 240,
                       ),
-                      SubtitleText(boughtDate)
-                    ],
+                    ),
                   ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.all(10.0),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      SubtitleText(
-                        'Event Date',
-                        color: Colors.grey,
+                  Align(
+                    alignment: Alignment.centerRight,
+                    child: Transform.rotate(
+                      angle: -math.pi / 2,
+                      alignment: Alignment.topCenter,
+                      child: MyArc(
+                        diameter: 50,
+                        color: Theme.of(context).scaffoldBackgroundColor,
                       ),
-                      SubtitleText(eventDate)
-                    ],
+                    ),
                   ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.all(10.0),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      SubtitleText(
-                        'Event Venue',
-                        color: Colors.grey,
-                      ),
-                      SubtitleText(place)
-                    ],
-                  ),
-                ),
-                SizedBox(
-                  height: 30.0,
-                ),
-                SizedBox(
-                  width: 300,
-                  child: Stack(
-                    children: [
-                      Align(
-                        alignment: Alignment.centerLeft,
-                        child: Transform.rotate(
-                          angle: math.pi / 2,
-                          alignment: Alignment.topCenter,
-                          child: MyArc(
-                            diameter: 40,
-                            color: Theme.of(context).scaffoldBackgroundColor,
-                          ),
-                        ),
-                      ),
-                      Align(
-                        alignment: Alignment.center,
-                        child: DottedBorder(
-                          color: Colors.grey,
-                          borderType: BorderType.RRect,
-                          padding: EdgeInsets.zero,
-                          strokeCap: StrokeCap.round,
-                          strokeWidth: 0.4,
-                          child: SizedBox(
-                            height: 0.5,
-                            width: 240,
-                          ),
-                        ),
-                      ),
-                      Align(
-                        alignment: Alignment.centerRight,
-                        child: Transform.rotate(
-                          angle: -math.pi / 2,
-                          alignment: Alignment.topCenter,
-                          child: MyArc(
-                            diameter: 40,
-                            color: Theme.of(context).scaffoldBackgroundColor,
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                Container(
-                  // height: 30,
-                  width: 300,
-                  child: Column(
-                    children: [
-                      BarcodeWidget(
-                        color: Theme.of(context).textTheme.bodyText1.color,
-                        barcode: Barcode.code128(),
-                        data: '$barcode',
-                        style: TextStyle(fontSize: 18),
-                        width: 250,
-                        height: 70,
-                      ),
-                      SizedBox(
-                        height: 20.0,
-                      )
-                    ],
-                  ),
-                )
-              ],
+                ],
+              ),
             ),
-          ),
+            Container(
+              // height: 30,
+              width: 300,
+              child: Column(
+                children: [
+                  BarcodeWidget(
+                    color: Theme.of(context).textTheme.bodyText1.color,
+                    barcode: Barcode.code128(),
+                    data: '$barcode',
+                    style: TextStyle(fontSize: 18),
+                    width: 250,
+                    height: 70,
+                  ),
+                  SizedBox(
+                    height: 20.0,
+                  )
+                ],
+              ),
+            )
+          ],
         ),
       ),
-    );
+    ));
   }
 }
 

@@ -33,9 +33,7 @@ class PushNotificationsManager {
     );
     print('User granted permission: ${settings.authorizationStatus}');
     if (!_initialized) {
-      String token = await messaging.getToken(
-        vapidKey: "BGpdLRs......",
-      );
+      String token = await messaging.getToken();
       // use the returned token to send messages to users from your custom server
       print("FirebaseMessaging token: $token");
 

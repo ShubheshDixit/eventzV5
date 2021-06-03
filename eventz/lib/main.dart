@@ -1,5 +1,4 @@
 import 'dart:io';
-
 import 'package:eventz/global_values.dart';
 import 'package:eventz/pages/auth_page.dart';
 import 'package:eventz/pages/web/web_home.dart';
@@ -36,7 +35,7 @@ class MyApp extends StatelessWidget {
       title: 'Eventz by V5',
       themeMode: ThemeMode.dark,
       darkTheme: ThemeData(
-        scaffoldBackgroundColor: Color(0xff1A1A1A),
+        scaffoldBackgroundColor: Color(0xff101010),
         hintColor: Colors.grey,
         cardColor: GlobalValues.cardColorDark,
         brightness: Brightness.dark,
@@ -138,6 +137,7 @@ class MyApp extends StatelessWidget {
         accentColor: GlobalValues.accentColor,
         scaffoldBackgroundColor: Colors.grey[200],
         cardColor: GlobalValues.cardColorLight,
+        hintColor: Colors.grey,
         textSelectionTheme: TextSelectionThemeData(
           cursorColor: GlobalValues.accentColor,
           selectionColor: GlobalValues.accentColor,

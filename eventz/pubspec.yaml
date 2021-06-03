@@ -16,7 +16,6 @@ dependencies:
   awesome_flutter_widgets:
     git:
       url: https://github.com/ShubheshDixit/awesome_flutter_widgets.git
-  animated_text_kit: ^4.2.0
   animations: ^2.0.0
   barcode_widget: ^2.0.1
   cached_network_image: ^3.0.0
@@ -39,6 +38,7 @@ dependencies:
   jiffy: ^4.1.0
   latlng: ^0.1.0
   map: ^0.3.0
+  map_launcher: ^2.0.0
   permission_handler: ^7.0.0
   simple_animations: ^3.0.3
   simple_gesture_detector: ^0.2.0
@@ -47,7 +47,6 @@ dependencies:
   url_launcher: ^6.0.3
   uuid: ^3.0.2
   video_player: ^2.1.1
-  webview_flutter: ^2.0.4
 
 dev_dependencies:
   flutter_test:
