@@ -49,6 +49,7 @@ class SubtitleText extends StatelessWidget {
   final String text;
   final TextStyle style;
   final double fontSize;
+  final FontStyle fontStyle;
   final Color color;
   final String fontFamily;
   final FontWeight fontWeight;
@@ -69,7 +70,8 @@ class SubtitleText extends StatelessWidget {
       this.shadows,
       this.maxLines,
       this.overflow,
-      this.decoration})
+      this.decoration,
+      this.fontStyle})
       : super(key: key);
   @override
   Widget build(BuildContext context) {
@@ -80,6 +82,7 @@ class SubtitleText extends StatelessWidget {
       overflow: overflow ?? TextOverflow.clip,
       style: style ??
           TextStyle(
+              fontStyle: fontStyle,
               decoration: decoration,
               fontSize: fontSize ?? 16,
               fontWeight: fontWeight ?? FontWeight.normal,

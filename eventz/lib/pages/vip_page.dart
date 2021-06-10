@@ -353,7 +353,8 @@ class _ExpandableThemeContainerState extends State<ExpandableThemeContainer>
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: widget.containerMargin ?? EdgeInsets.all(15.0).add(EdgeInsets.only(bottom:10.0)),
+      margin: widget.containerMargin ??
+          EdgeInsets.all(15.0).add(EdgeInsets.only(bottom: 10.0)),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(8.0),
         boxShadow: [

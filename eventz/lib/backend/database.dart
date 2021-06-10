@@ -46,7 +46,7 @@ class AuthService {
       @required String name}) async {
     UserCredential cred = await auth.createUserWithEmailAndPassword(
         email: email, password: password);
-    await cred.user.updateProfile(displayName: name);
+    await cred.user.updateDisplayName(name);
     await cred.user.sendEmailVerification();
     await cred.user.reload();
     return cred.user;

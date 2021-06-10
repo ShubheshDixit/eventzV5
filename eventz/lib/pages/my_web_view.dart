@@ -2,7 +2,10 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
+import 'package:flutter_webview_plugin/flutter_webview_plugin.dart';
 import 'package:url_launcher/url_launcher.dart';
+// import 'dart:html' as html;
+import 'dart:ui' as ui;
 
 // class MyWebView extends StatefulWidget {
 //   final String title;
@@ -122,7 +125,7 @@ class _MyWebViewState extends State<MyWebView> {
               children: [
                 SafeArea(
                   child: Padding(
-                    padding: const EdgeInsets.only(bottom: 45.0),
+                    padding: const EdgeInsets.only(bottom: 65.0),
                     child: Column(
                       children: <Widget>[
                         Expanded(
@@ -221,9 +224,7 @@ class _MyWebViewState extends State<MyWebView> {
                 Align(
                   alignment: Alignment.bottomCenter,
                   child: Container(
-                    margin: EdgeInsets.only(
-                        bottom: MediaQuery.of(context).viewInsets.bottom),
-                    padding: EdgeInsets.only(bottom: 20, top: 10),
+                    padding: EdgeInsets.only(bottom: 20, top: 20),
                     // color: Colors.black.withOpacity(0.5),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
@@ -286,3 +287,48 @@ class _MyWebViewState extends State<MyWebView> {
     );
   }
 }
+
+// class WebViewWeb extends StatefulWidget {
+//   final String title, url;
+//   const WebViewWeb({Key key, this.title, this.url}) : super(key: key);
+
+//   @override
+//   _WebViewWebState createState() => _WebViewWebState();
+// }
+
+// class _WebViewWebState extends State<WebViewWeb> {
+//   final _webViewPlugin = FlutterWebviewPlugin();
+
+//   @override
+//   void initState() {
+//     super.initState();
+//     // on pressing back button, exiting the screen instead of showing loading symbol
+//     _webViewPlugin.onDestroy.listen((_) {
+//       if (Navigator.canPop(context)) {
+//         // exiting the screen
+//         Navigator.of(context).pop();
+//       }
+//     });
+//     // ignore: undefined_prefixed_name
+//     ui.platformViewRegistry.registerViewFactory(
+//         'hello-world-html',
+//         (int viewId) => html.IFrameElement()
+//           ..width = '640'
+//           ..height = MediaQuery.of(context).size.height.toString()
+//           ..src = widget.url
+//           ..style.border = 'none');
+//   }
+
+//   @override
+//   Widget build(BuildContext context) {
+//     // WillPopScope will prevent loading
+//     return Directionality(
+//       textDirection: TextDirection.ltr,
+//       child: SizedBox(
+//         width: 640,
+//         height: 360,
+//         child: HtmlElementView(viewType: 'hello-world-html'),
+//       ),
+//     );
+//   }
+// }

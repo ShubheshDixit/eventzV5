@@ -85,6 +85,7 @@ class _AuthPageState extends State<AuthPage> {
                             children: [
                               SubtitleText(
                                 'CELEBRATE YOUR',
+                                color: Colors.white,
                                 fontSize: 30,
                               ),
                               SizedBox(
@@ -96,6 +97,7 @@ class _AuthPageState extends State<AuthPage> {
                                       child: Center(
                                           child: TitleText(
                                         'GRADUATION',
+                                        color: Colors.white,
                                         fontSize: 40,
                                       )),
                                     ),
@@ -103,6 +105,7 @@ class _AuthPageState extends State<AuthPage> {
                                       child: Center(
                                           child: TitleText(
                                         'PROMOTION',
+                                        color: Colors.white,
                                         fontSize: 40,
                                       )),
                                     ),
@@ -110,6 +113,7 @@ class _AuthPageState extends State<AuthPage> {
                                       child: Center(
                                           child: TitleText(
                                         'BACHELORETTE',
+                                        color: Colors.white,
                                         fontSize: 40,
                                       )),
                                     ),
@@ -118,12 +122,14 @@ class _AuthPageState extends State<AuthPage> {
                                           child: TitleText(
                                         'NIGHT OUT',
                                         fontSize: 40,
+                                        color: Colors.white,
                                       )),
                                     ),
                                     ScaleAnimation(
                                       child: Center(
                                           child: TitleText(
                                         'BIRTHDAY',
+                                        color: Colors.white,
                                         fontSize: 40,
                                       )),
                                     ),
@@ -132,6 +138,7 @@ class _AuthPageState extends State<AuthPage> {
                                           child: TitleText(
                                         'LIFE',
                                         fontSize: 40,
+                                        color: Colors.white,
                                       )),
                                     ),
                                   ],
@@ -140,6 +147,7 @@ class _AuthPageState extends State<AuthPage> {
                               SubtitleText(
                                 'WITH US',
                                 fontSize: 30,
+                                color: Colors.white,
                               ),
                             ],
                           ),
@@ -183,8 +191,8 @@ class _AuthPageState extends State<AuthPage> {
               TitleText(
                 'Get Started',
                 fontSize: 30,
-                color: Theme.of(context).textTheme.bodyText1.color,
                 fontWeight: FontWeight.w900,
+                color: Colors.white,
               ),
             ),
             FadeAnimation(
@@ -194,6 +202,7 @@ class _AuthPageState extends State<AuthPage> {
                 child: SubtitleText(
                   'Create your account now and get yourself into the world of joy.',
                   textAlign: TextAlign.center,
+                  color: Colors.white,
                 ),
               ),
             ),
@@ -245,6 +254,7 @@ class _AuthPageState extends State<AuthPage> {
                   style: TextStyle(
                     fontSize: 15,
                     fontWeight: FontWeight.bold,
+                    color: Colors.white,
                   ),
                 ),
                 Expanded(
@@ -256,47 +266,41 @@ class _AuthPageState extends State<AuthPage> {
                 ))
               ],
             ),
-            !isMobile(context)
-                ? Expanded(
-                    child: LoginPage(
-                      isFull: false,
-                    ),
-                  )
-                : ScaleAnimation(
-                    child: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: AwesomeButton(
-                      buttonStyle: ButtonStyle(
-                        backgroundColor: MaterialStateColor.resolveWith(
-                            (states) => Colors.black),
-                      ),
-                      isExpanded: true,
-                      height: 55,
-                      buttonType: AwesomeButtonType.elevated,
-                      onPressed: () async {
-                        await Navigator.push(
-                          context,
-                          MaterialPageRoute(builder: (context) => LoginPage()),
-                        );
-                      },
-                      icon: Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Icon(
-                          FontAwesomeIcons.solidEnvelope,
-                          color: Colors.grey[100],
-                          size: 22,
-                        ),
-                      ),
-                      label: Text(
-                        'Login with Email',
-                        style: TextStyle(
-                          fontSize: 22,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.grey[100],
-                        ),
-                      ),
-                    ),
-                  )),
+            ScaleAnimation(
+                child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: AwesomeButton(
+                buttonStyle: ButtonStyle(
+                  backgroundColor:
+                      MaterialStateColor.resolveWith((states) => Colors.black),
+                ),
+                isExpanded: true,
+                height: 55,
+                buttonType: AwesomeButtonType.elevated,
+                onPressed: () async {
+                  await Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => LoginPage()),
+                  );
+                },
+                icon: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Icon(
+                    FontAwesomeIcons.solidEnvelope,
+                    color: Colors.grey[100],
+                    size: 22,
+                  ),
+                ),
+                label: Text(
+                  'Login with Email',
+                  style: TextStyle(
+                    fontSize: 22,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.grey[100],
+                  ),
+                ),
+              ),
+            )),
           ],
         ),
       ),
@@ -357,301 +361,293 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
       backgroundColor: widget.isFull ? null : Colors.transparent,
       body: Stack(
         children: [
-          SizedBox(
-            height: MediaQuery.of(context).size.height * 0.6,
-            child: Center(
-              child: Hero(
-                tag: 'LoginImage',
-                child: Material(
-                  color: Colors.transparent,
-                  child: Container(
-                    child: Image.asset(
-                      GlobalValues.clubImage,
-                      alignment: Alignment.center,
-                      fit: BoxFit.cover,
-                      height: MediaQuery.of(context).size.height,
-                    ),
+          Container(
+            // color: Theme.of(context).scaffoldBackgroundColor,
+            decoration: BoxDecoration(
+              gradient: LinearGradient(
+                begin: Alignment.topLeft,
+                end: Alignment.bottomRight,
+                colors: [
+                  // Colors.pink,
+                  Color(0xff0b051e),
+                  Color(0xff300a89),
+                  Colors.purple,
+                ],
+              ),
+            ),
+          ),
+          Center(
+            child: Flex(
+              direction: Axis.vertical,
+              mainAxisSize: MainAxisSize.max,
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Container(
+                  width: 500,
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      CircleAvatar(
+                        radius: 50,
+                        // backgroundColor: Colors.pink,
+                        child: Image.asset(
+                          GlobalValues.logoImage,
+                          height: 150,
+                        ),
+                      ),
+                      TitleText(
+                        'Musica',
+                        color: Theme.of(context).primaryColor,
+                        fontSize: 33,
+                      ),
+                      SubtitleText(
+                        'is Our Business',
+                        color: Colors.white,
+                      )
+                    ],
                   ),
                 ),
-              ),
-            ),
-          ),
-          SizedBox(
-            height: MediaQuery.of(context).size.height * 0.6,
-            child: Center(
-              child: Material(
-                color: Colors.black.withOpacity(0.4),
-                child: Container(),
-              ),
-            ),
-          ),
-          Flex(
-            direction:
-                MediaQuery.of(context).orientation == Orientation.portrait
-                    ? Axis.vertical
-                    : Axis.horizontal,
-            mainAxisSize: MainAxisSize.max,
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              Container(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    CircleAvatar(
-                      radius: 50,
-                      // backgroundColor: Colors.pink,
-                      child: Image.asset(
-                        GlobalValues.logoImage,
-                        height: 150,
-                      ),
-                    ),
-                    // TitleText(
-                    //   'Musica',
-                    //   color: Theme.of(context).primaryColor,
-                    //   fontSize: 33,
-                    // ),
-                    // SubtitleText('is Our Business')
-                  ],
-                ),
-              ),
-              Flexible(
-                child: Container(
-                  margin:
-                      EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
-                  padding: EdgeInsets.symmetric(horizontal: 10),
-                  decoration: BoxDecoration(
-                      color: Theme.of(context).cardColor,
-                      boxShadow: [
-                        BoxShadow(
-                            color: Colors.black.withOpacity(0.2),
-                            blurRadius: 5.0)
-                      ]),
-                  child: AnimatedSize(
-                    vsync: this,
-                    duration: Duration(milliseconds: 300),
-                    child: SingleChildScrollView(
-                      child: Column(
-                        mainAxisSize: MainAxisSize.min,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          mode == LogMode.signup
-                              ? SizedBox(
-                                  height: 20,
-                                )
-                              : Padding(
-                                  padding: const EdgeInsets.only(top: 8.0),
-                                  child: TitleText(
-                                    'Hello',
-                                    fontSize: 35,
-                                  ),
-                                ),
-                          Padding(
-                            padding: const EdgeInsets.only(top: 12.0),
-                            child: TitleText(mode == LogMode.signup
-                                ? 'Create account'
-                                : 'Sign in to your account'),
-                          ),
-                          mode == LogMode.signup
-                              ? AwesomeTextField(
-                                  inputStyle: TextStyle(fontSize: 20),
-                                  maxLines: 1,
-                                  prefixIconConstraints:
-                                      BoxConstraints(maxWidth: 45),
-                                  prefixIcon: Icon(FontAwesomeIcons.solidUser),
-                                  borderType: InputBorderType.underlined,
-                                  hintText: 'Enter your name',
-                                  labelText: 'User Name',
-                                  onChanged: (String s) {
-                                    setState(() {
-                                      username = s;
-                                    });
-                                  },
-                                  hintStyle: TextStyle(color: Colors.grey),
-                                )
-                              : SizedBox.shrink(),
-                          // mode == LogMode.signup ? Divider() : SizedBox.shrink(),
-                          // Padding(
-                          //   padding: const EdgeInsets.only(left: 20.0, top: 5.0),
-                          //   child: SubtitleText(
-                          //     'Email',
-                          //     fontSize: 20,
-                          //     fontWeight: FontWeight.bold,
-                          //   ),
-                          // ),
-                          AwesomeTextField(
-                            hintText: 'Enter your email',
-                            labelText: 'Email ID',
-                            prefixIconConstraints: BoxConstraints(maxWidth: 50),
-                            prefixIcon: Icon(FontAwesomeIcons.solidEnvelope),
-                            maxLines: 1,
-                            borderType: InputBorderType.underlined,
-                            onChanged: (String s) {
-                              setState(() {
-                                email = s;
-                              });
-                            },
-                            hintStyle: TextStyle(color: Colors.grey),
-                            inputStyle: TextStyle(fontSize: 20),
-                          ),
-
-                          // Divider(),
-                          // Padding(
-                          //   padding: const EdgeInsets.only(left: 20.0, top: 5.0),
-                          //   child: SubtitleText(
-                          //     'Password',
-                          //     fontSize: 20,
-                          //     fontWeight: FontWeight.bold,
-                          //   ),
-                          // ),
-                          AwesomeTextField(
-                            labelText: 'Password',
-                            prefixIconConstraints: BoxConstraints(maxWidth: 50),
-                            prefixIcon: Icon(FontAwesomeIcons.lock),
-                            hintText: 'Enter password',
-                            maxLines: 1,
-                            isPassword: true,
-                            onChanged: (String s) {
-                              setState(() {
-                                password = s;
-                              });
-                            },
-                            borderType: InputBorderType.underlined,
-                            hintStyle: TextStyle(color: Colors.grey),
-                            inputStyle: TextStyle(fontSize: 20),
-                          ),
-                          // Divider(),
-                          Padding(
-                            padding: const EdgeInsets.symmetric(
-                                horizontal: 20, vertical: 8.0),
-                            child: ThemeLoadButton(
-                              buttonStyle: ButtonStyle(
-                                shape: MaterialStateProperty.resolveWith(
-                                  (_) => RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(500.0),
-                                  ),
-                                ),
-                                backgroundColor:
-                                    MaterialStateColor.resolveWith((states) {
-                                  if (states.contains(MaterialState.disabled))
-                                    return Colors.grey[500];
-                                  else
-                                    return Theme.of(context).primaryColor;
-                                }),
-                              ),
-                              isLoading: isLoading,
-                              onPressed: validate()
-                                  ? () async {
-                                      if (mode == LogMode.login) {
-                                        await _startSignIn(true);
-                                      } else {
-                                        await _startSignIn(false);
-                                      }
-                                    }
-                                  : null,
-                              child: SubtitleText(
-                                mode == LogMode.signup
-                                    ? 'Register Now'
-                                    : 'Login',
+                Flexible(
+                  child: Container(
+                    width: 500,
+                    margin: EdgeInsets.symmetric(horizontal: 20.0),
+                    padding: EdgeInsets.symmetric(horizontal: 10),
+                    child: AnimatedSize(
+                      vsync: this,
+                      duration: Duration(milliseconds: 500),
+                      child: SingleChildScrollView(
+                        child: Column(
+                          mainAxisSize: MainAxisSize.min,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.only(top: 8.0),
+                              child: TitleText(
+                                mode == LogMode.signup ? 'Welcome' : 'Hello',
+                                fontSize: 35,
                                 color: Colors.white,
-                                fontWeight: FontWeight.bold,
-                                fontSize: 18,
                               ),
                             ),
-                          ),
-
-                          // SubtitleText(
-                          //   'Or ${mode == LogMode.signup ? 'Register' : 'Login'} with social Media',
-                          //   fontWeight: FontWeight.bold,
-                          // ),
-                          // Padding(
-                          //   padding: const EdgeInsets.all(8.0),
-                          //   child: Row(
-                          //     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                          //     children: [
-                          //       IconButton(
-                          //         iconSize: 35,
-                          //         onPressed: () {},
-                          //         icon: Icon(
-                          //           FontAwesomeIcons.googlePlus,
-                          //           color: Colors.red,
-                          //         ),
-                          //       ),
-                          //       IconButton(
-                          //         iconSize: 35,
-                          //         onPressed: () {},
-                          //         icon: Icon(
-                          //           FontAwesomeIcons.facebook,
-                          //           color: Colors.blue.withGreen(0),
-                          //         ),
-                          //       ),
-                          //       IconButton(
-                          //         iconSize: 33,
-                          //         onPressed: () {},
-                          //         icon: Icon(
-                          //           FontAwesomeIcons.twitter,
-                          //           color: Colors.blueAccent,
-                          //         ),
-                          //       )
-                          //     ],
-                          //   ),
-                          // )
-                          Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 10),
-                            child: AwesomeButton(
-                              isExpanded: true,
-                              height: 50,
-                              buttonType: AwesomeButtonType.text,
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  SubtitleText(
-                                    mode == LogMode.signup
-                                        ? 'Already have an account? '
-                                        : 'Don\'t have an account? ',
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.bold,
-                                    color: Theme.of(context)
-                                        .textTheme
-                                        .bodyText1
-                                        .color,
-                                  ),
-                                  SubtitleText(
-                                    mode == LogMode.signup
-                                        ? 'Log In'
-                                        : 'Register',
-                                    fontSize: 16,
-                                    color: Theme.of(context).primaryColor,
-                                    decoration: TextDecoration.underline,
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                ],
+                            Padding(
+                              padding: const EdgeInsets.only(top: 12.0),
+                              child: TitleText(
+                                mode == LogMode.signup
+                                    ? 'Create account'
+                                    : 'Sign in to your account',
+                                color: Colors.white,
                               ),
-                              onPressed: () {
+                            ),
+                            const SizedBox(
+                              height: 10,
+                            ),
+                            mode == LogMode.signup
+                                ? AwesomeTextField(
+                                    backgroundColor:
+                                        Colors.black.withOpacity(0.1),
+                                    borderRadius: BorderRadius.circular(50),
+                                    inputStyle: TextStyle(
+                                        fontSize: 18, color: Colors.white),
+                                    maxLines: 1,
+                                    prefixIconConstraints:
+                                        BoxConstraints(maxWidth: 55),
+                                    prefixIcon: Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: FaIcon(FontAwesomeIcons.solidUser),
+                                    ),
+                                    borderType: InputBorderType.none,
+                                    hintText: 'Enter your name',
+                                    labelText: 'User Name',
+                                    onChanged: (String s) {
+                                      setState(() {
+                                        username = s;
+                                      });
+                                    },
+                                    hintStyle: TextStyle(color: Colors.grey),
+                                  )
+                                : SizedBox.shrink(),
+                            AwesomeTextField(
+                              backgroundColor: Colors.black.withOpacity(0.1),
+                              borderRadius: BorderRadius.circular(50),
+                              hintText: 'Enter your email',
+                              labelText: 'Email ID',
+                              prefixIconConstraints:
+                                  BoxConstraints(maxWidth: 55),
+                              prefixIcon: Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: FaIcon(FontAwesomeIcons.solidEnvelope),
+                              ),
+                              maxLines: 1,
+                              borderType: InputBorderType.none,
+                              onChanged: (String s) {
                                 setState(() {
-                                  if (mode == LogMode.signup)
-                                    setState(() {
-                                      mode = LogMode.login;
-                                    });
-                                  else
-                                    setState(() {
-                                      mode = LogMode.signup;
-                                    });
+                                  email = s;
                                 });
                               },
+                              hintStyle: TextStyle(color: Colors.grey),
+                              inputStyle:
+                                  TextStyle(fontSize: 18, color: Colors.white),
                             ),
-                          ),
-                          SizedBox(
-                            height: 20,
-                          ),
-                        ],
+                            AwesomeTextField(
+                              backgroundColor: Colors.black.withOpacity(0.1),
+                              borderRadius: BorderRadius.circular(50),
+                              labelText: 'Password',
+                              prefixIconConstraints:
+                                  BoxConstraints(maxWidth: 55),
+                              prefixIcon: Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: FaIcon(FontAwesomeIcons.lock),
+                              ),
+                              hintText: 'Enter password',
+                              maxLines: 1,
+                              isPassword: true,
+                              onChanged: (String s) {
+                                setState(() {
+                                  password = s;
+                                });
+                              },
+                              borderType: InputBorderType.none,
+                              hintStyle: TextStyle(color: Colors.grey),
+                              inputStyle:
+                                  TextStyle(fontSize: 18, color: Colors.white),
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.symmetric(
+                                  horizontal: 15, vertical: 8.0),
+                              child: ThemeLoadButton(
+                                buttonStyle: ButtonStyle(
+                                  shape: MaterialStateProperty.resolveWith(
+                                    (_) => RoundedRectangleBorder(
+                                      borderRadius:
+                                          BorderRadius.circular(500.0),
+                                    ),
+                                  ),
+                                  backgroundColor:
+                                      MaterialStateColor.resolveWith((states) {
+                                    if (states.contains(MaterialState.disabled))
+                                      return Colors.grey[500];
+                                    else
+                                      return Theme.of(context).primaryColor;
+                                  }),
+                                ),
+                                isLoading: isLoading,
+                                onPressed: validate()
+                                    ? () async {
+                                        if (mode == LogMode.login) {
+                                          await _startSignIn(true);
+                                        } else {
+                                          await _startSignIn(false);
+                                        }
+                                      }
+                                    : null,
+                                child: SubtitleText(
+                                  mode == LogMode.signup
+                                      ? 'Register Now'
+                                      : 'Login',
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 18,
+                                ),
+                              ),
+                            ),
+                            // Padding(
+                            //   padding: const EdgeInsets.all(8.0),
+                            //   child: SubtitleText(
+                            //     'Or ${mode == LogMode.signup ? 'Register' : 'Login'} with social Media',
+                            //     fontWeight: FontWeight.bold,
+                            //     color: Colors.white,
+                            //   ),
+                            // ),
+                            // Padding(
+                            //   padding: const EdgeInsets.symmetric(
+                            //       horizontal: 30.0, vertical: 8.0),
+                            //   child: Row(
+                            //     mainAxisAlignment:
+                            //         MainAxisAlignment.spaceEvenly,
+                            //     children: [
+                            //       IconButton(
+                            //         iconSize: 35,
+                            //         onPressed: () {},
+                            //         icon: Icon(
+                            //           FontAwesomeIcons.googlePlus,
+                            //           color: Colors.white,
+                            //         ),
+                            //       ),
+                            //       IconButton(
+                            //         iconSize: 35,
+                            //         onPressed: () {},
+                            //         icon: Icon(
+                            //           FontAwesomeIcons.facebook,
+                            //           color: Colors.white,
+                            //         ),
+                            //       ),
+                            //       IconButton(
+                            //         iconSize: 33,
+                            //         onPressed: () {},
+                            //         icon: Icon(
+                            //           FontAwesomeIcons.twitter,
+                            //           color: Colors.white,
+                            //         ),
+                            //       )
+                            //     ],
+                            //   ),
+                            // ),
+                            Padding(
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 10),
+                              child: AwesomeButton(
+                                isExpanded: true,
+                                height: 50,
+                                buttonType: AwesomeButtonType.text,
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    SubtitleText(
+                                      mode == LogMode.signup
+                                          ? 'Already have an account? '
+                                          : 'Don\'t have an account? ',
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.bold,
+                                      color: Colors.grey[300],
+                                    ),
+                                    SubtitleText(
+                                      mode == LogMode.signup
+                                          ? 'Log In'
+                                          : 'Register',
+                                      fontSize: 16,
+                                      color: Theme.of(context).primaryColor,
+                                      decoration: TextDecoration.underline,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ],
+                                ),
+                                onPressed: () {
+                                  setState(() {
+                                    if (mode == LogMode.signup)
+                                      setState(() {
+                                        mode = LogMode.login;
+                                      });
+                                    else
+                                      setState(() {
+                                        mode = LogMode.signup;
+                                      });
+                                  });
+                                },
+                              ),
+                            ),
+                            SizedBox(
+                              height: 20,
+                            ),
+                          ],
+                        ),
                       ),
                     ),
                   ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         ],
       ),
@@ -739,7 +735,7 @@ class _ThemeLoadButtonState extends State<ThemeLoadButton>
             : ScaleAnimation(
                 child: AwesomeButton(
                   isExpanded: !widget.isLoading,
-                  height: 55,
+                  height: 60,
                   buttonType: AwesomeButtonType.elevated,
                   child: widget.child,
                   onPressed: widget.onPressed,
@@ -780,7 +776,6 @@ class _SlidingTabsState extends State<SlidingTabs>
         setState(() {
           index = newIndex;
         });
-        print(newIndex);
         changePage(newIndex);
       } catch (err) {}
     });

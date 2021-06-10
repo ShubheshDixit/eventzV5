@@ -37,6 +37,8 @@ class MyUser {
 
 class Event {
   final String title,
+      id,
+      listingUrl,
       subtitle,
       description,
       posterURL,
@@ -49,6 +51,8 @@ class Event {
 
   Event(
       {this.title,
+      this.id,
+      this.listingUrl,
       this.venue,
       this.lat,
       this.long,
@@ -77,6 +81,22 @@ class Event {
         tags: doc.get('tags'),
         category: doc.get('category'),
         ticketPrice: doc.get('ticketPrice'));
+  }
+  factory Event.fromMap(Map doc) {
+    return Event(
+        creatorName: doc['seller_id'],
+        title: doc['event'],
+        venue: doc['venue_id'],
+        lat: 8.0,
+        long: 173,
+        subtitle: 'ages: ' + doc['ages'],
+        date: Timestamp.fromDate(DateTime.parse(doc['event_start'])),
+        description: doc['description'],
+        posterURL: doc['image_url'],
+        imageURLs: [doc['image']],
+        category: doc['event_category_id'],
+        ticketPrice: doc['price'] ?? 10.4,
+        listingUrl: doc['listing_url']);
   }
 
   toJson() {
