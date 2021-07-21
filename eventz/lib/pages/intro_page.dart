@@ -4,7 +4,7 @@ import 'package:eventz/animations/scale_animation.dart';
 import 'package:eventz/backend/database.dart';
 import 'package:eventz/global_values.dart';
 import 'package:eventz/pages/auth_page.dart';
-import 'package:eventz/pages/global_widgets.dart';
+import 'package:eventz/utils/global_widgets.dart';
 import 'package:eventz/pages/home_page.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';

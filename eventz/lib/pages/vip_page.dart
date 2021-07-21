@@ -1,6 +1,6 @@
 import 'package:awesome_flutter_widgets/widgets/awesome_buttons.dart';
 import 'package:eventz/global_values.dart';
-import 'package:eventz/pages/global_widgets.dart';
+import 'package:eventz/utils/global_widgets.dart';
 import 'package:eventz/pages/my_web_view.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';

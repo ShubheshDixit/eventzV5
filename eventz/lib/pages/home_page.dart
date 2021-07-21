@@ -3,16 +3,12 @@ import 'package:awesome_flutter_widgets/widgets/awesome_buttons.dart';
 import 'package:eventz/animations/fade_animations.dart';
 import 'package:eventz/backend/database.dart';
 import 'package:eventz/global_values.dart';
-import 'package:eventz/pages/auth_page.dart';
-import 'package:eventz/pages/contact_page.dart';
 import 'package:eventz/pages/events_home_page.dart';
-import 'package:eventz/pages/global_widgets.dart';
-import 'package:eventz/pages/my_web_view.dart';
-import 'package:eventz/pages/tickets_page.dart';
-import 'package:eventz/pages/vip_page.dart';
+import 'package:eventz/utils/global_widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:intl/intl.dart';
+import 'package:routemaster/routemaster.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -53,12 +49,14 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
       body: Stack(
         children: [
           AnimatedPositioned(
-            duration: Duration(milliseconds: 200),
+            duration: Duration(milliseconds: 300),
+            curve: Curves.easeOut,
             right: isMenuOn ? 300 : 0,
             child: Transform.scale(
               scale: isMenuOn ? 0.85 : 1,
               child: AnimatedContainer(
-                duration: Duration(milliseconds: 200),
+                duration: Duration(milliseconds: 300),
+                curve: Curves.bounceIn,
                 height: MediaQuery.of(context).size.height,
                 width: MediaQuery.of(context).size.width,
                 decoration: isMenuOn
@@ -72,79 +70,12 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                   borderRadius: isMenuOn
                       ? BorderRadius.circular(25.0)
                       : BorderRadius.circular(0),
-                  child: TabBarView(
-                    physics: NeverScrollableScrollPhysics(),
-                    controller: _controller,
-                    children: [
-                      EventsHomePage(
-                        onMenuPressed: () {
-                          setState(() {
-                            isMenuOn = !isMenuOn;
-                          });
-                        },
-                      ),
-                      Scaffold(
-                          appBar: AppBar(
-                        actions: [
-                          IconButton(
-                              icon: Icon(FontAwesomeIcons.bars),
-                              onPressed: () {
-                                setState(() {
-                                  isMenuOn = !isMenuOn;
-                                });
-                              }),
-                        ],
-                      )),
-                      TicketsPage(
-                        onMenuPressed: () {
-                          setState(() {
-                            isMenuOn = !isMenuOn;
-                          });
-                        },
-                      ),
-                      Scaffold(
-                        appBar: AppBar(
-                          title: TitleText('Gallery'),
-                          actions: [
-                            IconButton(
-                                icon: Icon(FontAwesomeIcons.bars),
-                                onPressed: () {
-                                  setState(() {
-                                    isMenuOn = !isMenuOn;
-                                  });
-                                })
-                          ],
-                        ),
-                        body: MyWebView(
-                            title: 'Gallery',
-                            url: 'https://v5group.smugmug.com/'),
-                      ),
-                      Scaffold(
-                        appBar: AppBar(
-                          title: TitleText('PhotoBooth'),
-                          actions: [
-                            IconButton(
-                                icon: Icon(FontAwesomeIcons.bars),
-                                onPressed: () {
-                                  setState(() {
-                                    isMenuOn = !isMenuOn;
-                                  });
-                                }),
-                          ],
-                        ),
-                        body: MyWebView(
-                            title: 'BoothPics',
-                            url:
-                                'https://app.photoboothsupplyco.com/portfolio-embed/7a1ee0dc-6774-5645-b7bc-f5432a06d691/'),
-                      ),
-                      ContactPage(
-                        onMenuPressed: () {
-                          setState(() {
-                            isMenuOn = !isMenuOn;
-                          });
-                        },
-                      )
-                    ],
+                  child: EventsHomePage(
+                    onMenuPressed: () {
+                      setState(() {
+                        isMenuOn = !isMenuOn;
+                      });
+                    },
                   ),
                 ),
               ),
@@ -191,12 +122,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                             ),
                             child: ListTile(
                               onTap: () {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) => VIPPage(),
-                                  ),
-                                );
+                                Routemaster.of(context).push('/vip');
                               },
                               title: TitleText(
                                 isVip ? 'VIP Member' : 'Get VIP Membership',
@@ -224,7 +150,12 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                               child: Column(
                                 children: [
                                   ListTile(
-                                    onTap: () => changePage(0),
+                                    onTap: () {
+                                      Routemaster.of(context).push('/');
+                                      setState(() {
+                                        currentIndex = 0;
+                                      });
+                                    },
                                     leading: Icon(
                                       FontAwesomeIcons.home,
                                       color: currentIndex == 0
@@ -240,7 +171,12 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                                     ),
                                   ),
                                   ListTile(
-                                    onTap: () => changePage(1),
+                                    onTap: () {
+                                      Routemaster.of(context).push('/store');
+                                      setState(() {
+                                        currentIndex = 1;
+                                      });
+                                    },
                                     leading: Icon(
                                       FontAwesomeIcons.store,
                                       color: currentIndex == 1
@@ -256,7 +192,12 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                                     ),
                                   ),
                                   ListTile(
-                                    onTap: () => changePage(2),
+                                    onTap: () {
+                                      Routemaster.of(context).push('/tickets');
+                                      setState(() {
+                                        currentIndex = 2;
+                                      });
+                                    },
                                     leading: Icon(
                                       FontAwesomeIcons.ticketAlt,
                                       color: currentIndex == 2
@@ -272,7 +213,12 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                                     ),
                                   ),
                                   ListTile(
-                                    onTap: () => changePage(3),
+                                    onTap: () {
+                                      Routemaster.of(context).push('/gallery');
+                                      setState(() {
+                                        currentIndex = 3;
+                                      });
+                                    },
                                     leading: Icon(
                                       FontAwesomeIcons.image,
                                       color: currentIndex == 3
@@ -288,7 +234,13 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                                     ),
                                   ),
                                   ListTile(
-                                    onTap: () => changePage(4),
+                                    onTap: () {
+                                      Routemaster.of(context)
+                                          .push('/photobooth');
+                                      setState(() {
+                                        currentIndex = 4;
+                                      });
+                                    },
                                     leading: Icon(
                                       FontAwesomeIcons.cameraRetro,
                                       color: currentIndex == 4
@@ -304,7 +256,12 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                                     ),
                                   ),
                                   ListTile(
-                                    onTap: () => changePage(5),
+                                    onTap: () {
+                                      Routemaster.of(context).push('/contact');
+                                      setState(() {
+                                        currentIndex = 5;
+                                      });
+                                    },
                                     leading: Icon(
                                       FontAwesomeIcons.infoCircle,
                                       color: currentIndex == 5
@@ -322,12 +279,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                                   ListTile(
                                     onTap: () async {
                                       await AuthService().logout();
-                                      await Navigator.pushReplacement(
-                                        context,
-                                        MaterialPageRoute(
-                                          builder: (context) => AuthPage(),
-                                        ),
-                                      );
+                                      Routemaster.of(context).replace('/auth');
                                     },
                                     leading: Icon(
                                       FontAwesomeIcons.signOutAlt,

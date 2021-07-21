@@ -1,6 +1,6 @@
 import 'package:eventz/global_values.dart';
 import 'package:eventz/pages/events_home_page.dart';
-import 'package:eventz/pages/global_widgets.dart';
+import 'package:eventz/utils/global_widgets.dart';
 import 'package:flutter/material.dart';
 
 class SearchPage extends StatefulWidget {

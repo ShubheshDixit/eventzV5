@@ -44,6 +44,7 @@ class Event {
       posterURL,
       category,
       creatorName,
+      pricingUrl,
       venue;
   final double ticketPrice, lat, long;
   final List<String> imageURLs, tags;
@@ -53,6 +54,7 @@ class Event {
       {this.title,
       this.id,
       this.listingUrl,
+      this.pricingUrl,
       this.venue,
       this.lat,
       this.long,
@@ -68,7 +70,8 @@ class Event {
 
   factory Event.fromDoc(DocumentSnapshot doc) {
     return Event(
-        creatorName: doc.get('creatorName'),
+        id: doc.get('event_id'),
+        creatorName: doc.get('seller_id'),
         title: doc.get('title'),
         venue: doc.get('venue'),
         lat: doc.get('lat'),
@@ -80,10 +83,12 @@ class Event {
         imageURLs: doc.get('imageURLs'),
         tags: doc.get('tags'),
         category: doc.get('category'),
+        pricingUrl: doc.get('pricingURL'),
         ticketPrice: doc.get('ticketPrice'));
   }
   factory Event.fromMap(Map doc) {
     return Event(
+        id: doc['event_id'],
         creatorName: doc['seller_id'],
         title: doc['event'],
         venue: doc['venue_id'],
@@ -92,10 +97,12 @@ class Event {
         subtitle: 'ages: ' + doc['ages'],
         date: Timestamp.fromDate(DateTime.parse(doc['event_start'])),
         description: doc['description'],
-        posterURL: doc['image_url'],
+        posterURL: doc['image_url'] ??
+            'https://sc-schemes.s3.amazonaws.com/30176/header_image.png',
         imageURLs: [doc['image']],
         category: doc['event_category_id'],
         ticketPrice: doc['price'] ?? 10.4,
+        pricingUrl: doc['price_levels'],
         listingUrl: doc['listing_url']);
   }
 
@@ -115,5 +122,61 @@ class Event {
       'category': category,
       'ticketPrice': ticketPrice,
     };
+  }
+}
+
+class StoreItem {
+  final String title, imageURL, description, id;
+  final double price;
+
+  StoreItem({this.title, this.imageURL, this.description, this.price, this.id});
+  factory StoreItem.fromDoc(DocumentSnapshot doc) {
+    return StoreItem(
+      id: doc.get('id'),
+      title: doc.get('title'),
+      imageURL: doc.get('imageURL'),
+      description: doc.get('description'),
+      price: doc.get('price'),
+    );
+  }
+  factory StoreItem.fromMap(Map doc) {
+    return StoreItem(
+      id: doc['id'],
+      title: doc['title'],
+      imageURL: doc['imageURL'],
+      description: doc['description'],
+      price: doc['price'],
+    );
+  }
+
+  toJson() {
+    return {
+      'id': id,
+      'title': title,
+      'imageURL': imageURL,
+      'price': price,
+    };
+  }
+}
+
+class Chat {
+  final String senderId, senderName, msg;
+  final List<String> mediaUrls;
+  final Timestamp timestamp;
+
+  Chat(
+      {this.timestamp,
+      this.senderId,
+      this.senderName,
+      this.msg,
+      this.mediaUrls});
+
+  factory Chat.fromDoc(DocumentSnapshot doc) {
+    return Chat(
+        msg: doc.get('msg'),
+        senderId: doc.get('senderId'),
+        senderName: doc.get('senderName'),
+        mediaUrls: doc.get('mediaUrls'),
+        timestamp: doc.get('timestamp'));
   }
 }

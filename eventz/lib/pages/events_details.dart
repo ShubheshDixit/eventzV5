@@ -4,7 +4,7 @@ import 'package:eventz/animations/scale_animation.dart';
 import 'package:eventz/backend/mock_data.dart';
 import 'package:eventz/backend/models.dart';
 import 'package:eventz/pages/all_events_page.dart';
-import 'package:eventz/pages/global_widgets.dart';
+import 'package:eventz/utils/global_widgets.dart';
 import 'package:eventz/pages/my_web_view.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -15,11 +15,11 @@ import 'package:latlng/latlng.dart';
 import 'package:map/map.dart';
 
 class EventDetails extends StatefulWidget {
-  final Event event;
+  final String eventId;
 
   final List members;
 
-  const EventDetails({Key key, this.members, @required this.event})
+  const EventDetails({Key key, this.members, @required this.eventId})
       : super(key: key);
   @override
   _EventDetailsState createState() => _EventDetailsState();
@@ -28,6 +28,7 @@ class EventDetails extends StatefulWidget {
 class _EventDetailsState extends State<EventDetails> {
   MapController controller;
   bool isSaved = false;
+  Event event;
 
   void _gotoDefault() {
     controller.center = LatLng(35.68, 51.41);
@@ -67,6 +68,11 @@ class _EventDetailsState extends State<EventDetails> {
       location: LatLng(35.68, 51.41),
     );
     _gotoDefault();
+    final _event =
+        events.firstWhere((element) => element['event_id'] == widget.eventId);
+    setState(() {
+      event = Event.fromMap(_event);
+    });
   }
 
   @override
@@ -85,7 +91,7 @@ class _EventDetailsState extends State<EventDetails> {
             SliverAppBar(
               expandedHeight: 400,
               flexibleSpace: Hero(
-                tag: widget.event.posterURL,
+                tag: event.posterURL,
                 child: Material(
                   color: Colors.transparent,
                   child: Container(
@@ -93,7 +99,7 @@ class _EventDetailsState extends State<EventDetails> {
                     height: MediaQuery.of(context).size.height * 0.6,
                     decoration: BoxDecoration(
                       image: DecorationImage(
-                        image: NetworkImage(widget.event.posterURL),
+                        image: NetworkImage(event.posterURL),
                         fit: BoxFit.cover,
                       ),
                     ),
@@ -123,7 +129,7 @@ class _EventDetailsState extends State<EventDetails> {
                       children: [
                         ListTile(
                           title: TitleText(
-                            unescape.convert(widget.event.title),
+                            unescape.convert(event.title),
                             fontSize: 30,
                           ),
                           subtitle: Column(
@@ -131,11 +137,11 @@ class _EventDetailsState extends State<EventDetails> {
                             children: [
                               SubtitleText(
                                 DateFormat('dd MMM, 22:00 - 04:00')
-                                    .format(widget.event.date.toDate()),
+                                    .format(event.date.toDate()),
                                 fontSize: 16,
                                 fontWeight: FontWeight.bold,
                               ),
-                              SubtitleText(widget.event.subtitle),
+                              SubtitleText(event.subtitle),
                             ],
                           ),
                           trailing: IconButton(
@@ -157,7 +163,7 @@ class _EventDetailsState extends State<EventDetails> {
                         ListTile(
                           title: TitleText('About'),
                           subtitle: SubtitleText(
-                              '${unescape.convert(widget.event.description)}'),
+                              '${unescape.convert(event.description)}'),
                         ),
                         Divider(
                           indent: 15,
@@ -166,7 +172,7 @@ class _EventDetailsState extends State<EventDetails> {
                         ListTile(
                           title: SubtitleText('Price per ticket:'),
                           trailing: TitleText(
-                            '\$ ${widget.event.ticketPrice}',
+                            '\$ ${event.ticketPrice}',
                             color: Theme.of(context).primaryColor,
                             fontSize: 28.0,
                             fontWeight: FontWeight.w900,
@@ -228,8 +234,7 @@ class _EventDetailsState extends State<EventDetails> {
                           children: List.generate(
                               events.length > 5 ? 5 : events.length, (index) {
                             Event event = Event.fromMap(events[index]);
-                            if (event.title == widget.event.title)
-                              return Container();
+                            if (event.title == event.title) return Container();
                             return FadeAnimation(
                               0.2,
                               Padding(
@@ -268,7 +273,7 @@ class _EventDetailsState extends State<EventDetails> {
                               ),
                               body: MyWebView(
                                 title: 'Buy Tickets',
-                                url: widget.event.listingUrl,
+                                url: event.listingUrl,
                               ),
                             )));
               },

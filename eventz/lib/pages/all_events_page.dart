@@ -1,16 +1,15 @@
-import 'dart:async';
-
 import 'package:eventz/animations/fade_animations.dart';
 import 'package:eventz/animations/scale_animation.dart';
 import 'package:eventz/backend/mock_data.dart';
 import 'package:eventz/backend/models.dart';
 import 'package:eventz/global_values.dart';
-import 'package:eventz/pages/events_details.dart';
-import 'package:eventz/pages/global_widgets.dart';
+import 'package:eventz/utils/global_widgets.dart';
+import 'package:fancy_shimmer_image/fancy_shimmer_image.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:html_unescape/html_unescape.dart';
 import 'package:intl/intl.dart';
+import 'package:routemaster/routemaster.dart';
 
 class AllEventsPage extends StatefulWidget {
   @override
@@ -34,7 +33,7 @@ class _AllEventsPageState extends State<AllEventsPage> {
                     FontAwesomeIcons.chevronLeft,
                     color: Colors.white,
                   ),
-                  onPressed: () => Navigator.pop(context),
+                  onPressed: () => Routemaster.of(context).pop(),
                 ),
                 brightness: Brightness.dark,
                 centerTitle: true,
@@ -153,24 +152,25 @@ class _EventsBoxState extends State<EventsBox> {
       ),
       child: InkWell(
         onTap: () async {
-          await Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (context) => EventDetails(
-                event: widget.event,
-              ),
-            ),
-          );
+          print(widget.event.id);
+          Routemaster.of(context).push('/event/${widget.event.id}');
         },
         child: widget.isTile
             ? Row(
                 children: [
-                  Image.network(
-                    widget.event.posterURL,
+                  FancyShimmerImage(
+                    imageUrl: widget.event.posterURL,
+                    errorWidget: Image.network(
+                        'https://i0.wp.com/www.dobitaobyte.com.br/wp-content/uploads/2016/02/no_image.png?ssl=1'),
                     width: 100,
                     height: 140,
-                    fit: BoxFit.cover,
                   ),
+                  // Image.network(
+                  //   widget.event.posterURL,
+                  //   width: 100,
+                  //   height: 140,
+                  //   fit: BoxFit.cover,
+                  // ),
                   Flexible(
                       child: Padding(
                     padding: const EdgeInsets.symmetric(

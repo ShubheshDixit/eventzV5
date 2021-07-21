@@ -55,6 +55,90 @@ Event myEvent = Event(
 );
 List<Map> events = [
   {
+    "event_id": "6744045",
+    "seller_id": "17103",
+    "venue_id": "67393",
+    "event": "V5 &quot;Pura Vida&quot; Fridays Moe's River North",
+    "behavior_set": "3",
+    "description":
+        "\nNEW V5 Pura Vida Friday's at Moe's Cantina River North.\n(TIME)\n155 W Kinzie St. Chicago, IL 60654\n(MUSIC FORMAT)\n(DJ&rsquo;S)\n(SPECIALS)\n(DRESS CODE)\nFACE MASK AND TEMPERATURE CHECK REQUIRED\nLIMITED CAPACITY\n&nbsp;\nFOLLOW US!\n&nbsp;&nbsp;&nbsp;&nbsp;\n&nbsp;",
+    "inventory": "50",
+    "private_event": "0",
+    "price": null,
+    "bos_price": "0.00",
+    "price_label": null,
+    "price_limit": null,
+    "price_active": "1",
+    "ticket_purchase_timelimit": "900",
+    "ticket_purchase_limit": "10",
+    "sales_close": "167:30",
+    "doors_open_time": null,
+    "ages": "21",
+    "image":
+        "//sc-events.s3.amazonaws.com/17103/6744045/a0a8de74ebb4b9289f2661e0d9e5471520cca7aca9540d9ebb264b9eeca77955/3a3e9d8d-eb60-4379-b782-6c9bed51717d.png",
+    "url": null,
+    "event_type": "3",
+    "ticket_note": null,
+    "event_category_id": "17",
+    "genre": null,
+    "status": "4",
+    "newsletter_sent": "0",
+    "donation_live": "n",
+    "donation_name": "",
+    "date_added": "2020-12-22 11:51:19",
+    "date_edited": "2020-12-23 12:27:30",
+    "scheme_id": null,
+    "keywords": null,
+    "sales_open": "2021-01-12 00:00:00",
+    "event_start": "2021-01-15 19:00:00",
+    "event_end": "2021-12-31 00:00:00",
+    "short_name": "v5-fridays-moe-s-river-north",
+    "parent": null,
+    "display_image": "0",
+    "show_seating_chart": "0",
+    "level_description": null,
+    "position": null,
+    "approved": "1",
+    "approval_note": null,
+    "date_approved": null,
+    "approval_user_id": "0",
+    "tweeted_at": null,
+    "tweet_url": null,
+    "combine_additional_fees": "0",
+    "tos_id": null,
+    "product_map": [],
+    "listing_url":
+        "https://www.showclix.com/event/v5-fridays-moe-s-river-north",
+    "image_url":
+        "https://sc-events.s3.amazonaws.com/17103/6744045/a0a8de74ebb4b9289f2661e0d9e5471520cca7aca9540d9ebb264b9eeca77955/3a3e9d8d-eb60-4379-b782-6c9bed51717d.png",
+    "thumbnail_url":
+        "https://sc-events.s3.amazonaws.com/17103/6744045/a0a8de74ebb4b9289f2661e0d9e5471520cca7aca9540d9ebb264b9eeca77955/3a3e9d8d-eb60-4379-b782-6c9bed51717d_132_132.png",
+    "cardprinter_layout": false,
+    "event_talents": [],
+    "raw_description":
+        "<p><strong><img src=\"//sc-events.s3.amazonaws.com/17103/6744045/a0a8de74ebb4b9289f2661e0d9e5471520cca7aca9540d9ebb264b9eeca77955/eb9c43dc-4916-436e-af08-94078e30cfe6.png\" alt=\"\" width=\"162\" height=\"332\" /></strong></p>\n<p><strong>NEW V5 Pura Vida Friday's </strong><strong>at Moe's Cantina River North</strong>.</p>\n<p>(TIME)</p>\n<p><a href=\"https://www.google.com/maps/place/155+W+Kinzie+St,+Chicago,+IL+60654/data=!4m2!3m1!1s0x880e2cb1340ec603:0xe90bd9fe270753c2?sa=X&amp;ved=2ahUKEwiEu-D8tuLtAhUXLs0KHYEfA7oQ8gEwAHoECAYQAQ\">155 W Kinzie St. Chicago, IL 60654</a></p>\n<p>(MUSIC FORMAT)</p>\n<p>(DJ&rsquo;S)</p>\n<p>(SPECIALS)</p>\n<p>(DRESS CODE)</p>\n<p>FACE MASK AND TEMPERATURE CHECK REQUIRED</p>\n<p>LIMITED CAPACITY</p>\n<p>&nbsp;</p>\n<h1><strong>FOLLOW US!</strong></h1>\n<p><strong><a href=\"https://www.instagram.com/v5group/\" target=\"_blank\" rel=\"noopener\"><img src=\"//sc-events.s3.amazonaws.com/17103/6744045/ee72f45694c9f6ed9c5259c5891151516c44d00d2f3c2019aa69a51309580c06/367ec401-ee6a-4e9d-b50c-d60c552630e4.png\" alt=\"\" width=\"70\" height=\"70\" /></a>&nbsp;&nbsp;<a lang=\"en\" lang=\"en\" lang=\"en\" href=\"https://www.tiktok.com/@v5chicago?lang=en\" target=\"_blank\" rel=\"noopener\"><img src=\"//sc-events.s3.amazonaws.com/17103/6744045/f2ed967bcf14819a574de8f75ae0fe957cd3f70207e7a8fc37ed5bf540be5db6/fc40d8f6-fcf6-4f39-81c1-052b7a027c3b.png\" alt=\"\" width=\"70\" height=\"70\" /></a>&nbsp;&nbsp;<a href=\"https://www.facebook.com/v5group\" target=\"_blank\" rel=\"noopener\"><img src=\"//sc-events.s3.amazonaws.com/17103/6744045/24b38a58e73ddb164a8f5c4a9a9cb9fecc834a001f13dea72e4ca427bb6f6655/aae2bb46-88b3-4aa6-b9a9-10a41bb1b0d1.png\" alt=\"\" width=\"70\" height=\"70\" /></a></strong></p>\n<p>&nbsp;</p>",
+    "price_levels":
+        "https://www.showclix.com/rest.api/Event/6744045/price_levels",
+    "event_sections":
+        "https://www.showclix.com/rest.api/Event/6744045/event_sections",
+    "event_seats":
+        "https://www.showclix.com/rest.api/Event/6744045/event_seats",
+    "section_price_levels":
+        "https://www.showclix.com/rest.api/Event/6744045/section_price_levels",
+    "child_events":
+        "https://www.showclix.com/rest.api/Event/6744045/child_events",
+    "notes": "https://www.showclix.com/rest.api/Event/6744045/notes",
+    "package_child_map":
+        "https://www.showclix.com/rest.api/Event/6744045/package_child_map",
+    "venue": "https://www.showclix.com/rest.api/Event/6744045/venue",
+    "seller": "https://www.showclix.com/rest.api/Event/6744045/seller",
+    "scheme": "https://www.showclix.com/rest.api/Event/6744045/scheme",
+    "sections": "https://www.showclix.com/rest.api/Event/6744045/sections",
+    "products": "https://www.showclix.com/rest.api/Event/6744045/products",
+    "bundles": "https://www.showclix.com/rest.api/Event/6744045/bundles",
+    "talents": "https://www.showclix.com/rest.api/Event/6744045/talents"
+  },
+  {
     "event_id": "6744471",
     "seller_id": "17103",
     "venue_id": "67393",
@@ -139,13 +223,93 @@ List<Map> events = [
     "talents": "https://www.showclix.com/rest.api/Event/6744471/talents"
   },
   {
+    "event_id": "6744523",
+    "seller_id": "17103",
+    "venue_id": "67273",
+    "event": "Mansion Baila Fridays (21+)",
+    "behavior_set": "3",
+    "description":
+        "Baila Fridays @ Mansion Nightclub (3801 W Lake St, Stone Park, IL 60165)\n\nTable reservations are perfect for any special occasion; Birthdays, Bachelorette, etc. (Your reservation includes a free complementary bottle of Champagne).\n\n2 Rooms of music playing the best in Reggaeton, Top 40 &amp; Latin hits with resident DJ Gordo &amp; Gato.\u00a0\n\nDoors 10pm\nFace mask and temperature check required\nLimited capacity\n773-561-9111\nParking Available \$10-15\nCoat Check Available\nFood Availiable\u00a0\n\nVideo Preview:\n\n\u00a0\n\u00a0",
+    "inventory": "230",
+    "private_event": "0",
+    "price": null,
+    "bos_price": "0.00",
+    "price_label": null,
+    "price_limit": null,
+    "price_active": "1",
+    "ticket_purchase_timelimit": "900",
+    "ticket_purchase_limit": "10",
+    "sales_close": "167:30",
+    "doors_open_time": null,
+    "ages": "21",
+    "image": null,
+    "url": null,
+    "event_type": "3",
+    "ticket_note": null,
+    "event_category_id": "17",
+    "genre": null,
+    "status": "5",
+    "newsletter_sent": "0",
+    "donation_live": "n",
+    "donation_name": "",
+    "date_added": "2020-12-22 14:32:00",
+    "date_edited": "2021-06-08 12:28:17",
+    "scheme_id": null,
+    "keywords": null,
+    "sales_open": "2021-01-12 00:00:00",
+    "event_start": "2021-02-26 22:00:00",
+    "event_end": "2021-12-31 22:00:00",
+    "short_name": "mansion-fridays-21-",
+    "parent": null,
+    "display_image": "0",
+    "show_seating_chart": "0",
+    "level_description": null,
+    "position": null,
+    "approved": "1",
+    "approval_note": null,
+    "date_approved": null,
+    "approval_user_id": "0",
+    "tweeted_at": null,
+    "tweet_url": null,
+    "combine_additional_fees": "0",
+    "tos_id": null,
+    "product_map": [],
+    "listing_url": "https://www.showclix.com/event/mansion-fridays-21-",
+    "image_url": null,
+    "thumbnail_url": null,
+    "cardprinter_layout": false,
+    "event_talents": [],
+    "raw_description":
+        "<h3><strong>Baila Fridays @ Mansion Nightclub (3801 W Lake St, Stone Park, IL 60165)</strong></h3>\n<p><a href=\"https://fs20.formsite.com/v5group/v5-mansion-fridays/\" target=\"_blank\" rel=\"noopener\"><img src=\"//sc-events.s3.amazonaws.com/17103/6744523/107472cd76ba80a7a6e013b75fb4403529fc1f87f85fc274933798480308ca7a/c630dafe-85a9-4ca9-ac13-b61bd430a082.png\" alt=\"\" width=\"292\" height=\"56\" /></a></p>\n<p><span style=\"color: #0000ff; font-size: 8pt;\"><span style=\"color: #000000;\">Table reservations are perfect for any special occasion; Birthdays, Bachelorette, etc. (Your reservation includes a free complementary bottle of Champagne).<br /></span></span></p>\n<p><a href=\"https://fs20.formsite.com/v5group/images/newmansion2021BA.jpg\" target=\"_blank\" rel=\"noopener\"><span style=\"color: #0000ff; font-size: 8pt;\"><span style=\"color: #000000;\"><img src=\"//sc-events.s3.amazonaws.com/17103/6744523/e9d25591b5a4ed2508f9399eb9df99f9cf6fbab89770ed14332aa5838bb42d11/c6c3a392-3258-4b17-a136-0cf8fcca789c.png\" alt=\"\" width=\"292\" height=\"56\" /></span></span></a></p>\n<h3>2 Rooms of music playing the best in Reggaeton, Top 40 &amp; Latin hits with resident DJ Gordo &amp; Gato.\u00a0</h3>\n<ul>\n<li>Doors 10pm</li>\n<li>Face mask and temperature check required</li>\n<li>Limited capacity</li>\n<li>773-561-9111</li>\n<li>Parking Available \$10-15</li>\n<li>Coat Check Available</li>\n<li>Food Availiable\u00a0</li>\n</ul>\n<h3>Video Preview:</h3>\n<p><iframe title=\"YouTube video player\" src=\"https://www.youtube.com/embed/zSE0WHFyOJ0\" width=\"560\" height=\"315\"></iframe></p>\n<p>\u00a0</p>\n<p>\u00a0</p>",
+    "price_levels":
+        "https://www.showclix.com/rest.api/Event/6744523/price_levels",
+    "event_sections":
+        "https://www.showclix.com/rest.api/Event/6744523/event_sections",
+    "event_seats":
+        "https://www.showclix.com/rest.api/Event/6744523/event_seats",
+    "section_price_levels":
+        "https://www.showclix.com/rest.api/Event/6744523/section_price_levels",
+    "child_events":
+        "https://www.showclix.com/rest.api/Event/6744523/child_events",
+    "notes": "https://www.showclix.com/rest.api/Event/6744523/notes",
+    "package_child_map":
+        "https://www.showclix.com/rest.api/Event/6744523/package_child_map",
+    "venue": "https://www.showclix.com/rest.api/Event/6744523/venue",
+    "seller": "https://www.showclix.com/rest.api/Event/6744523/seller",
+    "scheme": "https://www.showclix.com/rest.api/Event/6744523/scheme",
+    "sections": "https://www.showclix.com/rest.api/Event/6744523/sections",
+    "products": "https://www.showclix.com/rest.api/Event/6744523/products",
+    "bundles": "https://www.showclix.com/rest.api/Event/6744523/bundles",
+    "talents": "https://www.showclix.com/rest.api/Event/6744523/talents"
+  },
+  {
     "event_id": "6770694",
     "seller_id": "17103",
     "venue_id": "68023",
     "event": "Reggaeton Fridays @ Village Roadhouse in Skokie",
     "behavior_set": "3",
     "description":
-        "Friday Nights @ Village Roadhouse (7070 Carpenter Rd, Skokie, IL 60077)\nFriday Nights at Village Roadhouse inside the Skokie Mall with Gianni Blu, Flaco, &amp; BadBoy playing Reggaeton, Latin Beats &amp; todays hits. Doors open at 8pm.\n\nTable reservations are perfect for any special occasion; Birthdays, Bachelorette, etc. (Your reservation includes a free complementary bottle of Champagne).&nbsp;&nbsp;\n\n\n&nbsp;4 drinks for \$20 from 8pm-10pm\n&nbsp;Ladies Free all night\n&nbsp;\n&nbsp;\$200 Bottle Specials&nbsp;\n&nbsp;Kitchen open late\n&nbsp;For Bottle Service or Birthday Reservations text us at 773-561-9111\n\nPackages:\n\nDeal #1: \$400\n\n1 Remy VSOP or 1 Don Julio Blanco BTL\n1 Moet Nectar Rose BTL\n1 Large Pizza\n\nDeal #2: \$600\n\n1 Remy XO BTL\n1 1738 BTL\n1 Large Pizza\n\nDeal #3: \$750\n\n1 1942 BTL\n1 Don Julio Blanco BTL\n1 Large Pizza\nVideo Preview:\n\n&nbsp;",
+        "Friday Nights @ Village Roadhouse (7070 Carpenter Rd, Skokie, IL 60077)\nFriday Nights at Village Roadhouse inside the Skokie Mall with Gianni Blu, Flaco, &amp; BadBoy playing Reggaeton, Latin Beats &amp; todays hits. Doors open at 8pm.\n\nTable reservations are perfect for any special occasion; Birthdays, Bachelorette, etc. (Your reservation includes a free complementary bottle of Champagne).\u00a0\u00a0\n\n\n\u00a04 drinks for \$20 from 8pm-10pm\n\u00a0Ladies Free all night\n\u00a0\n\u00a0\$200 Bottle Specials\u00a0\n\u00a0Kitchen open late\n\u00a0For Bottle Service or Birthday Reservations text us at 773-561-9111\n\nPackages:\n\nDeal #1: \$400\n\n1 Remy VSOP or 1 Don Julio Blanco BTL\n1 Moet Nectar Rose BTL\n1 Large Pizza\n\nDeal #2: \$600\n\n1 Remy XO BTL\n1 1738 BTL\n1 Large Pizza\n\nDeal #3: \$750\n\n1 1942 BTL\n1 Don Julio Blanco BTL\n1 Large Pizza\nVideo Preview:\n\n\u00a0",
     "inventory": "300",
     "private_event": "0",
     "price": null,
@@ -170,7 +334,7 @@ List<Map> events = [
     "donation_live": "n",
     "donation_name": "",
     "date_added": "2021-01-05 12:53:02",
-    "date_edited": "2021-05-21 15:43:47",
+    "date_edited": "2021-06-08 17:24:20",
     "scheme_id": null,
     "keywords": null,
     "sales_open": "2021-01-26 00:00:00",
@@ -199,7 +363,7 @@ List<Map> events = [
     "cardprinter_layout": false,
     "event_talents": [],
     "raw_description":
-        "<h3><strong>Friday Nights @ Village Roadhouse (7070 Carpenter Rd, Skokie, IL 60077)</strong></h3>\n<p><span style=\"font-size: 10pt;\">Friday Nights at Village Roadhouse inside the Skokie Mall with Gianni Blu, Flaco, &amp; BadBoy playing Reggaeton, Latin Beats &amp; todays hits. Doors open at 8pm.</span></p>\n<p><a href=\"https://fs20.formsite.com/v5group/v5-village-roadhouse-fri/\" target=\"_blank\" rel=\"noopener\"><span style=\"font-size: 10pt;\"><img src=\"//sc-events.s3.amazonaws.com/17103/6770694/107472cd76ba80a7a6e013b75fb4403529fc1f87f85fc274933798480308ca7a/ff8e1063-5e94-412d-89b4-60574a0db47e.png\" alt=\"\" width=\"292\" height=\"56\" /></span></a></p>\n<p><span style=\"color: #0000ff; font-size: 8pt;\"><span style=\"color: #000000;\">Table reservations are perfect for any special occasion; Birthdays, Bachelorette, etc. (Your reservation includes a free complementary bottle of Champagne).</span>&nbsp;&nbsp;</span></p>\n<p><a href=\"https://fs20.formsite.com/v5group/images/VRHmenu.png\" target=\"_blank\" rel=\"noopener\"><span style=\"color: #0000ff; font-size: 8pt;\"><img src=\"//sc-events.s3.amazonaws.com/17103/6770694/e9d25591b5a4ed2508f9399eb9df99f9cf6fbab89770ed14332aa5838bb42d11/b708e87a-0487-4586-b92e-e2d6c0439594.png\" alt=\"\" width=\"292\" height=\"56\" /></span></a></p>\n<ul>\n<li>&nbsp;4 drinks for \$20 from 8pm-10pm</li>\n<li>&nbsp;Ladies Free all night</li>\n<li>&nbsp;</li>\n<li>&nbsp;\$200 Bottle Specials&nbsp;</li>\n<li>&nbsp;Kitchen open late</li>\n<li>&nbsp;For Bottle Service or Birthday Reservations text us at 773-561-9111</li>\n</ul>\n<p><strong>Packages:</strong></p>\n<ul>\n<li>Deal #1: \$400</li>\n</ul>\n<p style=\"padding-left: 60px;\">1 Remy VSOP or 1 Don Julio Blanco BTL</p>\n<p style=\"padding-left: 60px;\">1 Moet Nectar Rose BTL</p>\n<p style=\"padding-left: 60px;\">1 Large Pizza</p>\n<ul>\n<li>Deal #2: \$600</li>\n</ul>\n<p style=\"padding-left: 60px;\">1 Remy XO BTL</p>\n<p style=\"padding-left: 60px;\">1 1738 BTL</p>\n<p style=\"padding-left: 60px;\">1 Large Pizza</p>\n<ul>\n<li>Deal #3: \$750</li>\n</ul>\n<p style=\"padding-left: 60px;\">1 1942 BTL</p>\n<p style=\"padding-left: 60px;\">1 Don Julio Blanco BTL</p>\n<p style=\"padding-left: 60px;\">1 Large Pizza<br /><br /></p>\n<p><strong>Video Preview:</strong></p>\n<p><iframe title=\"YouTube video player\" src=\"https://www.youtube.com/embed/7292ajng4UQ\" width=\"560\" height=\"315\"></iframe></p>\n<p>&nbsp;</p>",
+        "<h3><strong>Friday Nights @ Village Roadhouse (7070 Carpenter Rd, Skokie, IL 60077)</strong></h3>\n<p><span style=\"font-size: 10pt;\">Friday Nights at Village Roadhouse inside the Skokie Mall with Gianni Blu, Flaco, &amp; BadBoy playing Reggaeton, Latin Beats &amp; todays hits. Doors open at 8pm.</span></p>\n<p><a href=\"https://fs20.formsite.com/v5group/v5-village-roadhouse-fri/\" target=\"_blank\" rel=\"noopener\"><span style=\"font-size: 10pt;\"><img src=\"//sc-events.s3.amazonaws.com/17103/6770694/107472cd76ba80a7a6e013b75fb4403529fc1f87f85fc274933798480308ca7a/ff8e1063-5e94-412d-89b4-60574a0db47e.png\" alt=\"\" width=\"292\" height=\"56\" /></span></a></p>\n<p><span style=\"color: #0000ff; font-size: 8pt;\"><span style=\"color: #000000;\">Table reservations are perfect for any special occasion; Birthdays, Bachelorette, etc. (Your reservation includes a free complementary bottle of Champagne).</span>\u00a0\u00a0</span></p>\n<p><a href=\"https://fs20.formsite.com/v5group/images/VRHmenu.png\" target=\"_blank\" rel=\"noopener\"><span style=\"color: #0000ff; font-size: 8pt;\"><img src=\"//sc-events.s3.amazonaws.com/17103/6770694/e9d25591b5a4ed2508f9399eb9df99f9cf6fbab89770ed14332aa5838bb42d11/b708e87a-0487-4586-b92e-e2d6c0439594.png\" alt=\"\" width=\"292\" height=\"56\" /></span></a></p>\n<ul>\n<li>\u00a04 drinks for \$20 from 8pm-10pm</li>\n<li>\u00a0Ladies Free all night</li>\n<li>\u00a0</li>\n<li>\u00a0\$200 Bottle Specials\u00a0</li>\n<li>\u00a0Kitchen open late</li>\n<li>\u00a0For Bottle Service or Birthday Reservations text us at 773-561-9111</li>\n</ul>\n<p><strong>Packages:</strong></p>\n<ul>\n<li>Deal #1: \$400</li>\n</ul>\n<p style=\"padding-left: 60px;\">1 Remy VSOP or 1 Don Julio Blanco BTL</p>\n<p style=\"padding-left: 60px;\">1 Moet Nectar Rose BTL</p>\n<p style=\"padding-left: 60px;\">1 Large Pizza</p>\n<ul>\n<li>Deal #2: \$600</li>\n</ul>\n<p style=\"padding-left: 60px;\">1 Remy XO BTL</p>\n<p style=\"padding-left: 60px;\">1 1738 BTL</p>\n<p style=\"padding-left: 60px;\">1 Large Pizza</p>\n<ul>\n<li>Deal #3: \$750</li>\n</ul>\n<p style=\"padding-left: 60px;\">1 1942 BTL</p>\n<p style=\"padding-left: 60px;\">1 Don Julio Blanco BTL</p>\n<p style=\"padding-left: 60px;\">1 Large Pizza<br /><br /></p>\n<p><strong>Video Preview:</strong></p>\n<p><iframe title=\"YouTube video player\" src=\"https://www.youtube.com/embed/7292ajng4UQ\" width=\"560\" height=\"315\"></iframe></p>\n<p>\u00a0</p>",
     "price_levels":
         "https://www.showclix.com/rest.api/Event/6770694/price_levels",
     "event_sections":
@@ -390,7 +554,7 @@ List<Map> events = [
     "talents": "https://www.showclix.com/rest.api/Event/6930918/talents"
   },
   {
-    "event_id": "6950012",
+    "event_id": "6950013",
     "seller_id": "17103",
     "venue_id": "68825",
     "event": "&quot;Reggaeton &amp; Bachata Sundays&quot; @ Mansion NightClub",
@@ -420,14 +584,14 @@ List<Map> events = [
     "newsletter_sent": "0",
     "donation_live": "n",
     "donation_name": "",
-    "date_added": "2021-03-10 13:44:09",
-    "date_edited": "2021-05-12 17:22:27",
+    "date_added": "2021-03-10 13:44:10",
+    "date_edited": "2021-05-12 17:22:28",
     "scheme_id": null,
     "keywords": null,
     "sales_open": "2021-03-10 00:00:00",
-    "event_start": "2021-06-06 22:00:00",
-    "event_end": "2021-06-07 04:00:00",
-    "short_name": "v5-caramelo-sundays-mansion-nightclubmxtbtAt",
+    "event_start": "2021-06-13 22:00:00",
+    "event_end": "2021-06-14 04:00:00",
+    "short_name": "v5-caramelo-sundays-mansion-nightclub3aFQolZ",
     "parent": "6949997",
     "display_image": "0",
     "show_seating_chart": "0",
@@ -443,7 +607,7 @@ List<Map> events = [
     "tos_id": null,
     "product_map": [],
     "listing_url":
-        "https://www.showclix.com/event/v5-caramelo-sundays-mansion-nightclubmxtbtAt",
+        "https://www.showclix.com/event/v5-caramelo-sundays-mansion-nightclub3aFQolZ",
     "image_url":
         "https://sc-events.s3.amazonaws.com/17103/6949997/af3f6ceaff4ccd45cb2cf813afc1d96751fe5219258f61a7436cdb3da534a09e/58c98298-fb1f-4cd4-99b7-bc7dafcf5e6b.jpg",
     "thumbnail_url":
@@ -453,109 +617,25 @@ List<Map> events = [
     "raw_description":
         "<h3><strong>Caramelo Sundays @ Mansion Nightclub (3801 W Lake St, Stone Park, IL 60165)</strong></h3>\n<p><a href=\"https://fs20.formsite.com/v5group/v5-mansion-sunday/\" target=\"_blank\" rel=\"noopener\"><img src=\"//sc-events.s3.amazonaws.com/17103/6949997/107472cd76ba80a7a6e013b75fb4403529fc1f87f85fc274933798480308ca7a/ded237d5-2627-47c8-9d4a-e698ad940f85.png\" alt=\"\" width=\"292\" height=\"56\" /></a></p>\n<p>Table reservations are perfect for any special occasion; Birthdays, Bachelorette, etc. (Your reservation includes a free complementary bottle of Champagne).</p>\n<p><a href=\"https://fs20.formsite.com/v5group/images/newmansion2021BA.jpg\" target=\"_blank\" rel=\"noopener\"><img src=\"//sc-events.s3.amazonaws.com/17103/6949997/e9d25591b5a4ed2508f9399eb9df99f9cf6fbab89770ed14332aa5838bb42d11/8fd40c10-4282-4e1b-a27b-906685984028.png\" alt=\"\" width=\"292\" height=\"56\" /></a></p>\n<h3>2 Rooms of music playing the best in Reggaeton, Top 40 &amp; Latin hits.</h3>\n<ul>\n<li>Doors 10pm</li>\n<li>Face mask and temperature check required</li>\n<li>Limited capacity</li>\n<li>773-561-9111</li>\n<li>Parking Available \$10-15</li>\n<li>Coat Check Available</li>\n<li>Food Availiable<br /><br /></li>\n</ul>\n<h3>Video Preview:</h3>\n<p><iframe title=\"YouTube video player\" src=\"https://www.youtube.com/embed/zSE0WHFyOJ0\" width=\"560\" height=\"315\"></iframe></p>",
     "price_levels":
-        "https://www.showclix.com/rest.api/Event/6950012/price_levels",
+        "https://www.showclix.com/rest.api/Event/6950013/price_levels",
     "event_sections":
-        "https://www.showclix.com/rest.api/Event/6950012/event_sections",
+        "https://www.showclix.com/rest.api/Event/6950013/event_sections",
     "event_seats":
-        "https://www.showclix.com/rest.api/Event/6950012/event_seats",
+        "https://www.showclix.com/rest.api/Event/6950013/event_seats",
     "section_price_levels":
-        "https://www.showclix.com/rest.api/Event/6950012/section_price_levels",
+        "https://www.showclix.com/rest.api/Event/6950013/section_price_levels",
     "child_events":
-        "https://www.showclix.com/rest.api/Event/6950012/child_events",
-    "notes": "https://www.showclix.com/rest.api/Event/6950012/notes",
+        "https://www.showclix.com/rest.api/Event/6950013/child_events",
+    "notes": "https://www.showclix.com/rest.api/Event/6950013/notes",
     "package_child_map":
-        "https://www.showclix.com/rest.api/Event/6950012/package_child_map",
-    "venue": "https://www.showclix.com/rest.api/Event/6950012/venue",
-    "seller": "https://www.showclix.com/rest.api/Event/6950012/seller",
-    "scheme": "https://www.showclix.com/rest.api/Event/6950012/scheme",
-    "sections": "https://www.showclix.com/rest.api/Event/6950012/sections",
-    "products": "https://www.showclix.com/rest.api/Event/6950012/products",
-    "bundles": "https://www.showclix.com/rest.api/Event/6950012/bundles",
-    "talents": "https://www.showclix.com/rest.api/Event/6950012/talents"
-  },
-  {
-    "event_id": "6744045",
-    "seller_id": "17103",
-    "venue_id": "67393",
-    "event": "V5 &quot;Pura Vida&quot; Fridays Moe's River North",
-    "behavior_set": "3",
-    "description":
-        "\nNEW V5 Pura Vida Friday's at Moe's Cantina River North.\n(TIME)\n155 W Kinzie St. Chicago, IL 60654\n(MUSIC FORMAT)\n(DJ&rsquo;S)\n(SPECIALS)\n(DRESS CODE)\nFACE MASK AND TEMPERATURE CHECK REQUIRED\nLIMITED CAPACITY\n&nbsp;\nFOLLOW US!\n&nbsp;&nbsp;&nbsp;&nbsp;\n&nbsp;",
-    "inventory": "50",
-    "private_event": "0",
-    "price": null,
-    "bos_price": "0.00",
-    "price_label": null,
-    "price_limit": null,
-    "price_active": "1",
-    "ticket_purchase_timelimit": "900",
-    "ticket_purchase_limit": "10",
-    "sales_close": "167:30",
-    "doors_open_time": null,
-    "ages": "21",
-    "image":
-        "//sc-events.s3.amazonaws.com/17103/6744045/a0a8de74ebb4b9289f2661e0d9e5471520cca7aca9540d9ebb264b9eeca77955/3a3e9d8d-eb60-4379-b782-6c9bed51717d.png",
-    "url": null,
-    "event_type": "3",
-    "ticket_note": null,
-    "event_category_id": "17",
-    "genre": null,
-    "status": "4",
-    "newsletter_sent": "0",
-    "donation_live": "n",
-    "donation_name": "",
-    "date_added": "2020-12-22 11:51:19",
-    "date_edited": "2020-12-23 12:27:30",
-    "scheme_id": null,
-    "keywords": null,
-    "sales_open": "2021-01-12 00:00:00",
-    "event_start": "2021-01-15 19:00:00",
-    "event_end": "2021-12-31 00:00:00",
-    "short_name": "v5-fridays-moe-s-river-north",
-    "parent": null,
-    "display_image": "0",
-    "show_seating_chart": "0",
-    "level_description": null,
-    "position": null,
-    "approved": "1",
-    "approval_note": null,
-    "date_approved": null,
-    "approval_user_id": "0",
-    "tweeted_at": null,
-    "tweet_url": null,
-    "combine_additional_fees": "0",
-    "tos_id": null,
-    "product_map": [],
-    "listing_url":
-        "https://www.showclix.com/event/v5-fridays-moe-s-river-north",
-    "image_url":
-        "https://sc-events.s3.amazonaws.com/17103/6744045/a0a8de74ebb4b9289f2661e0d9e5471520cca7aca9540d9ebb264b9eeca77955/3a3e9d8d-eb60-4379-b782-6c9bed51717d.png",
-    "thumbnail_url":
-        "https://sc-events.s3.amazonaws.com/17103/6744045/a0a8de74ebb4b9289f2661e0d9e5471520cca7aca9540d9ebb264b9eeca77955/3a3e9d8d-eb60-4379-b782-6c9bed51717d_132_132.png",
-    "cardprinter_layout": false,
-    "event_talents": [],
-    "raw_description":
-        "<p><strong><img src=\"//sc-events.s3.amazonaws.com/17103/6744045/a0a8de74ebb4b9289f2661e0d9e5471520cca7aca9540d9ebb264b9eeca77955/eb9c43dc-4916-436e-af08-94078e30cfe6.png\" alt=\"\" width=\"162\" height=\"332\" /></strong></p>\n<p><strong>NEW V5 Pura Vida Friday's </strong><strong>at Moe's Cantina River North</strong>.</p>\n<p>(TIME)</p>\n<p><a href=\"https://www.google.com/maps/place/155+W+Kinzie+St,+Chicago,+IL+60654/data=!4m2!3m1!1s0x880e2cb1340ec603:0xe90bd9fe270753c2?sa=X&amp;ved=2ahUKEwiEu-D8tuLtAhUXLs0KHYEfA7oQ8gEwAHoECAYQAQ\">155 W Kinzie St. Chicago, IL 60654</a></p>\n<p>(MUSIC FORMAT)</p>\n<p>(DJ&rsquo;S)</p>\n<p>(SPECIALS)</p>\n<p>(DRESS CODE)</p>\n<p>FACE MASK AND TEMPERATURE CHECK REQUIRED</p>\n<p>LIMITED CAPACITY</p>\n<p>&nbsp;</p>\n<h1><strong>FOLLOW US!</strong></h1>\n<p><strong><a href=\"https://www.instagram.com/v5group/\" target=\"_blank\" rel=\"noopener\"><img src=\"//sc-events.s3.amazonaws.com/17103/6744045/ee72f45694c9f6ed9c5259c5891151516c44d00d2f3c2019aa69a51309580c06/367ec401-ee6a-4e9d-b50c-d60c552630e4.png\" alt=\"\" width=\"70\" height=\"70\" /></a>&nbsp;&nbsp;<a lang=\"en\" lang=\"en\" lang=\"en\" href=\"https://www.tiktok.com/@v5chicago?lang=en\" target=\"_blank\" rel=\"noopener\"><img src=\"//sc-events.s3.amazonaws.com/17103/6744045/f2ed967bcf14819a574de8f75ae0fe957cd3f70207e7a8fc37ed5bf540be5db6/fc40d8f6-fcf6-4f39-81c1-052b7a027c3b.png\" alt=\"\" width=\"70\" height=\"70\" /></a>&nbsp;&nbsp;<a href=\"https://www.facebook.com/v5group\" target=\"_blank\" rel=\"noopener\"><img src=\"//sc-events.s3.amazonaws.com/17103/6744045/24b38a58e73ddb164a8f5c4a9a9cb9fecc834a001f13dea72e4ca427bb6f6655/aae2bb46-88b3-4aa6-b9a9-10a41bb1b0d1.png\" alt=\"\" width=\"70\" height=\"70\" /></a></strong></p>\n<p>&nbsp;</p>",
-    "price_levels":
-        "https://www.showclix.com/rest.api/Event/6744045/price_levels",
-    "event_sections":
-        "https://www.showclix.com/rest.api/Event/6744045/event_sections",
-    "event_seats":
-        "https://www.showclix.com/rest.api/Event/6744045/event_seats",
-    "section_price_levels":
-        "https://www.showclix.com/rest.api/Event/6744045/section_price_levels",
-    "child_events":
-        "https://www.showclix.com/rest.api/Event/6744045/child_events",
-    "notes": "https://www.showclix.com/rest.api/Event/6744045/notes",
-    "package_child_map":
-        "https://www.showclix.com/rest.api/Event/6744045/package_child_map",
-    "venue": "https://www.showclix.com/rest.api/Event/6744045/venue",
-    "seller": "https://www.showclix.com/rest.api/Event/6744045/seller",
-    "scheme": "https://www.showclix.com/rest.api/Event/6744045/scheme",
-    "sections": "https://www.showclix.com/rest.api/Event/6744045/sections",
-    "products": "https://www.showclix.com/rest.api/Event/6744045/products",
-    "bundles": "https://www.showclix.com/rest.api/Event/6744045/bundles",
-    "talents": "https://www.showclix.com/rest.api/Event/6744045/talents"
+        "https://www.showclix.com/rest.api/Event/6950013/package_child_map",
+    "venue": "https://www.showclix.com/rest.api/Event/6950013/venue",
+    "seller": "https://www.showclix.com/rest.api/Event/6950013/seller",
+    "scheme": "https://www.showclix.com/rest.api/Event/6950013/scheme",
+    "sections": "https://www.showclix.com/rest.api/Event/6950013/sections",
+    "products": "https://www.showclix.com/rest.api/Event/6950013/products",
+    "bundles": "https://www.showclix.com/rest.api/Event/6950013/bundles",
+    "talents": "https://www.showclix.com/rest.api/Event/6950013/talents"
   },
   {
     "event_id": "7113779",
@@ -641,4 +721,49 @@ List<Map> events = [
     "bundles": "https://www.showclix.com/rest.api/Event/7113779/bundles",
     "talents": "https://www.showclix.com/rest.api/Event/7113779/talents"
   }
+];
+
+List<Map> shopItems = [
+  {
+    'id': '1',
+    'title': 'V5 Official T-Shirt',
+    'description': 'Get V5 Official T-Shirt and stand out in the crowd.',
+    'imageURL': 'images/mock/tshirt-removebg-preview.png',
+    'price': 12.5
+  },
+  {
+    'id': '2',
+    'title': 'V5 Official Sweatpants',
+    'description': 'Get V5 Official Sweatpants and stand out in the crowd.',
+    'imageURL': 'images/mock/pant-removebg-preview.png',
+    'price': 16.5
+  },
+  {
+    'id': '3',
+    'title': 'V5 Official Mask',
+    'description': 'Get V5 Official Mask and stand out in the crowd.',
+    'imageURL': 'images/mock/mask-removebg-preview.png',
+    'price': 8.5
+  },
+  {
+    'id': '4',
+    'title': 'V5 Official Hoddie',
+    'description': 'Get V5 Official Hoddie and stand out in the crowd.',
+    'imageURL': 'images/mock/hoddie-removebg-preview.png',
+    'price': 21.5
+  },
+  {
+    'id': '5',
+    'title': 'V5 Official Hat',
+    'description': 'Get V5 Official Hat and stand out in the crowd.',
+    'imageURL': 'images/mock/hat-removebg-preview.png',
+    'price': 5.5
+  },
+  {
+    'id': '6',
+    'title': 'V5 Official Bag',
+    'description': 'Get V5 Official Bag and stand out in the crowd.',
+    'imageURL': 'images/mock/bag-removebg-preview.png',
+    'price': 16.5
+  },
 ];

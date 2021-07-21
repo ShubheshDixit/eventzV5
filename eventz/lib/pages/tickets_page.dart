@@ -1,17 +1,14 @@
 import 'package:barcode_widget/barcode_widget.dart';
 import 'package:dotted_border/dotted_border.dart';
 import 'package:eventz/backend/mock_data.dart';
-import 'package:eventz/pages/global_widgets.dart';
+import 'package:eventz/utils/global_widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_swiper/flutter_swiper.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:intl/intl.dart';
 import 'dart:math' as math;
 
 class TicketsPage extends StatefulWidget {
-  final VoidCallback onMenuPressed;
-
-  const TicketsPage({Key key, @required this.onMenuPressed}) : super(key: key);
+  const TicketsPage({Key key}) : super(key: key);
   @override
   _TicketsPageState createState() => _TicketsPageState();
 }
@@ -31,27 +28,6 @@ class _TicketsPageState extends State<TicketsPage>
         title: TitleText(
           'My Tickets',
         ),
-        actions: [
-          IconButton(
-              icon: Icon(FontAwesomeIcons.bars),
-              onPressed: widget.onMenuPressed)
-        ],
-        // bottom: TabBar(
-        //   controller: _controller,
-        //   indicatorSize: TabBarIndicatorSize.label,
-        //   tabs: [
-        //     Tab(
-        //       child: SubtitleText(
-        //         'Upcoming',
-        //         color: Theme.of(context).textTheme.bodyText1.color,
-        //       ),
-        //     ),
-        //     Tab(
-        //       child: SubtitleText('Past',
-        //           color: Theme.of(context).textTheme.bodyText1.color),
-        //     ),
-        //   ],
-        // ),
       ),
       body: Column(
         mainAxisSize: MainAxisSize.min,
@@ -260,15 +236,6 @@ class TicketView extends StatelessWidget {
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(8.0),
           color: Theme.of(context).cardColor,
-          // boxShadow: [
-          //   BoxShadow(
-          //       color: Colors.black.withOpacity(0.1),
-          //       blurRadius: 5.0,
-          //       offset: Offset(
-          //         0,
-          //         0,
-          //       ))
-          // ],
         ),
         child: Column(
           mainAxisSize: MainAxisSize.min,

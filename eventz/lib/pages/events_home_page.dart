@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:ui';
 import 'package:awesome_flutter_widgets/widgets/awesome_buttons.dart';
+import 'package:carousel_slider/carousel_slider.dart';
 import 'package:eventz/animations/fade_animations.dart';
 import 'package:eventz/animations/scale_animation.dart';
 import 'package:eventz/backend/database.dart';
@@ -8,9 +9,8 @@ import 'package:eventz/backend/mock_data.dart';
 import 'package:eventz/backend/models.dart';
 import 'package:eventz/global_values.dart';
 import 'package:eventz/pages/all_events_page.dart';
-import 'package:eventz/pages/global_widgets.dart';
+import 'package:eventz/utils/global_widgets.dart';
 import 'package:eventz/pages/music_page.dart';
-import 'package:eventz/pages/my_web_view.dart';
 import 'package:eventz/pages/search_page.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
@@ -18,6 +18,7 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:intl/intl.dart';
+import 'package:shimmer/shimmer.dart';
 
 class EventsHomePage extends StatefulWidget {
   final VoidCallback onMenuPressed;
@@ -37,13 +38,11 @@ class _EventsHomePageState extends State<EventsHomePage>
 
   Offset buttonPosition;
 
-  bool isMenuOpen = false;
+  bool isMenuOpen = false, isLoading = true;
 
   int currentIndex = 0;
 
   TabController _controller;
-
-  AnimationController _animationController;
 
   var selectedDate;
 
@@ -59,29 +58,19 @@ class _EventsHomePageState extends State<EventsHomePage>
     initializeDateFormatting();
     Intl.systemLocale = 'en_En';
 
-    _animationController = AnimationController(
-      vsync: this,
-      duration: Duration(milliseconds: 300),
-      reverseDuration: Duration(milliseconds: 300),
-    );
     _controller = TabController(vsync: this, length: 2);
 
     Timer(Duration(seconds: 3), () {
-      Timer.periodic(Duration(seconds: 5), (timer) {
-        if (mounted)
-          setState(() {
-            index = !index;
-          });
-        _controller.animateTo(index ? 1 : 0,
-            duration: Duration(milliseconds: 200), curve: Curves.bounceIn);
-      });
+      if (mounted)
+        setState(() {
+          isLoading = false;
+        });
     });
   }
 
   @override
   void dispose() {
     _controller.dispose();
-    _animationController.dispose();
     super.dispose();
   }
 
@@ -199,27 +188,40 @@ class _EventsHomePageState extends State<EventsHomePage>
                             top: 20.0,
                           ),
                           child: Container(
-                            height: 70,
-                            width: 500,
-                            child: TabBarView(
-                              controller: _controller,
-                              children: [
-                                ScaleAnimation(
-                                  duration: 1,
-                                  child: MusicBar(), //SearchBar(),
-                                ),
-                                ScaleAnimation(
-                                  duration: 1,
-                                  child: Hero(
-                                    tag: 'search_text_bar',
-                                    child: Material(
-                                        color: Colors.transparent,
-                                        child: SearchBar()),
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
+                              height: 70,
+                              width: 500,
+                              child: CarouselSlider(
+                                  items: [
+                                    ScaleAnimation(
+                                      duration: 1,
+                                      child: MusicBar(), //SearchBar(),
+                                    ),
+                                    ScaleAnimation(
+                                      duration: 1,
+                                      child: Hero(
+                                        tag: 'search_text_bar',
+                                        child: Material(
+                                            color: Colors.transparent,
+                                            child: SearchBar()),
+                                      ),
+                                    ),
+                                  ],
+                                  options: CarouselOptions(
+                                    height: MediaQuery.of(context).size.height *
+                                        0.8,
+                                    aspectRatio: 16 / 9,
+                                    viewportFraction: 1,
+                                    initialPage: 0,
+                                    enableInfiniteScroll: true,
+                                    reverse: false,
+                                    autoPlay: true,
+                                    autoPlayInterval: Duration(seconds: 3),
+                                    autoPlayAnimationDuration:
+                                        Duration(milliseconds: 800),
+                                    autoPlayCurve: Curves.fastOutSlowIn,
+                                    enlargeCenterPage: true,
+                                    scrollDirection: Axis.horizontal,
+                                  ))),
                         ),
                         SizedBox(
                           height: 10,
@@ -263,10 +265,7 @@ class _EventsHomePageState extends State<EventsHomePage>
                                           child: FaIcon(
                                             FontAwesomeIcons.angleRight,
                                             size: 20,
-                                            color: Theme.of(context)
-                                                .textTheme
-                                                .bodyText1
-                                                .color,
+                                            color: Theme.of(context).cardColor,
                                           ),
                                         ),
                                       )
@@ -283,16 +282,17 @@ class _EventsHomePageState extends State<EventsHomePage>
                           children: List.generate(
                               events.length > 5 ? 5 : events.length, (index) {
                             Event event = Event.fromMap(events[index]);
-                            return Padding(
-                              padding: const EdgeInsets.only(bottom: 40.0),
-                              child: SizedBox(
-                                child: EventsBox(
-                                  isTile: true,
-                                  isFull: false,
-                                  event: event,
-                                ),
-                              ),
-                            );
+                            return isLoading
+                                ? ShimmerTile()
+                                : Padding(
+                                    padding:
+                                        const EdgeInsets.only(bottom: 40.0),
+                                    child: EventsBox(
+                                      isTile: true,
+                                      isFull: false,
+                                      event: event,
+                                    ),
+                                  );
                           }),
                         ),
                       ],
@@ -313,7 +313,7 @@ class _EventsHomePageState extends State<EventsHomePage>
 
   void closeMenu() {
     _overlayEntry.remove();
-    _animationController.reverse();
+    // _animationController.reverse();
     setState(() {
       isMenuOpen = !isMenuOpen;
     });
@@ -321,7 +321,7 @@ class _EventsHomePageState extends State<EventsHomePage>
 
   void openMenu() {
     findButton();
-    _animationController.forward();
+    // _animationController.forward();
     _overlayEntry = _overlayEntryBuilder();
     Overlay.of(context).insert(_overlayEntry);
     setState(() {
@@ -535,6 +535,64 @@ class ImageColumnTile extends StatelessWidget {
             ),
           ),
         ],
+      ),
+    );
+  }
+}
+
+class ShimmerTile extends StatelessWidget {
+  const ShimmerTile({Key key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 28.0, horizontal: 10.0),
+      child: Shimmer.fromColors(
+        period: Duration(milliseconds: 500),
+        baseColor: Colors.grey[700],
+        highlightColor: Colors.grey[500],
+        enabled: true,
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: <Widget>[
+            Container(
+              width: 80.0,
+              height: 80.0,
+              color: Colors.white,
+            ),
+            const Padding(
+              padding: EdgeInsets.symmetric(horizontal: 8.0),
+            ),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                  Container(
+                    width: double.infinity,
+                    height: 8.0,
+                    color: Colors.white,
+                  ),
+                  const Padding(
+                    padding: EdgeInsets.symmetric(vertical: 2.0),
+                  ),
+                  Container(
+                    width: double.infinity,
+                    height: 8.0,
+                    color: Colors.white,
+                  ),
+                  const Padding(
+                    padding: EdgeInsets.symmetric(vertical: 2.0),
+                  ),
+                  Container(
+                    width: 40.0,
+                    height: 8.0,
+                    color: Colors.white,
+                  ),
+                ],
+              ),
+            )
+          ],
+        ),
       ),
     );
   }

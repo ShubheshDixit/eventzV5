@@ -3,10 +3,11 @@ import 'dart:ui';
 import 'package:awesome_flutter_widgets/widgets/awesome_buttons.dart';
 import 'package:awesome_flutter_widgets/widgets/awesome_textfield.dart';
 import 'package:eventz/global_values.dart';
-import 'package:eventz/pages/global_widgets.dart';
-import 'package:eventz/pages/my_web_view.dart';
+import 'package:eventz/utils/global_widgets.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:routemaster/routemaster.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class ContactPage extends StatefulWidget {
@@ -28,6 +29,8 @@ class _ContactPageState extends State<ContactPage> {
             expandedHeight: 300,
             toolbarHeight: 130,
             title: ListTile(
+              contentPadding: EdgeInsets.zero,
+              minLeadingWidth: 0.0,
               title: TitleText(
                 'Contact',
                 fontSize: 30,
@@ -43,11 +46,6 @@ class _ContactPageState extends State<ContactPage> {
               fit: BoxFit.cover,
               height: 400,
             ),
-            actions: [
-              IconButton(
-                  onPressed: widget.onMenuPressed,
-                  icon: Icon(FontAwesomeIcons.bars)),
-            ],
           ),
           SliverList(
             delegate: SliverChildListDelegate(
@@ -153,17 +151,11 @@ class _ContactPageState extends State<ContactPage> {
                       Container(
                         child: IconButton(
                           onPressed: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => Scaffold(
-                                  appBar: AppBar(
-                                    title: TitleText('Spotify'),
-                                  ),
-                                  body: MyWebView(url: GlobalValues.spotifyUrl),
-                                ),
-                              ),
-                            );
+                            Routemaster.of(context).push('webpage',
+                                queryParameters: {
+                                  'title': 'Spotify',
+                                  'url': GlobalValues.spotifyUrl
+                                });
                           },
                           icon: Icon(FontAwesomeIcons.spotify),
                           iconSize: 30,
@@ -172,18 +164,11 @@ class _ContactPageState extends State<ContactPage> {
                       Container(
                         child: IconButton(
                           onPressed: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => Scaffold(
-                                  appBar: AppBar(
-                                    title: TitleText('SoundCloud'),
-                                  ),
-                                  body: MyWebView(
-                                      url: GlobalValues.soundCloudUrl),
-                                ),
-                              ),
-                            );
+                            Routemaster.of(context).push('webpage',
+                                queryParameters: {
+                                  'title': 'SoundCloud',
+                                  'url': GlobalValues.soundCloudUrl
+                                });
                           },
                           icon: Icon(FontAwesomeIcons.soundcloud),
                           iconSize: 30,
@@ -192,20 +177,11 @@ class _ContactPageState extends State<ContactPage> {
                       Container(
                         child: IconButton(
                           onPressed: () {
-                            // launch(GlobalValues.instagramUrl);
-                            // return;
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => Scaffold(
-                                  appBar: AppBar(
-                                    title: TitleText('Instagram'),
-                                  ),
-                                  body:
-                                      MyWebView(url: GlobalValues.instagramUrl),
-                                ),
-                              ),
-                            );
+                            Routemaster.of(context).push('webpage',
+                                queryParameters: {
+                                  'title': 'Instagram',
+                                  'url': GlobalValues.instagramUrl
+                                });
                           },
                           icon: Icon(FontAwesomeIcons.instagram),
                           iconSize: 30,
@@ -214,18 +190,11 @@ class _ContactPageState extends State<ContactPage> {
                       Container(
                         child: IconButton(
                           onPressed: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => Scaffold(
-                                  appBar: AppBar(
-                                    title: TitleText('Facebook'),
-                                  ),
-                                  body:
-                                      MyWebView(url: GlobalValues.facebookUrl),
-                                ),
-                              ),
-                            );
+                            Routemaster.of(context).push('webpage',
+                                queryParameters: {
+                                  'title': 'Facebook',
+                                  'url': GlobalValues.facebookUrl
+                                });
                           },
                           icon: Icon(FontAwesomeIcons.facebook),
                           iconSize: 30,
@@ -249,17 +218,11 @@ class _ContactPageState extends State<ContactPage> {
                         // ),
                         child: IconButton(
                           onPressed: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => Scaffold(
-                                  appBar: AppBar(
-                                    title: TitleText('TikTok'),
-                                  ),
-                                  body: MyWebView(url: GlobalValues.tiktokUrl),
-                                ),
-                              ),
-                            );
+                            Routemaster.of(context).push('webpage',
+                                queryParameters: {
+                                  'title': 'TikTok',
+                                  'url': GlobalValues.tiktokUrl
+                                });
                           },
                           icon: Icon(FontAwesomeIcons.tiktok),
                           iconSize: 30,
@@ -271,7 +234,6 @@ class _ContactPageState extends State<ContactPage> {
                 Container(
                   margin: EdgeInsets.symmetric(horizontal: 20, vertical: 10.0),
                   decoration: BoxDecoration(
-                    // color: Colors.pink,
                     borderRadius: BorderRadius.circular(8.0),
                     boxShadow: [
                       BoxShadow(
@@ -334,6 +296,34 @@ class _ContactPageState extends State<ContactPage> {
                         ),
                       )
                     ],
+                  ),
+                ),
+                Container(
+                  margin: EdgeInsets.symmetric(horizontal: 20, vertical: 10.0),
+                  padding: EdgeInsets.symmetric(vertical: 10.0),
+                  decoration: BoxDecoration(
+                    // color: Colors.pink,
+                    borderRadius: BorderRadius.circular(8.0),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.black.withOpacity(0.1),
+                        spreadRadius: 1.0,
+                        blurRadius: 5.0,
+                      )
+                    ],
+                    border: Border.all(
+                      color: Theme.of(context).cardColor,
+                      width: 3.0,
+                    ),
+                  ),
+                  child: ListTile(
+                    onTap: () => Routemaster.of(context)
+                        .push('chat/${FirebaseAuth.instance.currentUser.uid}'),
+                    minLeadingWidth: 20.0,
+                    leading: FaIcon(FontAwesomeIcons.facebookMessenger),
+                    title: TitleText('Live Chat 🔥'),
+                    subtitle: SubtitleText(
+                        'Got any query? Chat with us to resolve your problems.'),
                   ),
                 ),
                 SizedBox(

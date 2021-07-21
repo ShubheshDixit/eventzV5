@@ -6,13 +6,13 @@ import 'package:eventz/animations/scale_animation.dart';
 import 'package:eventz/backend/database.dart';
 import 'package:eventz/backend/firebase_util.dart';
 import 'package:eventz/global_values.dart';
-import 'package:eventz/pages/global_widgets.dart';
-import 'package:eventz/pages/home_page.dart';
+import 'package:eventz/utils/global_widgets.dart';
 import 'package:eventz/pages/intro_page.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:routemaster/routemaster.dart';
 
 class AuthPage extends StatefulWidget {
   @override
@@ -27,9 +27,7 @@ class _AuthPageState extends State<AuthPage> {
     AuthService().auth.authStateChanges().listen((User user) {
       if (user != null) {
         Timer(Duration(milliseconds: 500), () {
-          if (mounted)
-            Navigator.pushReplacement(
-                context, MaterialPageRoute(builder: (_) => HomePage()));
+          if (mounted) Routemaster.of(context).replace('/');
         });
       }
       Timer(Duration(milliseconds: 800), () {
@@ -278,10 +276,7 @@ class _AuthPageState extends State<AuthPage> {
                 height: 55,
                 buttonType: AwesomeButtonType.elevated,
                 onPressed: () async {
-                  await Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => LoginPage()),
-                  );
+                  Routemaster.of(context).push('/login');
                 },
                 icon: Padding(
                   padding: const EdgeInsets.all(8.0),
@@ -690,9 +685,7 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
       setState(() {
         isLoading = false;
       });
-    Navigator.of(context).popUntil((route) => route.isFirst);
-    Navigator.of(context)
-        .pushReplacement(MaterialPageRoute(builder: (context) => HomePage()));
+    if (mounted) Routemaster.of(context).replace('/home');
   }
 }
 

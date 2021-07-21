@@ -1,7 +1,7 @@
 import 'package:eventz/animations/fade_animations.dart';
 import 'package:eventz/animations/scale_animation.dart';
 import 'package:eventz/global_values.dart';
-import 'package:eventz/pages/global_widgets.dart';
+import 'package:eventz/utils/global_widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
