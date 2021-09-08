@@ -88,6 +88,6 @@ class DatabaseService {
 }
 
 String generateRandomRoomId() {
-  var ids = Uuid().v4().replaceAll('-', '').substring(0, 10);
-  return ids;
+  var id = Uuid().v4().replaceAll('-', '').substring(0, 10);
+  return id;
 }

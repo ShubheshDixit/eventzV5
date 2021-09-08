@@ -1,10 +1,7 @@
 import 'package:barcode_widget/barcode_widget.dart';
 import 'package:dotted_border/dotted_border.dart';
-import 'package:eventz/backend/mock_data.dart';
 import 'package:eventz/utils/global_widgets.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_swiper/flutter_swiper.dart';
-import 'package:intl/intl.dart';
 import 'dart:math' as math;
 
 class TicketsPage extends StatefulWidget {
@@ -34,25 +31,25 @@ class _TicketsPageState extends State<TicketsPage>
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
-          Expanded(
-            child: Swiper(
-                // scrollDirection: Axis.vertical,
-                layout: SwiperLayout.DEFAULT,
-                itemWidth: 300,
-                itemHeight: 700,
-                itemCount: eventsList.length,
-                itemBuilder: (context, index) {
-                  return TicketView(
-                      imageURL: eventsList[index].posterURL,
-                      title: eventsList[index].title,
-                      boughtDate:
-                          DateFormat('MMMM dd, yyyy').format(DateTime.now()),
-                      eventDate: DateFormat('MMMM dd, yyyy')
-                          .format(eventsList[index].date.toDate()),
-                      place: eventsList[index].subtitle,
-                      barcode: '7346377');
-                }),
-          ),
+          // Expanded(
+          //   child: Swiper(
+          //       // scrollDirection: Axis.vertical,
+          //       layout: SwiperLayout.DEFAULT,
+          //       itemWidth: 300,
+          //       itemHeight: 700,
+          //       itemCount: eventsList.length,
+          //       itemBuilder: (context, index) {
+          //         return TicketView(
+          //             imageURL: eventsList[index].posterURL,
+          //             title: eventsList[index].title,
+          //             boughtDate:
+          //                 DateFormat('MMMM dd, yyyy').format(DateTime.now()),
+          //             eventDate: DateFormat('MMMM dd, yyyy')
+          //                 .format(eventsList[index].date.toDate()),
+          //             place: eventsList[index].subtitle,
+          //             barcode: '7346377');
+          //       }),
+          // ),
         ],
       ),
     );

@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'package:eventz/global_values.dart';
 import 'package:eventz/pages/auth_page.dart';
+import 'package:eventz/pages/booking_page.dart';
 import 'package:eventz/pages/chat_page.dart';
 import 'package:eventz/pages/contact_page.dart';
 import 'package:eventz/pages/events_details.dart';
@@ -23,7 +24,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:routemaster/routemaster.dart';
 import 'package:stripe_payment/stripe_payment.dart';
 import 'configure_nonweb.dart' if (dart.library.html) 'configure_web.dart';
-import 'package:eventz/.env.example.dart';
+import 'package:eventz/.env.dart';
 
 Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
   await Firebase.initializeApp();
@@ -157,7 +158,7 @@ class MyApp extends StatelessWidget {
         ),
         primaryColor: GlobalValues.primaryColor,
         accentColor: GlobalValues.accentColor,
-        scaffoldBackgroundColor: Colors.grey[300],
+        scaffoldBackgroundColor: Colors.grey[200],
         cardColor: GlobalValues.cardColorLight,
         hintColor: Colors.grey,
         textSelectionTheme: TextSelectionThemeData(
@@ -247,7 +248,8 @@ final routes = RouteMap(routes: {
         ),
       ),
   '/vip': (_) => MaterialPage(child: VIPPage()),
-  '/event/:id': (routes) =>
+  '/booking': (_) => MaterialPage(child: BookingPage()),
+  '/home/event/:id': (routes) =>
       MaterialPage(child: EventDetails(eventId: routes.pathParameters['id'])),
   '/contact/webpage': (routes) => MaterialPage(
         child: Scaffold(

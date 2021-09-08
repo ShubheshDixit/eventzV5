@@ -40,6 +40,8 @@ class GlobalValues {
   static const String facebookUrl = 'https://facebook.com/v5group';
   static const String instagramUrl = 'https://instagram.com/v5group';
   static const String tiktokUrl = 'https://tiktok.com/@v5chicago';
+  static const String backgroundVideoUrl =
+      'https://secureservercdn.net/198.71.189.253/jj2.c87.myftpupload.com/wp-content/uploads/2021/08/Birthday-Backdrop-video.mp4';
 
   // static const String exploreImage = 'images/illustrations/pink/Location.png';
   // static const String musicImage =

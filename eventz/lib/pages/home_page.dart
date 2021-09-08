@@ -2,6 +2,8 @@ import 'dart:ui';
 import 'package:awesome_flutter_widgets/widgets/awesome_buttons.dart';
 import 'package:eventz/animations/fade_animations.dart';
 import 'package:eventz/backend/database.dart';
+import 'package:eventz/backend/dynamic_link_service.dart';
+import 'package:eventz/backend/push_notifications.dart';
 import 'package:eventz/global_values.dart';
 import 'package:eventz/pages/events_home_page.dart';
 import 'package:eventz/utils/global_widgets.dart';
@@ -33,6 +35,9 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
           currentIndex = _controller.index;
         });
       });
+
+    DynamicLinkService().handleDynamicLinks(context);
+    PushNotificationsManager().init(context);
   }
 
   void changePage(index) {
@@ -173,9 +178,6 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                                   ListTile(
                                     onTap: () {
                                       Routemaster.of(context).push('/store');
-                                      setState(() {
-                                        currentIndex = 1;
-                                      });
                                     },
                                     leading: Icon(
                                       FontAwesomeIcons.store,
@@ -194,9 +196,6 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                                   ListTile(
                                     onTap: () {
                                       Routemaster.of(context).push('/tickets');
-                                      setState(() {
-                                        currentIndex = 2;
-                                      });
                                     },
                                     leading: Icon(
                                       FontAwesomeIcons.ticketAlt,
@@ -215,9 +214,6 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                                   ListTile(
                                     onTap: () {
                                       Routemaster.of(context).push('/gallery');
-                                      setState(() {
-                                        currentIndex = 3;
-                                      });
                                     },
                                     leading: Icon(
                                       FontAwesomeIcons.image,
@@ -237,9 +233,6 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                                     onTap: () {
                                       Routemaster.of(context)
                                           .push('/photobooth');
-                                      setState(() {
-                                        currentIndex = 4;
-                                      });
                                     },
                                     leading: Icon(
                                       FontAwesomeIcons.cameraRetro,
@@ -258,9 +251,6 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                                   ListTile(
                                     onTap: () {
                                       Routemaster.of(context).push('/contact');
-                                      setState(() {
-                                        currentIndex = 5;
-                                      });
                                     },
                                     leading: Icon(
                                       FontAwesomeIcons.infoCircle,

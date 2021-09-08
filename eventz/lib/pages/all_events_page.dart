@@ -1,6 +1,6 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:eventz/animations/fade_animations.dart';
 import 'package:eventz/animations/scale_animation.dart';
-import 'package:eventz/backend/mock_data.dart';
 import 'package:eventz/backend/models.dart';
 import 'package:eventz/global_values.dart';
 import 'package:eventz/utils/global_widgets.dart';
@@ -18,6 +18,7 @@ class AllEventsPage extends StatefulWidget {
 
 class _AllEventsPageState extends State<AllEventsPage> {
   ScrollController _controller = ScrollController();
+  List<DocumentSnapshot> events = [];
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -96,7 +97,7 @@ class _AllEventsPageState extends State<AllEventsPage> {
                         return SizedBox(
                           height: 160,
                         );
-                      Event event = Event.fromMap(events[index - 1]);
+                      Event event = Event.fromDoc((events[index - 1]));
                       return Padding(
                         padding: const EdgeInsets.only(bottom: 40.0),
                         child: EventsBox(
@@ -132,74 +133,151 @@ class _EventsBoxState extends State<EventsBox> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      margin: EdgeInsets.symmetric(horizontal: 8.0),
-      decoration: BoxDecoration(
-        color: Theme.of(context).scaffoldBackgroundColor,
-        borderRadius: widget.isFull ? BorderRadius.circular(8.0) : null,
-        border: Border.all(
-          color: Theme.of(context).cardColor,
-          width: 2.0,
-        ),
-        boxShadow: [
-          BoxShadow(
-            blurRadius: 3,
-            spreadRadius: 1,
-            color: Colors.black.withOpacity(0.2),
-            offset: Offset(0, 3),
-          )
-        ],
-      ),
-      child: InkWell(
-        onTap: () async {
-          print(widget.event.id);
-          Routemaster.of(context).push('/event/${widget.event.id}');
-        },
-        child: widget.isTile
-            ? Row(
-                children: [
-                  FancyShimmerImage(
-                    imageUrl: widget.event.posterURL,
-                    errorWidget: Image.network(
-                        'https://i0.wp.com/www.dobitaobyte.com.br/wp-content/uploads/2016/02/no_image.png?ssl=1'),
-                    width: 100,
-                    height: 140,
+    return widget.isTile
+        ? Stack(
+            children: [
+              Container(
+                margin: EdgeInsets.only(left: 30.0, right: 10),
+                decoration: BoxDecoration(
+                  color: Theme.of(context).cardColor,
+                  borderRadius: BorderRadius.only(
+                    topLeft: Radius.circular(2.0),
+                    topRight: Radius.circular(2.0),
+                    bottomLeft: Radius.circular(2.0),
+                    bottomRight: Radius.circular(2.0),
                   ),
-                  // Image.network(
-                  //   widget.event.posterURL,
-                  //   width: 100,
-                  //   height: 140,
-                  //   fit: BoxFit.cover,
-                  // ),
-                  Flexible(
-                      child: Padding(
-                    padding: const EdgeInsets.symmetric(
-                        vertical: 8.0, horizontal: 10.0),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        TitleText(
-                          unescape.convert(widget.event.title),
-                          maxLines: 2,
-                          fontSize: 18,
+                  boxShadow: [
+                    BoxShadow(
+                      blurRadius: 3,
+                      spreadRadius: 1,
+                      color: Colors.black.withOpacity(0.2),
+                      offset: Offset(0, 3),
+                    )
+                  ],
+                ),
+                child: InkWell(
+                  onTap: () async {
+                    print(widget.event.id);
+                    Routemaster.of(context)
+                        .push('/home/event/${widget.event.id}');
+                  },
+                  child: Row(
+                    children: [
+                      Container(
+                        height: 120,
+                        width: 50,
+                      ),
+                      Expanded(
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(
+                              vertical: 8.0, horizontal: 10.0),
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              TitleText(
+                                unescape.convert(widget.event.title),
+                                maxLines: 1,
+                                fontSize: 18,
+                              ),
+                              SubtitleText(
+                                '' +
+                                    DateFormat.jm().format(
+                                        widget.event.timing['start'].toDate()) +
+                                    " - " +
+                                    DateFormat.jm().format(
+                                        widget.event.timing['end'].toDate()),
+                                // fontStyle: FontStyle.italic,
+                                fontWeight: FontWeight.normal,
+                                fontSize: 14,
+                              ),
+                              SubtitleText(
+                                widget.event.eventType == 'weekly'
+                                    ? weekDays[widget.event.eventDay]
+                                    : DateFormat.yMMMMd('en_US').format(
+                                        widget.event.eventDate.toDate()),
+                                fontStyle: FontStyle.italic,
+                                fontWeight: FontWeight.normal,
+                                fontSize: 14,
+                              ),
+                            ],
+                          ),
                         ),
-                        SubtitleText(
-                          'at ${widget.event.subtitle}',
-                          fontStyle: FontStyle.italic,
-                          fontWeight: FontWeight.bold,
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(right: 20.0, left: 8.0),
+                        child: Icon(
+                          FontAwesomeIcons.arrowRight,
+                          color: Colors.pinkAccent.withOpacity(0.5),
                         ),
-                      ],
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+              Container(
+                margin: EdgeInsets.only(top: 18, right: 5),
+                decoration: BoxDecoration(
+                  border: Border.all(
+                      color: Theme.of(context).canvasColor, width: 1),
+                  borderRadius: BorderRadius.circular(2.0),
+                  color: Colors.pink,
+                  boxShadow: [
+                    BoxShadow(
+                      blurRadius: 3,
+                      spreadRadius: 1,
+                      color: Colors.black.withOpacity(0.2),
+                      offset: Offset(0, 3),
+                    )
+                  ],
+                ),
+                child: Hero(
+                  tag: widget.event.id,
+                  transitionOnUserGestures: true,
+                  child: Material(
+                    color: Colors.transparent,
+                    child: FancyShimmerImage(
+                      imageUrl: widget.event.imageUrl,
+                      errorWidget: Image.network(
+                          'https://i0.wp.com/www.dobitaobyte.com.br/wp-content/uploads/2016/02/no_image.png?ssl=1'),
+                      width: 80,
+                      height: 80,
+                      boxFit: BoxFit.cover,
                     ),
-                  ))
-                ],
-              )
-            : Column(
+                  ),
+                ),
+              ),
+            ],
+          )
+        : Container(
+            margin: EdgeInsets.symmetric(horizontal: 8.0),
+            decoration: BoxDecoration(
+              color: Theme.of(context).scaffoldBackgroundColor,
+              borderRadius: widget.isFull ? BorderRadius.circular(8.0) : null,
+              border: Border.all(
+                color: Theme.of(context).cardColor,
+                width: 2.0,
+              ),
+              boxShadow: [
+                BoxShadow(
+                  blurRadius: 3,
+                  spreadRadius: 1,
+                  color: Colors.black.withOpacity(0.2),
+                  offset: Offset(0, 3),
+                )
+              ],
+            ),
+            child: InkWell(
+              onTap: () async {
+                print(widget.event.id);
+                Routemaster.of(context).push('event/${widget.event.id}');
+              },
+              child: Column(
                 children: [
                   Stack(
                     children: [
                       Hero(
-                        tag: widget.event.posterURL,
+                        tag: widget.event.imageUrl,
                         child: Material(
                           color: Colors.transparent,
                           child: Container(
@@ -211,7 +289,7 @@ class _EventsBoxState extends State<EventsBox> {
                                       topRight: Radius.circular(8.0))
                                   : null,
                               image: DecorationImage(
-                                image: NetworkImage(widget.event.posterURL),
+                                image: NetworkImage(widget.event.imageUrl),
                                 fit: BoxFit.cover,
                               ),
                               boxShadow: [
@@ -245,14 +323,14 @@ class _EventsBoxState extends State<EventsBox> {
                           children: [
                             TitleText(
                               DateFormat('dd')
-                                  .format(widget.event.date.toDate()),
+                                  .format(widget.event.eventDate.toDate()),
                               maxLines: 1,
                               fontSize: 22,
                               color: Colors.white,
                             ),
                             SubtitleText(
                               DateFormat('MMM')
-                                  .format(widget.event.date.toDate()),
+                                  .format(widget.event.eventDate.toDate()),
                               maxLines: 1,
                               fontSize: 14,
                               color: Colors.white,
@@ -278,12 +356,19 @@ class _EventsBoxState extends State<EventsBox> {
                                 fontSize: 30,
                               ),
                               SubtitleText(
-                                'at ${widget.event.subtitle}',
+                                'timing: ' +
+                                    DateFormat('HH : MM').format(
+                                        widget.event.timing['start'].toDate()) +
+                                    " - " +
+                                    DateFormat('HH : MM').format(
+                                        widget.event.timing['end'].toDate()),
                                 fontStyle: FontStyle.italic,
                                 fontWeight: FontWeight.bold,
                               ),
                               SubtitleText(
                                 '${unescape.convert(widget.event.description)}',
+                                maxLines: 5,
+                                overflow: TextOverflow.ellipsis,
                               ),
                               SubtitleText(
                                 '2.5km away',
@@ -297,7 +382,7 @@ class _EventsBoxState extends State<EventsBox> {
                         ),
                 ],
               ),
-      ),
-    );
+            ),
+          );
   }
 }

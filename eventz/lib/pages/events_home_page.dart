@@ -2,10 +2,10 @@ import 'dart:async';
 import 'dart:ui';
 import 'package:awesome_flutter_widgets/widgets/awesome_buttons.dart';
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:eventz/animations/fade_animations.dart';
 import 'package:eventz/animations/scale_animation.dart';
 import 'package:eventz/backend/database.dart';
-import 'package:eventz/backend/mock_data.dart';
 import 'package:eventz/backend/models.dart';
 import 'package:eventz/global_values.dart';
 import 'package:eventz/pages/all_events_page.dart';
@@ -18,6 +18,7 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:intl/intl.dart';
+import 'package:routemaster/routemaster.dart';
 import 'package:shimmer/shimmer.dart';
 
 class EventsHomePage extends StatefulWidget {
@@ -60,7 +61,7 @@ class _EventsHomePageState extends State<EventsHomePage>
 
     _controller = TabController(vsync: this, length: 2);
 
-    Timer(Duration(seconds: 3), () {
+    Timer(Duration(seconds: 1), () {
       if (mounted)
         setState(() {
           isLoading = false;
@@ -82,6 +83,7 @@ class _EventsHomePageState extends State<EventsHomePage>
     return Scaffold(
       appBar: AppBar(
         elevation: 0.0,
+        backgroundColor: Colors.transparent,
         title: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           mainAxisSize: MainAxisSize.max,
@@ -103,7 +105,7 @@ class _EventsHomePageState extends State<EventsHomePage>
                       children: [
                         SubtitleText(
                           'Musica ',
-                          color: Theme.of(context).cardColor,
+                          color: Theme.of(context).primaryColor,
                           fontWeight: FontWeight.w900,
                         ),
                         SubtitleText(
@@ -135,12 +137,12 @@ class _EventsHomePageState extends State<EventsHomePage>
         width: MediaQuery.of(context).size.width,
         child: Stack(
           children: [
+            // Container(
+            //   height: 300,
+            //   color: Theme.of(context).canvasColor,
+            // ),
             Container(
-              height: 340,
-              color: Theme.of(context).primaryColor,
-            ),
-            Container(
-              margin: EdgeInsets.symmetric(horizontal: 20),
+              margin: EdgeInsets.symmetric(horizontal: 10),
               decoration: BoxDecoration(
                   borderRadius: BorderRadius.only(
                       topLeft: Radius.circular(10),
@@ -151,7 +153,7 @@ class _EventsHomePageState extends State<EventsHomePage>
                     child: Column(
                       children: [
                         SizedBox(
-                          height: 10,
+                          height: 20,
                         ),
                         Padding(
                           padding: const EdgeInsets.symmetric(
@@ -224,77 +226,214 @@ class _EventsHomePageState extends State<EventsHomePage>
                                   ))),
                         ),
                         SizedBox(
+                          height: 20,
+                        ),
+                        InkWell(
+                          onTap: () {
+                            Routemaster.of(context).push('/booking');
+                          },
+                          child: Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Image.network(
+                                'https://secureservercdn.net/198.71.189.253/jj2.c87.myftpupload.com/wp-content/uploads/2021/08/whiteleterr.png'),
+                          ),
+                        ),
+                        SizedBox(
                           height: 10,
                         ),
                         Padding(
                           padding: const EdgeInsets.symmetric(horizontal: 10.0),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Expanded(
-                                child: TitleText(
-                                  'Trending Events',
-                                  color: Colors.white,
-                                ),
-                              ),
-                              Flexible(
-                                child: AwesomeButton(
-                                  onPressed: () async {
-                                    await Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                            builder: (context) =>
-                                                AllEventsPage()));
-                                  },
-                                  child: Row(
-                                    mainAxisSize: MainAxisSize.min,
-                                    children: [
-                                      SubtitleText('View All',
-                                          color: Colors.white,
-                                          fontWeight: FontWeight.bold),
-                                      SizedBox(
-                                        width: 4,
-                                      ),
-                                      ClipRRect(
-                                        borderRadius:
-                                            BorderRadius.circular(8.0),
-                                        child: Container(
-                                          padding: EdgeInsets.symmetric(
-                                              horizontal: 10.0, vertical: 5.0),
-                                          color: Colors.white,
-                                          child: FaIcon(
-                                            FontAwesomeIcons.angleRight,
-                                            size: 20,
-                                            color: Theme.of(context).cardColor,
-                                          ),
-                                        ),
-                                      )
-                                    ],
+                          child: Container(
+                            decoration: BoxDecoration(
+                              // color: Theme.of(context).cardColor,
+                              borderRadius: BorderRadius.circular(4.0),
+                            ),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Expanded(
+                                  child: TitleText(
+                                    'Weekly Events',
+                                    color: Colors.white,
                                   ),
-                                  buttonType: AwesomeButtonType.text,
                                 ),
-                              ),
-                            ],
+                                Flexible(
+                                  child: AwesomeButton(
+                                    onPressed: () async {
+                                      await Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (context) =>
+                                                  AllEventsPage()));
+                                    },
+                                    child: Row(
+                                      mainAxisSize: MainAxisSize.min,
+                                      children: [
+                                        SubtitleText('View All',
+                                            color: Colors.white,
+                                            fontWeight: FontWeight.bold),
+                                        SizedBox(
+                                          width: 4,
+                                        ),
+                                        ClipRRect(
+                                          borderRadius:
+                                              BorderRadius.circular(4.0),
+                                          child: Container(
+                                            padding: EdgeInsets.symmetric(
+                                                horizontal: 10.0,
+                                                vertical: 5.0),
+                                            color: Colors.transparent,
+                                            child: FaIcon(
+                                              FontAwesomeIcons.angleRight,
+                                              size: 20,
+                                              color: Colors.white,
+                                            ),
+                                          ),
+                                        )
+                                      ],
+                                    ),
+                                    buttonType: AwesomeButtonType.text,
+                                  ),
+                                ),
+                              ],
+                            ),
                           ),
                         ),
-                        Divider(),
-                        Column(
-                          children: List.generate(
-                              events.length > 5 ? 5 : events.length, (index) {
-                            Event event = Event.fromMap(events[index]);
-                            return isLoading
-                                ? ShimmerTile()
-                                : Padding(
+                        SizedBox(
+                          height: 10,
+                        ),
+
+                        FutureBuilder<QuerySnapshot>(
+                          future: FirebaseFirestore.instance
+                              .collection('events')
+                              .where('eventType', isEqualTo: 'weekly')
+                              .get(),
+                          builder: (context, snapshot) {
+                            if (!snapshot.hasData) {
+                              return Column(
+                                children: List.generate(5, (index) {
+                                  return ShimmerTile();
+                                }),
+                              );
+                            } else {
+                              return Column(
+                                children: List.generate(
+                                    snapshot.data.docs.length, (index) {
+                                  Event event =
+                                      Event.fromDoc(snapshot.data.docs[index]);
+                                  return Padding(
                                     padding:
-                                        const EdgeInsets.only(bottom: 40.0),
+                                        const EdgeInsets.only(bottom: 20.0),
                                     child: EventsBox(
                                       isTile: true,
                                       isFull: false,
                                       event: event,
                                     ),
                                   );
-                          }),
+                                }),
+                              );
+                            }
+                          },
                         ),
+
+                        Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 10.0),
+                          child: Container(
+                            decoration: BoxDecoration(
+                              // color: Theme.of(context).cardColor,
+                              borderRadius: BorderRadius.circular(4.0),
+                            ),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Expanded(
+                                  child: TitleText(
+                                    'Special Events',
+                                    color: Colors.white,
+                                  ),
+                                ),
+                                Flexible(
+                                  child: AwesomeButton(
+                                    onPressed: () async {
+                                      await Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (context) =>
+                                                  AllEventsPage()));
+                                    },
+                                    child: Row(
+                                      mainAxisSize: MainAxisSize.min,
+                                      children: [
+                                        SubtitleText('View All',
+                                            color: Colors.white,
+                                            fontWeight: FontWeight.bold),
+                                        SizedBox(
+                                          width: 4,
+                                        ),
+                                        ClipRRect(
+                                          borderRadius:
+                                              BorderRadius.circular(4.0),
+                                          child: Container(
+                                            padding: EdgeInsets.symmetric(
+                                                horizontal: 10.0,
+                                                vertical: 5.0),
+                                            color: Colors.transparent,
+                                            child: FaIcon(
+                                              FontAwesomeIcons.angleRight,
+                                              size: 20,
+                                              color: Colors.white,
+                                            ),
+                                          ),
+                                        )
+                                      ],
+                                    ),
+                                    buttonType: AwesomeButtonType.text,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                        SizedBox(
+                          height: 10,
+                        ),
+                        FutureBuilder<QuerySnapshot>(
+                          future: FirebaseFirestore.instance
+                              .collection('events')
+                              .where('eventType', isEqualTo: 'special')
+                              .get(),
+                          builder: (context, snapshot) {
+                            if (!snapshot.hasData) {
+                              return Column(
+                                children: List.generate(5, (index) {
+                                  return ShimmerTile();
+                                }),
+                              );
+                            } else {
+                              return Column(
+                                children: List.generate(
+                                    snapshot.data.docs.length, (index) {
+                                  Event event =
+                                      Event.fromDoc(snapshot.data.docs[index]);
+                                  return Padding(
+                                    padding:
+                                        const EdgeInsets.only(bottom: 20.0),
+                                    child: EventsBox(
+                                      isTile: true,
+                                      isFull: false,
+                                      event: event,
+                                    ),
+                                  );
+                                }),
+                              );
+                            }
+                          },
+                        ),
+                        // Divider(
+                        //   color: Colors.white,
+                        //   indent: 8,
+                        //   endIndent: 8,
+                        // ),
                       ],
                     ),
                   )),
@@ -408,7 +547,7 @@ class _MusicBarState extends State<MusicBar> {
         margin: EdgeInsets.symmetric(horizontal: 5.0, vertical: 2.0),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(8.0),
-          color: Theme.of(context).scaffoldBackgroundColor,
+          color: Theme.of(context).canvasColor,
           boxShadow: [
             BoxShadow(
               color: Colors.black.withOpacity(0.2),
@@ -467,7 +606,7 @@ class _SearchBarState extends State<SearchBar> {
       alignment: Alignment.center,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(8.0),
-        color: Theme.of(context).scaffoldBackgroundColor,
+        color: Theme.of(context).canvasColor,
         boxShadow: [
           BoxShadow(
             color: Colors.black.withOpacity(0.2),
@@ -549,7 +688,7 @@ class ShimmerTile extends StatelessWidget {
       padding: const EdgeInsets.symmetric(vertical: 28.0, horizontal: 10.0),
       child: Shimmer.fromColors(
         period: Duration(milliseconds: 500),
-        baseColor: Colors.grey[700],
+        baseColor: Colors.grey[800],
         highlightColor: Colors.grey[500],
         enabled: true,
         child: Row(

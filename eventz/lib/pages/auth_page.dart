@@ -320,14 +320,6 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
   @override
   void initState() {
     super.initState();
-    // _controller = VideoPlayerController.asset(GlobalValues.clubVid)
-    //   ..initialize().then((_) {
-    //     // Ensure the first frame is shown after the video is initialized, even before the play button has been pressed.
-    //     setState(() {});
-    //   });
-
-    // _controller.play().then((value) {});
-    // _controller.setLooping(true);
   }
 
   bool validate() {
@@ -342,12 +334,6 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
       else
         return false;
     }
-  }
-
-  @override
-  void dispose() {
-    // _controller.dispose();
-    super.dispose();
   }
 
   @override

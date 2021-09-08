@@ -1,5 +1,15 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
+Map weekDays = {
+  1: 'Sunday',
+  2: 'Monday',
+  3: 'Tuesday',
+  4: 'Wednesday',
+  5: 'Thursday',
+  6: 'Friday',
+  7: 'Saturday'
+};
+
 class MyUser {
   final String displayName, email, phoneNumber, uid, photoURL;
   final bool isVIP;
@@ -38,90 +48,131 @@ class MyUser {
 class Event {
   final String title,
       id,
-      listingUrl,
-      subtitle,
       description,
-      posterURL,
-      category,
-      creatorName,
-      pricingUrl,
+      showUrl,
+      formUrl,
+      v5Url,
+      bannerUrl,
+      eventType,
+      imageUrl,
+      videoUrl,
+      spotifyUrl,
       venue;
-  final double ticketPrice, lat, long;
-  final List<String> imageURLs, tags;
-  final Timestamp date;
+  final double lat, lng;
+  final int eventDay;
+  final Timestamp eventDate, timestamp;
+  final Map timing;
+  final Map<String, dynamic> ageLimit;
+  final bool isPaused;
 
   Event(
       {this.title,
       this.id,
-      this.listingUrl,
-      this.pricingUrl,
+      this.description,
+      this.showUrl,
+      this.formUrl,
+      this.bannerUrl,
+      this.ageLimit,
+      this.timing,
+      this.eventType,
+      this.eventDay,
+      this.eventDate,
+      this.imageUrl,
+      this.videoUrl,
+      this.spotifyUrl,
+      this.isPaused,
       this.venue,
       this.lat,
-      this.long,
-      this.creatorName,
-      this.description,
-      this.date,
-      this.subtitle,
-      this.posterURL,
-      this.ticketPrice,
-      this.imageURLs,
-      this.tags,
-      this.category});
-
+      this.lng,
+      this.timestamp,
+      this.v5Url});
   factory Event.fromDoc(DocumentSnapshot doc) {
     return Event(
-        id: doc.get('event_id'),
-        creatorName: doc.get('seller_id'),
-        title: doc.get('title'),
-        venue: doc.get('venue'),
-        lat: doc.get('lat'),
-        long: doc.get('long'),
-        subtitle: doc.get('subtitle'),
-        date: doc.get('date'),
-        description: doc.get('description'),
-        posterURL: doc.get('posterURL'),
-        imageURLs: doc.get('imageURLs'),
-        tags: doc.get('tags'),
-        category: doc.get('category'),
-        pricingUrl: doc.get('pricingURL'),
-        ticketPrice: doc.get('ticketPrice'));
+      id: doc.get('id'),
+      title: doc.get('title'),
+      description: doc.get('description'),
+      showUrl: doc.get('showUrl'),
+      formUrl: doc.get('formUrl'),
+      v5Url: doc.get('v5Url'),
+      bannerUrl: doc.get('bannerUrl'),
+      videoUrl: doc.get('videoUrl'),
+      spotifyUrl: doc.get('spotifyUrl'),
+      ageLimit: doc.get('ageLimit'),
+      eventType: doc.get('eventType'),
+      eventDay: doc.get('eventDay'),
+      eventDate: doc.get('eventDate'),
+      imageUrl: doc.get('imageUrl'),
+      isPaused: doc.get('isPaused'),
+      lat: doc.get('lat'),
+      lng: doc.get('lng'),
+      venue: doc.get('venue'),
+      timestamp: doc.get('timestamp'),
+      timing: doc.get('timing'),
+    );
   }
-  factory Event.fromMap(Map doc) {
-    return Event(
-        id: doc['event_id'],
-        creatorName: doc['seller_id'],
-        title: doc['event'],
-        venue: doc['venue_id'],
-        lat: 8.0,
-        long: 173,
-        subtitle: 'ages: ' + doc['ages'],
-        date: Timestamp.fromDate(DateTime.parse(doc['event_start'])),
-        description: doc['description'],
-        posterURL: doc['image_url'] ??
-            'https://sc-schemes.s3.amazonaws.com/30176/header_image.png',
-        imageURLs: [doc['image']],
-        category: doc['event_category_id'],
-        ticketPrice: doc['price'] ?? 10.4,
-        pricingUrl: doc['price_levels'],
-        listingUrl: doc['listing_url']);
-  }
+  // factory Event.fromMap(Map doc) {
+  //   return Event(
+  //       id: doc['event_id'],
+  //       creatorName: doc['seller_id'],
+  //       title: doc['event'],
+  //       venue: doc['venue_id'],
+  //       lat: 8.0,
+  //       long: 173,
+  //       subtitle: 'ages: ' + doc['ages'],
+  //       date: Timestamp.fromDate(DateTime.parse(doc['event_start'])),
+  //       description: doc['description'],
+  //       posterURL: doc['image_url'] ??
+  //           'https://sc-schemes.s3.amazonaws.com/30176/header_image.png',
+  //       imageURLs: [doc['image']],
+  //       category: doc['event_category_id'],
+  //       ticketPrice: doc['price'] ?? 10.4,
+  //       pricingUrl: doc['price_levels'],
+  //       listingUrl: doc['listing_url']);
+  // }
 
-  toJson() {
-    return {
-      'venue': venue,
-      'lat': lat,
-      'long': long,
-      'creatorName': creatorName,
-      'title': title,
-      'subtitle': subtitle,
-      'date': date,
-      'description': description,
-      'posterURL': posterURL,
-      'imageURLs': imageURLs,
-      'tags': tags,
-      'category': category,
-      'ticketPrice': ticketPrice,
-    };
+  // toJson() {
+  //   return {
+  //     'id': id,
+  //     'title': title,
+  //     'description': description,
+  //     'showUrl': showUrl,
+  //     'formUrl': formUrl,
+  //     'date': date,
+  //     'posterURL': posterURL,
+  //     'imageURLs': imageURLs,
+  //     'tags': tags,
+  //     'category': category,
+  //     'ticketPrice': ticketPrice,
+  //   };
+  // }
+}
+
+class Product {
+  final int price, stockUnit;
+  final String id, title, description, imageUrl;
+  final bool isOut;
+  final List sizes;
+
+  Product(
+      {this.price,
+      this.stockUnit,
+      this.id,
+      this.title,
+      this.description,
+      this.imageUrl,
+      this.isOut,
+      this.sizes});
+
+  factory Product.fromDoc(DocumentSnapshot doc) {
+    return Product(
+      id: doc.get('id'),
+      title: doc.get('title'),
+      imageUrl: doc.get('imageUrl'),
+      description: doc.get('description'),
+      price: doc.get('price'),
+      stockUnit: doc.get('stockUnit'),
+      sizes: doc.get('sizes'),
+    );
   }
 }
 
